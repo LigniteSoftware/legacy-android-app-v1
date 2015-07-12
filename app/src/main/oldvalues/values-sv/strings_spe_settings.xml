@@ -1,0 +1,21 @@
+<resources>
+    <string name="title_activity_app_settings">Inställningar</string>
+
+    <string name="pref_header_general">Allmänt</string>
+
+    <string name="pref_title_invert">Invertera färger</string>
+    <string name="pref_btdisalert">Bluetooth frånkopplad varning</string>
+    <string name="pref_btrealert">Bluetooth återkopplad varning</string>
+
+    <string name="pref_header_colours">Färger (Pebble Time)</string>
+
+    <string name="pref_title_1_colour">Yttre färg</string>
+    <string name="pref_title_2_colour">Mittersta färg</string>
+    <string name="pref_title_3_colour">Inre färg</string>
+
+    <string name="pref_title_lookandfeel">Utseende och stil</string>
+
+    <string name="pref_boot_animation">Startanimation</string>
+    <string name="pref_bluetooth_icon">Bluetooth ikon</string>
+    <string name="pref_antialiased">Antialiasing/dithering</string>
+</resources>

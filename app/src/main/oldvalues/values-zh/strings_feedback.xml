@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sending_feedback">正在发送反馈...</string>
+    <string-array name="feedback_types">
+        <item>崩溃</item>
+        <item>BUG</item>
+        <item>设计相关</item>
+        <item>功能相关</item>
+        <item>其他</item>
+    </string-array>
+    <string name="feedback_what_type">什么类型的反馈？</string>
+    <string name="feedback_importance">有多重要？</string>
+    <string name="feedback_details_please">请提供细节：</string>
+    <string name="feedback_policy">
+    您的反馈会被直接发送至 Edwin 的服务器，您的名称和所提供信息将一同被记录。 Edwin 和 Philipp 将会阅读所发送的每条反馈。非常感谢！
+    </string>
+    <string name="send">发送</string>
+</resources>

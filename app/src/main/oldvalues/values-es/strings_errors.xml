@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_unknown">Fallo al enviar. Servidor dio un error.</string>
+    <string name="error_response_null">Error. Servidor rechazó la solicitud o sólo está enojado contigo.</string>
+    <string name="error_logout_failed">¡Error al cerrar la sesión!</string>
+    <string name="colours_warning">
+        Colours, aunque está bonito, actualmente no muestra la hora. Debido a restricciones de font y algunas otras detalles, decidimos
+        que mejor debemos ponerlo a un lado y trabajar en otros aspectos de la colección. Si estás bien usarlo sin que te muestre la hora, siéntete libre
+        para instalarlo.\n\nColours no functiona con dispositivos que no sean Pebble Time, por razones obvias.
+    </string>
+    <string name="error_enter_text">Por favor ingresar texto.</string>
+</resources>

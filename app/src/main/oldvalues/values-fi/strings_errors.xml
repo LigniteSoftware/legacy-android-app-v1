@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_unknown">Lähetys epäonnistui. Serveri antoi virheilmoituksen.</string>
+    <string name="error_response_null">Epäonnistui. Serveri kielsi pyynnön tai oli sinulle kiukkuinen.</string>
+    <string name="error_logout_failed">Uloskirjautuminen epäonnistui!</string>
+    <string name="colours_warning">
+        Värit ovat kauniit, mutta eivät näytä aikaa. Kirjasinrajoitusten ja muiden yksityiskohtien johdosta, päätimme laittaa tämän sivulle, ja työstää kokoelman muita juttuja. Jos sinulle sopii, että aika ei näy, voit asentaa tämän.\n\nColours toimii tietenkin vain Pebble Time kelloilla.
+    </string>
+    <string name="error_enter_text">Ole hyvä ja kirjoita jotakin tekstiä.</string>
+</resources>

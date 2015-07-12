@@ -1,0 +1,150 @@
+<resources>
+    <string name="app_name">Lignite</string>
+    <string name="title">Lignite</string>
+    <string name="title_full">Lignite Collection</string>
+    <string name="beta">Beta</string>
+    <string name="title_activity_apps">Lignite</string>
+
+    <string name="snowy">Pebble Time</string>
+    <string name="install">Instalar</string>
+    <string name="tintin_bianca">Pebble</string>
+
+    <string name="apps_list">Lista de Aplicaciones</string>
+    <string name="settings">Ajustes</string>
+
+    <string-array name="app_names">
+        <item>Speedometer</item>
+        <item>KnightRider</item>
+        <item>Chunky</item>
+        <item>Lines</item>
+        <item>Colours</item>
+        <item>TimeDock</item>
+    </string-array>
+    
+    <string-array name="app_descriptions">
+        <item>
+            Speedometer es una cara de reloj que seguramente se saltará de tu pantalla.\n\n
+            Tiene rectángulos que se llenan al avanzar la hora o otros datos, tales como el día, el minuto, y porcentaje de batería.
+        </item>
+        <item>
+            Los niños de los 80 ya saben qué es esto. ¡El héroe de nuestro niñez ha vuelto! Pon el Voicebox de K.I.T.T.
+            en tu muñeca con una animación de hablar (pero sin sonido) cuando cambia la hora.\n\nA la izquierda
+            tienes la fecha, y a la derecha la batería que te queda.
+        </item>
+        <item>
+            Un diseño bonito y cuadrado donde puedes escoger colores y ver la hora en numeros bien grandes.
+        </item>
+        <item>
+            Una cara sencilla pero muy elegante, que muestra sólo la hora y la fecha.\n\n
+            Tienes la opción de mostrar o no la batería que queda. También podrás seleccionar el color de fondo y el color de las líneas y el texto.
+        </item>
+        <item>
+            Esta cara de reloj realmente va a hacer brillar la pantalla de tu Pebble Time al animar los colores cada minuto,
+            llenando el fondo negro con lineas hermosas de color.
+        </item>
+        <item>
+            La cara oficial para TimeDock! Disponible en la tienda de aplicaciones.
+        </item>
+    </string-array>
+
+    <string-array name="app_descriptions_advanced">
+        <!-- Speedometer -->
+        <item>
+            Ajustes disponibles:\n
+            -Invertir colores\n
+            -Alertas al conectar o desconectar Bluetooth\n
+            -Animación al iniciar\n
+            -Símbolo de Bluetooth\n
+            -Antialiasing o dithering\n
+            -Colores\n\n
+
+            Animaciónes: No mucho\n
+            Apoyo para Pebble original: No
+        </item>
+        <!-- KnightRider -->
+        <item>
+            Ajustes disponibles:\n
+            -Alertas al conectar o desconectar Bluetooth\n
+            -Animaciones\n
+            -Antialiasing/dithering\n\n
+
+            Animaciónes: Muchas\n
+            Apoyo para Pebble original: Sí
+        </item>
+        <!-- Chunky -->
+        <item>
+            Ajustes disponibles:\n
+            Actualmente no hay ajustes, pero ¡vienen pronto!\n\n
+
+            Animaciónes: ¡Aún no!\n
+            Apoyo para Pebble original: Sí
+        </item>
+        <!-- Lines -->
+        <item>
+            Ajustes disponibles:\n
+            Actualmente no hay ajustes, pero ¡vienen pronto!\n\n
+
+            Animaciónes: ¡Aún no!\n
+            Apoyo para Pebble original: Sí
+        </item>
+        <!-- Colours -->
+        <item>
+            Colours actualmente no funciona - no muestra la hora - pero será reparado para la próxima versión.\n\n
+           Apoyo para Pebble original: No
+        </item>
+        <!-- TimeDock -->
+        <item>
+            Ajustes disponibles:\n
+            -Ubicación de clima\n
+            -Abrir cara de reloj al cargar\n
+            -Animación\n
+            -Alertas al conectar o desconectar Bluetooth\n\n
+
+            Animaciónes: Muchas\n
+            Apoyo para Pebble original: Sí
+        </item>
+    </string-array>
+
+    <string-array name="appPBWs">
+        <item>
+            speedometer.pbw
+        </item>
+        <item>
+            knightrider.pbw
+        </item>
+        <item>
+            chunky.pbw
+        </item>
+        <item>
+            lines.pbw
+        </item>
+        <item>
+            colours.pbw
+        </item>
+        <item>
+            ERROR_USE_THE_APPSTORE
+        </item>
+    </string-array>
+
+    <string name="type_watchface">Cara de reloj</string>
+    <string name="type_app">Aplicación de reloj</string>
+
+    <string name="submit_feedback">Retroalimentación</string>
+    <string name="aboot">Información</string>
+    <string name="pebble_time">Pebble Time</string>
+
+    <string name="close">Cerrar</string>
+    <string name="okay">Está bien</string>
+
+    <string name="cancel">Cancelar</string>
+
+    <!-- "Drawer" as in "the navigation drawer" -->
+    <string name="drawer_open">Abrir cajón</string>
+    <string name="drawer_closed">Cerrar cojón</string>
+
+    <!-- The "my_friend" string below is in the context of "Welcome back, my friend" -->
+    <string name="my_friend">mi amigo</string>
+    <string name="welcome_back">Bienvenido de nuevo</string>
+
+    <string name="feedback_sent">¡Retroalimentación enviado! Muchas gracias :)</string>
+</resources>

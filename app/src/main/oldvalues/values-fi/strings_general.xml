@@ -1,0 +1,147 @@
+<resources>
+    <string name="app_name">Lignite</string>
+    <string name="title">Lignite</string>
+    <string name="title_full">Lignite Collection</string>
+    <string name="beta">Beta</string>
+    <string name="title_activity_apps">Lignite</string>
+
+    <string name="snowy">Pebble Time</string>
+    <string name="install">Asentaa</string>
+    <string name="tintin_bianca">Pebble</string>
+
+    <string name="apps_list">Apps List</string>
+    <string name="settings">Settings</string>
+
+    <string-array name="app_names">
+        <item>Speedometer</item>
+        <item>KnightRider</item>
+        <item>Chunky</item>
+        <item>Lines</item>
+        <item>Colours</item>
+        <item>TimeDock</item>
+    </string-array>
+    
+    <string-array name="app_descriptions">
+        <item>
+            Speedometer on kellon�ytt� joka huomataan.\n\n
+            N�yt�ll� on palkkeja jotka t�yttyv�t ajan ja muut datan kulun mukaan, esim viikonp�iv�, minuutti tai akkuprosentti.
+        </item>
+        <item>
+            Kahdeksankymment�lukulaiset tiet�v�t tasan tarkkaan mik� t�m� on. Lapsuudemme sankari on palannut! Sinulla on K.I.T.T.in ��nilaatikko ranteessasi, puheanimaation kera (ei ��nt�) kun aika muuttuu.\n\nVasemmalla sivulla n�et p�iv�m��r�n ja toisella sivulla akun tason.
+        </item>
+        <item>
+            Kiva neliskulmainen design, jossa voit valita v�rit ja n�hd� ajan isoin numeroin.
+        </item>
+        <item>
+            Yksinkertainen ja komea n�ytt� joka esitt�� pelk�st��n ajan ja p�iv�m��r�n.\n\n
+            Akkutaso on lis�valinta. K�ytt�j� voi valita taustav�rin ja palkkien v�rin / fontin.
+        </item>
+        <item>
+            T�m� kellon�ytt� saa Pebble Timen ruudun loistamaan, v�rianomaatio joka minuutti, musta tausta t�yttyy v�reist�.
+        </item>
+        <item>
+            TimeDockin virallinen kellon�ytt�! Saatavilla appstoresta.
+        </item>
+    </string-array>
+
+    <string-array name="app_descriptions_advanced">
+        <!-- Speedometer -->
+        <item>
+            Asetukset sis�lt�v�t:\n
+            -Vastakkaiset v�rit\n
+            -Bluetooth varotius irti-/takaisinkytkent�\n
+            -K�ynnistysanimaatio\n
+            -Bluetooth ikoni\n
+            -Antialiasing/dithering\n
+            -F�rger\n\n
+
+            Animaatiot: Ei monta\n
+            Original Pebble tuki: Kyll�
+        </item>
+        <!-- KnightRider -->
+        <item>
+            Asetukset sis�lt�v�t:\n
+            -Bluetooth varotius irti-/takaisinkytkent�\n
+            -Animaatiot\n
+            -Antialiasing/dithering\n\n
+
+            Animaatiot: Monta\n
+            Original Pebble tuki: Kyll�
+        </item>
+        <!-- Chunky -->
+        <item>
+            Asetukset sis�lt�v�t:\n
+            T�ll� hetkell� ei asetuksia, mutta ne ovat tulossa!\n\n
+
+            Animaatiot: Ei viel�!\n
+            Original Pebble tuki: Kyll�
+        </item>
+        <!-- Lines -->
+        <item>
+            Asetukset sis�lt�v�t:\n
+            T�ll� hetkell� ei asetuksia, mutta ne ovat tulossa!!\n\n
+
+            Animaatiot: Ei viel�!\n
+            Original Pebble tuki: Kyll�
+        </item>
+        <!-- Colours -->
+        <item>
+            Colours on rikki t�ll� hetkell� (ei n�yt� aikaa), se tullaan korjaamaan seuraavaan versioon.\n\n
+            Original Pebble tuki: Ei
+        </item>
+        <!-- TimeDock -->
+        <item>
+            Asetukset sis�lt�v�t:\n
+            -S��\n
+            -Kellon�ytt� auki latauksen aikana\n
+            -Animaatiot\n
+            -Bluetooth varotius irti-/takaisinkytkent�\n\n
+
+            Animaatiot: Monta\n
+            Original Pebble tuki: Kyll�
+        </item>
+    </string-array>
+
+    <string-array name="appPBWs">
+        <item>
+            speedometer.pbw
+        </item>
+        <item>
+            knightrider.pbw
+        </item>
+        <item>
+            chunky.pbw
+        </item>
+        <item>
+            lines.pbw
+        </item>
+        <item>
+            colours.pbw
+        </item>
+        <item>
+            ERROR_USE_THE_APPSTORE
+        </item>
+    </string-array>
+
+    <string name="type_watchface">Kellon�ytt�</string>
+    <string name="type_app">Kello-appi</string>
+
+    <string name="submit_feedback">Palaute</string>
+    <string name="aboot">Tietoja</string>
+    <string name="pebble_time">Pebble Time</string>
+
+    <string name="close">Sulje</string>
+    <string name="okay">Tosihyv�</string>
+
+    <string name="cancel">Peru</string>
+
+    <!-- "Drawer" as in "the navigation drawer" -->
+    <string name="drawer_open">Avaa laatikko</string>
+    <string name="drawer_closed">Sulje laatikko</string>
+
+    <!-- The "my_friend" string below is in the context of "Welcome back, my friend" -->
+    <string name="my_friend">yst�v�ni</string>
+    <string name="welcome_back">Tervetuloa takaisin</string>
+
+    <string name="feedback_sent">Palaute l�hetetty! Kiitos :)</string>
+</resources>

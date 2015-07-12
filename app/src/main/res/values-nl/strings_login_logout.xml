@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="code_requirement">Voer je toegangscode in</string>
+    <string name="logging_in">Inloggen...</string>
+    <string name="reset_code">Probleem om in te loggen? Herstel je gegevens hier.</string>
+
+    <string name="logout">Uitloggen</string>
+
+    <string name="logout_confirm">
+        Weet je zeker dat je wilt uitloggen?\n\nAls je op dit apparaat uitlogt, dan kan je met dezelfde toegangscode inloggen op een ander apparaat.
+    </string>
+    <string name="logging_out">Uitloggen...</string>
+    <string name="logout_success">Uitgelogd. Tot ziens!</string>
+
+    <string name="prompt_code">Toegangscode</string>
+    <string name="action_sign_in">Aanmelden</string>
+
+    <string name="error_invalid_code">Deze toegangscode is niet geldig, sorry!</string>
+    <string name="error_short_code">Deze toegangscode is te kort, sorry!</string>
+    <string name="error_incorrect_code">Deze toegangscode is van iemand anders, uilskuiken!</string>
+    <string name="error_doesnt_exist">Deze toegangscode bestaat niet, sorry.</string>
+    <string name="error_field_required">Dit is verplicht. Voer je toegangscode in.</string>
+    <string name="error_other">Onbekende fout. Probeer het nogmaals.</string>
+    <string name="server_error">Server fout. Hier kan je niets aan doen. Stuur een email aan contact@edwinfinch.com.</string>
+</resources>

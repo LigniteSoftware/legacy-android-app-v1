@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="code_requirement">Inserisci il tuo codice di accesso</string>
+    <string name="logging_in">Login in corso...</string>
+    <string name="reset_code">Non riesci ad effettuare il login? Resetta il tuo account qui.</string>
+
+    <string name="logout">Logout</string>
+
+    <string name="logout_confirm">
+        Sei sicuro di voler effettuare il logout?\n\nDopo il logout da questo dispositivo potrai accedere con un altro dispositivo utilizzando lo stesso codice di accesso.
+    </string>
+    <string name="logging_out">Logout in corso...</string>
+    <string name="logout_success">Logout eseguito. A presto!</string>
+
+    <string name="prompt_code">Codice di accesso</string>
+    <string name="action_sign_in">Accedi</string>
+
+    <string name="error_invalid_code">Il codice inserito non è valido!</string>
+    <string name="error_short_code">Il codice inserito è troppo breve!</string>
+    <string name="error_incorrect_code">Il codice inserito è già utilizzato da un altro utente!</string>
+    <string name="error_doesnt_exist">Il codice inserito non esiste.</string>
+    <string name="error_field_required">Il codice di accesso è necessario. Inseriscilo.</string>
+    <string name="error_other">Errore non identificato. Riprova.</string>
+    <string name="server_error">Errore interno al server. Non dipende da te. Invia una email a contact@edwinfinch.com.</string>
+</resources>

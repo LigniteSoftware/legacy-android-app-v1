@@ -1,0 +1,23 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="knig_bootanim_checkbox"
+        android:title="@string/pref_boot_animation"
+        android:defaultValue="true"/>
+
+    <CheckBoxPreference
+        android:key="knig_antialiased_checkbox"
+        android:title="@string/pref_antialiased"
+        android:defaultValue="true"/>
+
+    <CheckBoxPreference
+        android:key="knig_constant_checkbox"
+        android:title="@string/pref_constant_anim"
+        android:defaultValue="false"/>
+
+    <CheckBoxPreference
+        android:key="knig_inverted_checkbox"
+        android:title="@string/pref_title_invert"
+        android:defaultValue="false"/>
+
+</PreferenceScreen>

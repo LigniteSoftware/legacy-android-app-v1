@@ -1,0 +1,21 @@
+<resources>
+    <string name="title_activity_app_settings">Ajustes</string>
+
+    <string name="pref_header_general">Generales</string>
+
+    <string name="pref_title_invert">Invertir colores</string>
+    <string name="pref_btdisalert">Alerta al desconectar Bluetooth</string>
+    <string name="pref_btrealert">Alerta al conectar Bluetooth</string>
+
+    <string name="pref_header_colours">Colores (Pebble Time)</string>
+
+    <string name="pref_title_1_colour">Color de afuera</string>
+    <string name="pref_title_2_colour">Color de en medio</string>
+    <string name="pref_title_3_colour">Color de adentro</string>
+
+    <string name="pref_title_lookandfeel">Apariencia y sentido</string>
+
+    <string name="pref_boot_animation">Animación al iniciar</string>
+    <string name="pref_bluetooth_icon">Símbolo de Bluetooth</string>
+    <string name="pref_antialiased">Antialiasing o dithering</string>
+</resources>

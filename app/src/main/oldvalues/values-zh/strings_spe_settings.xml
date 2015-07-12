@@ -1,0 +1,21 @@
+<resources>
+    <string name="title_activity_app_settings">设置</string>
+
+    <string name="pref_header_general">常规</string>
+
+    <string name="pref_title_invert">反转颜色</string>
+    <string name="pref_btdisalert">蓝牙断开警告</string>
+    <string name="pref_btrealert">蓝牙重连警告</string>
+
+    <string name="pref_header_colours">颜色（仅适用于 Pebble Time）</string>
+
+    <string name="pref_title_1_colour">外部颜色</string>
+    <string name="pref_title_2_colour">中部颜色</string>
+    <string name="pref_title_3_colour">内部颜色</string>
+
+    <string name="pref_title_lookandfeel">外观及风格</string>
+
+    <string name="pref_boot_animation">启动动画</string>
+    <string name="pref_bluetooth_icon">蓝牙图标</string>
+    <string name="pref_antialiased">抗锯齿</string>
+</resources>

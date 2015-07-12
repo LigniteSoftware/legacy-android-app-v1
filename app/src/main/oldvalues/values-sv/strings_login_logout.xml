@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="code_requirement">Var god skriv in din sk. access code som har 6 tecken:</string>
+    <string name="logging_in">Du loggas in...</string>
+
+    <string name="logout">Logga ut</string>
+
+    <string name="logout_confirm">
+        Är du säker att du vill logga ut?\n\nOm du loggar ut från denna apparat, kan du logga in på en annan apparat med samma access code.
+    </string>
+    <string name="logging_out">Du loggas ut...</string>
+    <string name="logout_success">Utloggad. Vi ses senare!</string>
+
+    <string name="prompt_code">Access Code</string>
+    <string name="action_sign_in">Logga in</string>
+
+    <string name="error_invalid_code">Detta är inte en giltig kod!</string>
+    <string name="error_short_code">Denna kod är för kort!</string>
+    <string name="error_incorrect_code">Denna kod används av någon annan, hördudu!</string>
+    <string name="error_doesnt_exist">Denna kod finns inte.</string>
+    <string name="error_field_required">Detta fält krävs. Skriv in din kod.</string>
+    <string name="error_other">Oidentifierat fel. Försök igen.</string>
+    <string name="server_error">Internal server error. Detta är inte ditt fel. Sänd epost till contact@edwinfinch.com.</string>
+</resources>

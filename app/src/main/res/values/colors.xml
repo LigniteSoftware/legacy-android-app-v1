@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="myPrimaryColor">#3F51B5</color>
+    <color name="myPrimaryDarkColor">#3F51B5</color>
+    <color name="myAccentColor">#3F51B5</color>
+    <color name="myDrawerBackground">#F2F2F2</color>
+    <color name="myWindowBackground">#FFFFFF</color>
+    <color name="myTextPrimaryColor">#FFFFFF</color>
+    <color name="myNavigationColor">#000000</color>
+
+    <color name="selected_gray">#ffdbdbdb</color>
+
+    <!-- Thanks to materialpalette.com for the awesome colour scheme -->
+    <color name="dark_primary">#D32F2F</color>
+    <color name="primary">#F44336</color>
+    <color name="light_primary">#FFCDD2</color>
+    <color name="text_and_icons">#FFFFFF</color>
+    <color name="text">#FFFFFF</color>
+    <color name="secondary_text">#727272</color>
+    <color name="divide">#B6B6B6</color>
+    <color name="accent">#03A9F4</color>
+    <color name="textcolour">#000000</color>
+
+</resources>

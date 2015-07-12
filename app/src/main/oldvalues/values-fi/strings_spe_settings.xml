@@ -1,0 +1,21 @@
+<resources>
+    <string name="title_activity_app_settings">Asetukset</string>
+
+    <string name="pref_header_general">Yleistä</string>
+
+    <string name="pref_title_invert">Käännä värit</string>
+    <string name="pref_btdisalert">Bluetooth irti varoitue</string>
+    <string name="pref_btrealert">Bluetooth takaisinkytketty varoitus</string>
+
+    <string name="pref_header_colours">Värit (Pebble Time)</string>
+
+    <string name="pref_title_1_colour">Ulempi väri</string>
+    <string name="pref_title_2_colour">Väri keskellä</string>
+    <string name="pref_title_3_colour">Sisempi väri</string>
+
+    <string name="pref_title_lookandfeel">Ulkonäkö ja tyyli</string>
+
+    <string name="pref_boot_animation">Käynnistysanimaatio</string>
+    <string name="pref_bluetooth_icon">Bluetooth ikoni</string>
+    <string name="pref_antialiased">Antialiasing/dithering</string>
+</resources>

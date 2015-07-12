@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- SPEEDOMETER -->
+    <string name="title_activity_app_settings">Ajustes</string>
+
+    <string name="pref_header_general">Generales</string>
+
+    <string name="pref_title_invert">Invertir colores</string>
+    <string name="pref_btdisalert">Alerta al desconectar Bluetooth</string>
+    <string name="pref_btrealert">Alerta al reconectar Bluetooth</string>
+
+    <string name="pref_header_colours">Colores</string>
+
+    <string name="pref_title_1_colour">Color de adentro</string>
+    <string name="pref_title_2_colour">Color de en medio</string>
+    <string name="pref_title_3_colour">Color de adentro</string>
+
+    <string name="pref_title_lookandfeel">Apariencia y función</string>
+
+    <string name="pref_boot_animation">Animación al iniciar</string>
+    <string name="pref_bluetooth_icon">Bluetooth icon</string>
+    <string name="pref_antialiased">Antialiasing/dithering</string>
+    <string name="show_borders">Mostrar bordes</string>
+
+    <!-- KNIGHTRIDER -->
+    <!-- constant animations are in the context of "constantly animating". The watchface is always moving/animating, therefore constant -->
+    <string name="pref_constant_anim">Animación constante</string>
+
+    <!-- CHUNKY -->
+    <string name="minute_colour">Color de minuto</string>
+    <string name="hour_colour">Color de hora</string>
+    <string name="battery_bar">Mostrar barra de batería</string>
+    <string name="background_colour">Color de fondo</string>
+
+    <!-- LINES -->
+    <string name="show_date">Mostrar fecha</string>
+    <string name="alt_date_format">formato de fecha mm/dd/aa</string>
+    <string name="time_colour">Color de la hora</string>
+    <string name="date_colour">Color de fecha</string>
+
+    <!-- COLOURS -->
+    <!-- each bar has its own colour in this watchface, see the screenshots. Randomize width is in the context of making the
+    width of each bar random, taking the user's custom width into consideration much less. -->
+    <string name="randomize_width">Randomizar tamaño de barras (beta)</string>
+    <string name="default_width">Tamaño normal</string>
+    <string name="organize_colours">Organizar colores</string>
+    <string name="outline_numbers">Borde negro sobre numeros</string>
+
+    <!-- TREE OF COLOURS -->
+    <string name="pref_header_custom_colours">Colores personalizados</string>
+    <string name="randomize_colours">Randomizar colores</string>
+    <string name="custom_colour_1">Color personalizado 1</string>
+    <string name="custom_colour_2">Color personalizado 2</string>
+    <string name="custom_colour_3">Color personalizado 3</string>
+    <string name="circle_colour">Color del círculo</string>
+
+    <!-- TIMEZONES -->
+    <string name="your_time">Tu hora</string>
+    <string name="other_time">Otra hora</string>
+    <string name="analogue">Círculos Analógicos</string>
+    <string name="colour">Color</string>
+    <string name="timezone">Zona horaria</string>
+    <string name="subtract_hour">Sustraer una hora</string>
+    <string name="subtract_hour_summary">En caso de offset (error) de una hora</string>
+    <string name="name">Nombre</string>
+
+    <!-- SLOT MACHINE -->
+    <string name="secondly_updates">Actualizar cada segundo</string>
+
+    <!-- PULSE -->
+    <string name="center_colour">Color del centro</string>
+    <string name="background_color">Color del fondo</string>
+    <string name="shake_to_animate">Agitar para iniciar animación</string>
+
+</resources>

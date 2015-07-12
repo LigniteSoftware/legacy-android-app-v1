@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sending_feedback">Invio feedback.</string>
+    <string-array name="feedback_types">
+        <item>Crash</item>
+        <item>Bug</item>
+        <item>Relativo al design</item>
+        <item>Relativo alle funzionalità</item>
+        <item>Altro</item>
+    </string-array>
+    <string name="feedback_what_type">Tipo di feedback?</string>
+    <string name="feedback_importance">Quanto è importante?</string>
+    <string name="feedback_details_please">Dettagli:</string>
+    <string name="feedback_policy">Il feedback sarà inviato direttamente al server di Edwin. Anche il tuo nome e le tue informazioni saranno registrate.
+    Ogni singolo feedback sarà letto da Edwin e Philipp. Grazie mille!</string>
+    <string name="send">Invia</string>
+</resources>

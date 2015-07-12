@@ -1,0 +1,39 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="LoginTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/dark_primary</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:textColorPrimary">@color/text_and_icons</item>
+        <item name="android:textColor">@android:color/black</item>
+
+        <item name="android:windowBackground">@color/myWindowBackground</item>
+    </style>
+
+    <style name="SettingsTheme" parent="android:style/Theme.Material.Light">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/dark_primary</item>
+    </style>
+
+    <style name="MainTheme" parent="android:style/Theme.Material.Light">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/dark_primary</item>
+        <item name="android:navigationBarColor">@color/dark_primary</item>
+    </style>
+
+    <style name="SplashTheme" parent="Base.Theme.AppCompat">
+        <item name="android:windowBackground">@color/primary</item>
+        <item name="android:navigationBarColor">@color/dark_primary</item>
+        <item name="android:statusBarColor">@color/dark_primary</item>
+    </style>
+
+    <style name="fixedText" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryDark">@color/dark_primary</item>
+        <item name="android:windowBackground">@color/myWindowBackground</item>
+    </style>
+
+
+</resources>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/feedback_what_type"
+        android:id="@+id/typeFeedbackTitle"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        android:padding="5dp" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="31dp"
+        android:id="@+id/typeFeedbackSpinner"
+        android:layout_gravity="center_horizontal"
+        android:longClickable="false"
+        android:padding="10dp"
+        android:layout_weight="0.07" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/feedback_importance"
+        android:id="@+id/importanceTextView"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@android:color/black"
+        android:textSize="20dp"
+        android:padding="5dp" />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/importanceSeekBar"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:max="10" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/importanceValueTextView"
+        android:layout_gravity="center_horizontal"
+        android:padding="2dp"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/feedback_details_please"
+        android:id="@+id/anythingElseTextView"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:textColor="@android:color/black"
+        android:textSize="20dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/anythingElseEditText"
+        android:layout_weight="0.25" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/send"
+        android:id="@+id/sendButton"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@android:color/black"
+        android:padding="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/feedback_policy"
+        android:id="@+id/sendDisclaimer"
+        android:layout_weight="0.08"
+        android:textColor="@android:color/black"
+        android:textStyle="italic"
+        android:padding="10dp" />
+</LinearLayout>

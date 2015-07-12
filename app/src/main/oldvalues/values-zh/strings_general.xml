@@ -1,0 +1,141 @@
+<resources>
+    <string name="app_name">Lignite</string>
+    <string name="title">Lignite</string>
+    <string name="title_full">Lignite Collection</string>
+    <string name="beta">Beta</string>
+    <string name="title_activity_apps">Lignite</string>
+
+    <string name="snowy">Pebble Time</string>
+    <string name="tintin_bianca">Pebble</string>
+
+    <string name="apps_list">应用列表</string>
+    <string name="install">安装</string>
+    <string name="settings">设置</string>
+
+    <string-array name="app_names">
+        <item>里程表</item>
+        <item>霹雳游侠</item>
+        <item>矮胖方块</item>
+        <item>线条</item>
+        <item>五彩缤纷</item>
+        <item>TimeDock</item>
+    </string-array>
+    
+    <string-array name="app_descriptions">
+        <item>
+            里程表是一种可以你手表屏幕上弹出的表盘。\n\n它可以显示时间和其他数据，比如星期几和电量百分比。
+        </item>
+        <item>
+            80后对这个霹雳游侠应该很熟悉吧。我们童年时代的英雄强势回归！随着时间流逝，您可以看到基特在说话的动画（可惜没有声音）。
+            \n\n左边是日期，右边是剩余电量百分比。
+        </item>
+        <item>
+            可切换颜色的方块设计，用漂亮的大字体显示时间。
+        </item>
+        <item>
+            使用一个很简单但是很时尚的表盘显示时间和日期。\n\n剩余电池电量的显示是可选的。用户也可以根据喜好选择背景颜色以及线条/字体的颜色。
+        </item>
+        <item>
+            此表盘可以使您的 Pebble Time 引人注目。它可以每分钟切换颜色，用绚丽的色调填充黑色背景。
+        </item>
+        <item>
+            官方版 TimeDock 表盘！可在 App Store 上获取。
+        </item>
+    </string-array>
+
+    <string-array name="app_descriptions_advanced">
+        <!-- Speedometer -->
+        <item>
+            设置包括：
+            \n-反转颜色
+            \n-蓝牙断开及重连警告
+            \n-启动动画
+            \n-蓝牙图标
+            \n-抗锯齿
+            \n-颜色
+            \n\n动画：不多
+            \n原版 Pebble 支持：是
+        </item>
+        <!-- KnightRider -->
+        <item>
+            设置包括：
+            \n-蓝牙断开及重连警告
+            \n-动画
+            \n-抗锯齿
+            \n\n动画：很多
+            \n原版 Pebble 支持：是
+        </item>
+        <!-- Chunky -->
+        <item>
+            设置包括：
+            \n暂无，但是会很快加入！
+            \n\n动画：暂不支持
+            \n原版 Pebble 支持：是
+        </item>
+        <!-- Lines -->
+        <item>
+            设置包括：
+            \n暂无，但是会很快加入！
+            \n\n动画：暂不支持
+            \n原版 Pebble 支持：是
+        </item>
+        <!-- Colours -->
+        <item>
+            Colours 目前不能正常工作（不显示时间），但会在下次发布时修复。
+            \n\n原版 Pebble 支持：否
+        </item>
+        <!-- TimeDock -->
+        <item>
+            设置包括：
+            \n-根据位置显示天气
+            \n-在充电时打开表盘
+            \n-动画
+            \n-蓝牙断开及重连警告
+            \n\n动画：很多
+            \n原版 Pebble 支持：是
+        </item>
+    </string-array>
+
+    <string-array name="appPBWs">
+        <item>
+            speedometer.pbw
+        </item>
+        <item>
+            knightrider.pbw
+        </item>
+        <item>
+            chunky.pbw
+        </item>
+        <item>
+            lines.pbw
+        </item>
+        <item>
+            colours.pbw
+        </item>
+        <item>
+            ERROR_USE_THE_APPSTORE
+        </item>
+    </string-array>
+
+    <string name="type_watchface">表盘</string>
+    <string name="type_app">应用</string>
+
+    <string name="submit_feedback">反馈</string>
+    <string name="aboot">关于</string>
+    <string name="pebble_time">Pebble Time</string>
+
+    <string name="close">关闭</string>
+    <string name="okay">确定</string>
+
+    <string name="cancel">取消</string>
+
+    <!-- "Drawer" as in "the navigation drawer" -->
+    <string name="drawer_open">打开应用抽屉</string>
+    <string name="drawer_closed">关闭应用抽屉</string>
+
+    <!-- The "my_friend" string below is in the context of "Welcome back, my friend" -->
+    <string name="my_friend">我的朋友</string>
+    <string name="welcome_back">欢迎归来</string>
+
+    <string name="feedback_sent">反馈已发送！多谢了:)</string>
+</resources>

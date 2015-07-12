@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sending_feedback">Enviando retroalimentación.</string>
+    <string-array name="feedback_types">
+        <item>Fallo que haga colgar al programa</item>
+        <item>Defectos</item>
+        <item>Respecto al diseño</item>
+        <item>Ideas para nuevas características</item>
+        <item>Otro</item>
+    </string-array>
+    <string name="feedback_what_type">¿Qué tipo de sugerencia?</string>
+    <string name="feedback_importance">¿Cuán importante es?</string>
+    <string name="feedback_details_please">Detalles, por favor:</string>
+    <string name="feedback_policy">Las sugerencias se envían directamente al servidor de Edwin. Tu nombre y datos también serán registrados
+    a la vez. Todas las sugerencias serán leidos por Edwin y Philipp. ¡Muchas gracias!</string>
+    <string name="send">Enviar</string>
+</resources>

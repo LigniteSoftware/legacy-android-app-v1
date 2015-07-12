@@ -1,0 +1,13 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <yuku.ambilwarna.widget.AmbilWarnaPreference
+        android:key="col_hour_colour"
+        android:defaultValue="0xffffff00"
+        android:title="@string/hour_colour" />
+
+    <yuku.ambilwarna.widget.AmbilWarnaPreference
+        android:key="col_minute_colour"
+        android:defaultValue="0xffffff00"
+        android:title="@string/minute_colour" />
+
+</PreferenceScreen>

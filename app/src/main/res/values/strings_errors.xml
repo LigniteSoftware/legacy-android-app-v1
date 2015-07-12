@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_unknown">Failed to send. Server returned error </string>
+    <string name="error_response_null">Failed. Server rejected the request or was just pure angry with you.</string>
+    <string name="error_logout_failed">Failed to logout!</string>
+    <string name="colours_warning">
+        Colours, although pretty, currently doesn\'t show the time. Due to font restrictions and a few other details, we decided
+        it was best to put it aside and work on other aspects of the collection. If you\'re alright with no time being shown, feel free
+        to install it.\n\nColours does not work on non-Pebble Time devices for obvious reasons.
+    </string>
+    <string name="error_enter_text">Please enter some text.</string>
+</resources>

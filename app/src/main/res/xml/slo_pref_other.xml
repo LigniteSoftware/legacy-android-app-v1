@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="slo-shake-to-animate"
+        android:title="@string/shake_to_animate"
+        android:defaultValue="false"/>
+
+    <CheckBoxPreference
+        android:key="slo-seconds"
+        android:title="@string/secondly_updates"
+        android:defaultValue="false"/>
+
+</PreferenceScreen>

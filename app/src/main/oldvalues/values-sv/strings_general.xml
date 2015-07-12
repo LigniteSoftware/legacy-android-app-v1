@@ -1,0 +1,147 @@
+<resources>
+    <string name="app_name">Lignite</string>
+    <string name="title">Lignite</string>
+    <string name="title_full">Lignite Collection</string>
+    <string name="beta">Beta</string>
+    <string name="title_activity_apps">Lignite</string>
+
+    <string name="snowy">Pebble Time</string>
+    <string name="tintin_bianca">Pebble</string>
+
+    <string name="apps_list">Apps List</string>
+    <string name="install">Install</string>
+    <string name="settings">Settings</string>
+
+    <string-array name="app_names">
+        <item>Speedometer</item>
+        <item>KnightRider</item>
+        <item>Chunky</item>
+        <item>Lines</item>
+        <item>Colours</item>
+        <item>TimeDock</item>
+    </string-array>
+    
+    <string-array name="app_descriptions">
+        <item>
+            Speedometer �r en klocksk�rm som kommer att synas.\n\n
+            Sk�rmen har staplar som fylls anefter tid eller annan data framskrider, t.ex. veckodag, minut eller batteriprocent.
+        </item>
+        <item>
+            �ttiotalisterna vet precis vad detta �r. Hj�lten fr�n v�r barndom �r tillbaka! Ha K.I.T.T.s ljudl�da p� handleden med animation av pratet (men inget ljud) d� tiden �ndrs.\n\nP� v�nster sida ser du datum och p� andra sidan batteriniv�.
+        </item>
+        <item>
+            En trevlig fyrkantig design, d�r du kan v�lja f�rger och se tiden i stora siffror.
+        </item>
+        <item>
+            En enkel och stilig sk�rm som bara visar tid och datum.\n\n
+            Batteriniv�n �r tillval. Anv�ndaren kan v�lja bakgrundsf�rg och streckens f�rg / font.
+        </item>
+        <item>
+            Denna klocksk�rm f�r din Pebble Times ruta att skina, f�rgerna animeras varje minut, den svarta bakgrunden fylls med vackra f�rger.
+        </item>
+        <item>
+            Den officciella klocksk�rmen f�r TimeDock! Tillg�nglig i appstore.
+        </item>
+    </string-array>
+
+    <string-array name="app_descriptions_advanced">
+        <!-- Speedometer -->
+        <item>
+            Inst�llningar innefattar:\n
+            -Invertera f�rger\n
+            -Bluetooth alarm f�r fr�n-/�teruppkoppling\n
+            -Startanimation\n
+            -Bluetooth ikon\n
+            -Antialiasing/dithering\n
+            -F�rger\n\n
+
+            Animationer: Inte m�nga\n
+            Original Pebble support: Ja
+        </item>
+        <!-- KnightRider -->
+        <item>
+            Inst�llningar innefattar:\n
+            -Bluetooth alarm f�r fr�n-/�teruppkoppling\n
+            -Animatioers\n
+            -Antialiasing/dithering\n\n
+
+            Animationer: M�nga\n
+            Original Pebble support: Ja
+        </item>
+        <!-- Chunky -->
+        <item>
+            Inst�llningar innefattar:\n
+            F�r tillf�llet finns inga inst�llningar, men de �r p� kommande!\n\n
+
+            Animationer: Inte �nnu!\n
+            Original Pebble support: Ja
+        </item>
+        <!-- Lines -->
+        <item>
+            Inst�llningar innefattar:\n
+            F�r tillf�llet finns inga inst�llningar, men de �r p� kommande!\n\n
+
+            Animationer: Inte �nnu!\n
+            Original Pebble support: Ja
+        </item>
+        <!-- Colours -->
+        <item>
+            Colours �r trasig just nu (visar inte tiden), men kommar att repareras til n�sta utg�va.\n\n
+            Original Pebble Support: Nej
+        </item>
+        <!-- TimeDock -->
+        <item>
+            Inst�llningar innefattar:\n
+            -V�der\n
+            -Klocksk�rm �ppen under laddningen\n
+            -Animationer\n
+            -Bluetooth alarm f�r fr�n-/�teruppkoppling\n\n
+
+            Animationer: M�nga\n
+            Original Pebble support: Ja
+        </item>
+    </string-array>
+
+    <string-array name="appPBWs">
+        <item>
+            speedometer.pbw
+        </item>
+        <item>
+            knightrider.pbw
+        </item>
+        <item>
+            chunky.pbw
+        </item>
+        <item>
+            lines.pbw
+        </item>
+        <item>
+            colours.pbw
+        </item>
+        <item>
+            ERROR_USE_THE_APPSTORE
+        </item>
+    </string-array>
+
+    <string name="type_watchface">Klocksk�rm</string>
+    <string name="type_app">Klockapp</string>
+
+    <string name="submit_feedback">Feedback</string>
+    <string name="aboot">Om</string>
+    <string name="pebble_time">Pebble Time</string>
+
+    <string name="close">St�ng</string>
+    <string name="okay">J�ttebra</string>
+
+    <string name="cancel">�ngra</string>
+
+    <!-- "Drawer" as in "the navigation drawer" -->
+    <string name="drawer_open">�ppna l�dan</string>
+    <string name="drawer_closed">St�ng l�dan</string>
+
+    <!-- The "my_friend" string below is in the context of "Welcome back, my friend" -->
+    <string name="my_friend">min v�n</string>
+    <string name="welcome_back">V�lkommen tillbaka</string>
+
+    <string name="feedback_sent">Feedback s�nd! Tack :)</string>
+</resources>

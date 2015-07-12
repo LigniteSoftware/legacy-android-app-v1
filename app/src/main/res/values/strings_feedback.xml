@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sending_feedback">Sending feedback...</string>
+    <string-array name="feedback_types">
+        <item>Crash</item>
+        <item>Bug</item>
+        <item>Design-related</item>
+        <item>Feature-related</item>
+        <item>Other (+ requests)</item>
+    </string-array>
+    <string name="feedback_what_type">What type of feedback?</string>
+    <string name="feedback_importance">How important?</string>
+    <string name="feedback_details_please">Details, please:</string>
+    <string name="feedback_policy">Feedback goes directly to Edwin\'s server. Your name and info will be recorded
+    along with it. Every piece of feedback is read by Edwin and Philipp. Thanks a lot!</string>
+    <string name="send">Send</string>
+</resources>

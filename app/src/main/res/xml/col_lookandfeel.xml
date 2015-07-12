@@ -1,0 +1,28 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="col_outline_numbers"
+        android:title="@string/outline_numbers"
+        android:defaultValue="false" />
+
+    <CheckBoxPreference
+        android:key="col_constant_anim"
+        android:title="@string/pref_constant_anim"
+        android:defaultValue="false" />
+
+    <CheckBoxPreference
+        android:key="col_organize"
+        android:title="@string/organize_colours"
+        android:defaultValue="false" />
+
+    <CheckBoxPreference
+        android:key="col_randomize_width"
+        android:title="@string/randomize_width"
+        android:defaultValue="false" />
+
+    <com.edwinfinch.lignite.NumberPickerPreference
+        android:key="col_default_width"
+        android:title="@string/default_width"
+        android:defaultValue="6" />
+
+</PreferenceScreen>

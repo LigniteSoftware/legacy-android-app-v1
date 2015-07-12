@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sending_feedback">L�hett�� palautetta.</string>
+    <string-array name="feedback_types">
+        <item>Crash</item>
+        <item>Bug</item>
+        <item>Design-related</item>
+        <item>Feature-related</item>
+        <item>Other</item>
+    </string-array>
+    <string name="feedback_what_type">MInk� tyyppinen palaute?</string>
+    <string name="feedback_importance">Kuinka t�rke�?</string>
+    <string name="feedback_details_please">Yksityiskohtia, kiitos:</string>
+    <string name="feedback_policy">Palaute menee suoraan edwinin palvelimelle. Nimesi ja tietosi tallennetaan palautteen kanssa.  Edwin ja Philipp lukevat kaiken palautteen. Kiitos!</string>
+    <string name="send">L�het�</string>
+</resources>

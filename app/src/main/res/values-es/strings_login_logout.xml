@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="code_requirement">Por favor ingresa tu código de acceso</string>
+    <string name="logging_in">Iniciando tu sesión...</string>
+    <string name="reset_code">¿No puedes iniciar tu sesión? Reiniciar tu cuenta aquí.</string>
+
+    <string name="logout">Logout</string>
+
+    <string name="logout_confirm">
+        ¿Estás seguro(a) que quieres cerrar esta sesión?\n\nSi cierras la sesión en este dispositivo, podrás iniciar una nueva sesión en otro dispositivo con el mismo código de acceso.
+    </string>
+    <string name="logging_out">Cerrando tu sesión...</string>
+    <string name="logout_success">Sesión cerrada. ¡Hasta luego!</string>
+
+    <string name="prompt_code">Código de acceso</string>
+    <string name="action_sign_in">Iniciar sesión</string>
+
+    <string name="error_invalid_code">Este código no es válido. ¡Lo sentimos!</string>
+    <string name="error_short_code">Este código está demasiado corto. ¡Lo sentimos!</string>
+    <string name="error_incorrect_code">¡Este código está en uso por otra persona, chistoso!</string>
+    <string name="error_doesnt_exist">Este código no existe, lo sentimos.</string>
+    <string name="error_field_required">Se requiere esto. Por favor ingresa tu código.</string>
+    <string name="error_other">Error sin identificar. Por favor intenta de nuevo.</string>
+    <string name="server_error">Error del servidor. Esto no es tu culpa. Por favor escriba a contact@edwinfinch.com.</string>
+</resources>

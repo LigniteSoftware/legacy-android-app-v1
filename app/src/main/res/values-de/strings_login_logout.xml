@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="code_requirement">Tippe bitte deinen 6-stelligen Zugangscode ein:</string>
+    <string name="logging_in">Anmeldung l&#228;uft...</string>
+    <string name="reset_code">Kann mich nicht einloggen? Setzen Sie Ihren Account hier.</string>
+
+    <string name="logout">Abmelden</string>
+
+    <string name="logout_confirm">
+        Bist du sicher, dass du dich abmelden willst?\n\nWenn du dich von diesem Ger&#228;t abmeldest, kannst du dich mit demselben Code auf einem anderen Ger&#228;t anmelden.
+    </string>
+    <string name="logging_out">Abmeldung l&#228;uft...</string>
+    <string name="logout_success">Abmeldung abgeschlossen. Bis sp&#228;ter!</string>
+
+    <string name="prompt_code">Zugangscode</string>
+    <string name="action_sign_in">Anmelden</string>
+
+    <string name="error_invalid_code">Dieser Zugangscode ist ung&#252;ltig, sorry!</string>
+    <string name="error_short_code">Dieser Zugangscode ist leider zu kurz, sorry!</string>
+    <string name="error_incorrect_code">Dieser Zugangscode wird bereits durch jemand anderes verwendet, du Fl&#246;tenschlumpf!</string>
+    <string name="error_doesnt_exist">Dieser Zugangscode existiert nicht, sorry.</string>
+    <string name="error_field_required">Wir brauchen deinen Zugangscode. Tippe diesen bitte ein.</string>
+    <string name="error_other">Unbekannter Fehler. Versuche es bitte erneut.</string>
+    <string name="server_error">Interner Serverfehler. Es ist nicht dein Fehler. Melde dich bitte unter contact@edwinfinch.com.</string>
+</resources>

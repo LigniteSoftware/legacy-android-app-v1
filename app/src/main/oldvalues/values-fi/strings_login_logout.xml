@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="code_requirement">Ole hyv‰ ja kirjoita nk. access code koodisi jossa on 6 merkki‰:</string>
+    <string name="logging_in">Sinut kirjataan sis‰‰n...</string>
+
+    <string name="logout">Kirjaudu ulos</string>
+
+    <string name="logout_confirm">
+        Oletko varma ett‰ haluat kirjautua ulos?\n\nJos kirjaudut ulos t‰lt‰ laitteelta, voit kirjauta toiselle laitteelle samalla koodilla.
+    </string>
+    <string name="logging_out">Sinut kirjataan ulos...</string>
+    <string name="logout_success">Uloskirjautunut. N‰hd‰‰n taas!</string>
+
+    <string name="prompt_code">Access Code</string>
+    <string name="action_sign_in">Kirjaudu sis‰‰n</string>
+
+    <string name="error_invalid_code">T‰m‰ ei ole voimassaoleva koodi!</string>
+    <string name="error_short_code">T‰m‰ koodi on liian lyhyt</string>
+    <string name="error_incorrect_code">Kuules, t‰t‰ koodia k‰ytt‰‰ joku muu!</string>
+    <string name="error_doesnt_exist">T‰t‰ koodia ei ole olemassa.</string>
+    <string name="error_field_required">Kentt‰ on pakollinen. Kirjoita koodisi.</string>
+    <string name="error_other">Tuntematon virhe. Yrit‰ uudelleen.</string>
+    <string name="server_error">Internal server error. T‰m‰ ei ole sinun vikasi. L‰het‰ s‰hkˆpostia contact@edwinfinch.com.</string>
+</resources>

@@ -1,0 +1,147 @@
+<resources>
+    <string name="app_name">Lignite</string>
+    <string name="title">Lignite</string>
+    <string name="title_full">Lignite Collection</string>
+    <string name="beta">Beta</string>
+    <string name="title_activity_apps">Lignite</string>
+
+    <string name="snowy">Pebble Time</string>
+    <string name="install">Installieren</string>
+    <string name="tintin_bianca">Pebble</string>
+
+    <string name="apps_list">Apps Liste</string>
+    <string name="settings">Einstellungen</string>
+
+    <string-array name="app_names">
+        <item>Speedometer</item>
+        <item>KnightRider</item>
+        <item>Chunky</item>
+        <item>Lines</item>
+        <item>Colours</item>
+        <item>TimeDock</item>
+    </string-array>
+    
+    <string-array name="app_descriptions">
+        <item>
+            Speedometer ist ein Watchface welches auf dem Farbdisplay super zur Geltung kommt.\n\n
+            Es verf&#252;gt &#252;ber Balken, die sich sich mit der Zeit oder anderen Daten f&#252;llen. Zum Beispiel: Wochentag, Minute und verbleibende Akkukapazit&#228;t.
+        </item>
+        <item>
+            Kinder der 80-er Jahre wissen genau, was dieses Watchface repr&#228;sentiert. Der Held unserer Kindheit ist zur&#252;ck! Per sofort ist es m&#246;glich, K.I.T.T.\'s Voicebox - inkl. einer Sprachanimation (leider ohne Ton) bei einer Zeit&#228;nderung - direkt auf deinem Handgelenk zu haben.\n\nAuf der linken Seite sieht man das Datum sowie den Bluetooth-Verbindungsstatus und auf der rechten Seite die verbleibende Akkukapazit&#228;t.
+        </item>
+        <item>
+            Ein sch&#246;nes eckiges Layout, wo du die Farben selbst w&#228;hlen kannst und die Zeit in sch&#246;nen grossen Zahlen siehst.
+        </item>
+        <item>
+            Ein sehr simplJa, aber doch sehr stylisches Watchface, welches nichts ausser der Zeit und dem Datum anzeigt.\n\n
+            Die Anzeige der verbleibenden Akkukapazit&#228;t ist optional. Du kannst die Hintergrundfarbe wie auch die Farbe der Linien / Schriftart w&#228;hlen.
+        </item>
+        <item>
+            Dieses Watchface wird das Farbdisplay deiner Pebble Time wirklich zum scheinen bringen indem es sich jede Minute komplett neu animiert. Dabei wird der schwarze Hintergrund mit zuf&#228;lligen Farben gef&#252;llt.
+        </item>
+        <item>
+            Das offizielle Watchface f&#252;r die TimeDock. Verf&#252;gbar im AppStore.
+        </item>
+    </string-array>
+
+    <string-array name="app_descriptions_advanced">
+        <!-- Speedometer -->
+        <item>
+            Verf&#252;gbare Einstellungen:\n
+            -Invertierbare Farben\n
+            -Bluetooth Verbindungshinweise\n
+            -Startanimation\n
+            -Bluetooth Icon\n
+            -Antialiasing/Dithering\n
+            -Farben\n\n
+
+            Animationen: nicht viele\n
+            Original Pebble Unterst&#252;tzung: Ja
+        </item>
+        <!-- KnightRider -->
+        <item>
+            Verf&#252;gbare Einstellungen:\n
+            -Bluetooth Verbindungshinweise\n
+            -Animationen\n
+            -Antialiasing/Dithering\n\n
+
+            Animationen: zahlreiche\n
+            Original Pebble Unterst&#252;tzung: Ja
+        </item>
+        <!-- Chunky -->
+        <item>
+            Verf&#252;gbare Einstellungen:\n
+            Zurzeit Neinch keine verf&#252;gbar, kommen aber Neinch!\n\n
+
+            Animationen: Neinch keine\n
+            Original Pebble Unterst&#252;tzung: Ja
+        </item>
+        <!-- Lines -->
+        <item>
+            Verf&#252;gbare Einstellungen:\n
+            Zurzeit Neinch keine verf&#252;gbar, kommen aber Neinch!\n\n
+
+            Animationen: Neinch keine\n
+            Original Pebble Unterst&#252;tzung: Ja
+        </item>
+        <!-- Colours -->
+        <item>
+            Colours funktioniert zurzeit Neinch nicht (die Zeit wird nicht angezeigt), wird jedoch f&#252;r das n&#228;chste Release behoben.\n\n
+            Original Pebble Unterst&#252;tzung: Nein
+        </item>
+        <!-- TimeDock -->
+        <item>
+            Verf&#252;gbare Einstellungen:\n
+            -Wetter\n
+            -Watchface wird beim Laden automatisch angezeigt\n
+            -Animationen\n
+            -Bluetooth Verbindungshinweise\n\n
+
+            Animationen: zahlreiche\n
+            Original Pebble Unterst&#252;tzung: Ja
+        </item>
+    </string-array>
+
+    <string-array name="appPBWs">
+        <item>
+            speedometer.pbw
+        </item>
+        <item>
+            knightrider.pbw
+        </item>
+        <item>
+            chunky.pbw
+        </item>
+        <item>
+            lines.pbw
+        </item>
+        <item>
+            colours.pbw
+        </item>
+        <item>
+            ERROR_USE_THE_APPSTORE
+        </item>
+    </string-array>
+
+    <string name="type_watchface">Watchface</string>
+    <string name="type_app">Watchapp</string>
+
+    <string name="submit_feedback">Feedback</string>
+    <string name="aboot">Info</string>
+    <string name="pebble_time">Pebble Time</string>
+
+    <string name="close">Schliessen</string>
+    <string name="okay">Super</string>
+
+    <string name="cancel">Abbrechen</string>
+
+    <!-- "Drawer" as in "the navigation drawer" -->
+    <string name="drawer_open">Drawer &#246;ffnen</string>
+    <string name="drawer_closed">Drawer schliessen</string>
+
+    <!-- The "my_friend" string below is in the context of "Welcome back, my friend" -->
+    <string name="my_friend">mein Freund</string>
+    <string name="welcome_back">Willkommen zur&#252;ckk</string>
+
+    <string name="feedback_sent">Feedback erfolgreich &#252;bermittelt! Vielen Dank :)</string>
+</resources>

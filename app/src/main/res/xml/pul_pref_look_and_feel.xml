@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="pul-invert"
+        android:title="@string/pref_title_invert"
+        android:defaultValue="true"/>
+
+    <CheckBoxPreference
+        android:key="pul-constant-anim"
+        android:title="@string/pref_constant_anim"
+        android:defaultValue="false"/>
+
+    <CheckBoxPreference
+        android:key="pul-shake"
+        android:title="@string/shake_to_animate"
+        android:defaultValue="false" />
+
+</PreferenceScreen>

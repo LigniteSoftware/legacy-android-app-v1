@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_unknown">Sändning misslyckades. Servern svarade med fel.</string>
+    <string name="error_response_null">Misslyckades. Server avslog begäran eller var vara arg på dig.</string>
+    <string name="error_logout_failed">Misslyckades att logga ut!</string>
+    <string name="colours_warning">
+        Färger, de är vackra, men visar inte tiden. På grund av fontrestriktioner och andra detaljer, beslöt vi att lägga detta åt sidan, och jobba på andra aspekter av kollektionen. Om det är ok med att ingen tid visas, kan du installera den.\n\nColours fungerar naturligtvis bara på Pebble Time klockor.
+    </string>
+    <string name="error_enter_text">Var god och skriv i någon text.</string>
+</resources>

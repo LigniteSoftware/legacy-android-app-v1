@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sending_feedback">S�nder feedback.</string>
+    <string-array name="feedback_types">
+        <item>Crash</item>
+        <item>Bug</item>
+        <item>Design-related</item>
+        <item>Feature-related</item>
+        <item>Other</item>
+    </string-array>
+    <string name="feedback_what_type">Vilken typ av feedback?</string>
+    <string name="feedback_importance">Hur viktigt?</string>
+    <string name="feedback_details_please">Detaljer, tack:</string>
+    <string name="feedback_policy">Feedback g�r direkt till Edwins server. Ditt namn och din info sparas med feedbacken. All feedback l�ses av Edwin och Philipp. Tack!</string>
+    <string name="send">S�nd</string>
+</resources>

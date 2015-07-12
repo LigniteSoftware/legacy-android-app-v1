@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_unknown">Invio non riuscito. Il server ha restituito un errore </string>
+    <string name="error_response_null">Non riuscito. Il server ha rifiutato la richiesta o forse ce l\'aveva solo con te.</string>
+    <string name="error_logout_failed">Logout non riuscito!</string>
+    <string name="colours_warning">
+        Colours, anche se graziosa, al momento non mostra l\'ora. A causa di restrizioni sul carattere e qualche altro dettaglio, abbiamo deciso
+        di metterla da parte e lavorare su altri aspetti della Collection. Se ti sta bene che l\'orario non venga mostrato, installala pure.
+        Per ovvie ragioni \n\nColours funziona solo su dispositivi Pebble Time.
+    </string>
+    <string name="error_enter_text">Inserisci testo.</string>
+</resources>

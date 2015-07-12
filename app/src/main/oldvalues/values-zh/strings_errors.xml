@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_unknown">发送失败，服务器返回未知错误。</string>
+    <string name="error_response_null">发送失败，服务器拒绝了请求，或者只是看您不爽:(</string>
+    <string name="error_logout_failed">无法注销！</string>
+    <string name="colours_warning">
+        Colours 虽然很漂亮，但会导致无法显示时间。由于字体限制及其他技术细节，
+        我们决定暂时忽略此问题并专注于其他方面。如果您觉得无所谓，那就安装吧。
+        \n\nPebble Time 之外的设备无法显示颜色，原因大家都懂:)
+    </string>
+    <string name="error_enter_text">请输入文字</string>
+</resources>

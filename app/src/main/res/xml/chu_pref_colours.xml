@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <yuku.ambilwarna.widget.AmbilWarnaPreference
+        android:key="chu_minute_colour"
+        android:defaultValue="0xff0000cc"
+        android:title="@string/minute_colour" />
+
+    <yuku.ambilwarna.widget.AmbilWarnaPreference
+        android:key="chu_hour_colour"
+        android:defaultValue="0xff0000cc"
+        android:title="@string/hour_colour" />
+
+    <yuku.ambilwarna.widget.AmbilWarnaPreference
+        android:key="chu_background_colour"
+        android:defaultValue="0x000000cc"
+        android:title="@string/background_colour" />
+
+</PreferenceScreen>

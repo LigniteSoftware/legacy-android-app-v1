@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="code_requirement">请输入6个字符的访问代码：</string>
+    <string name="logging_in">正在登录...</string>
+
+    <string name="logout">注销</string>
+
+    <string name="logout_confirm">
+        您确定要注销吗？\n\n如果您从此设备上注销，你可以使用相同的访问代码在另一台设备上登录。
+    </string>
+    <string name="logging_out">正在注销...</string>
+    <string name="logout_success">已注销。待会儿见！</string>
+
+    <string name="prompt_code">访问代码</string>
+    <string name="action_sign_in">登录</string>
+
+    <string name="error_invalid_code">抱歉，此代码无效！</string>
+    <string name="error_short_code">抱歉，此代码太短！</string>
+    <string name="error_incorrect_code">呵呵，此代码已被别人使用！</string>
+    <string name="error_doesnt_exist">抱歉，此代码不存在！</string>
+    <string name="error_field_required">此为必需项，请输入您的访问代码。</string>
+    <string name="error_other">未知错误，请重试。</string>
+    <string name="server_error">内部服务器错误。这与您无关。请电邮至 contact@edwinfinch.com 并使用英文</string>
+</resources>
