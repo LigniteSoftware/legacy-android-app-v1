@@ -157,7 +157,7 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
     boolean loginTokenFix = false;
 
     private void selectItem(int position) {
-        if (position < PebbleInfo.AMOUNT_OF_APPS) {
+        if (position < LigniteInfo.AMOUNT_OF_APPS) {
             getSupportActionBar().setSelectedNavigationItem(position);
         }
         else if (position == logoutPosition) {
@@ -219,7 +219,7 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
     ListView mDrawerList;
     ActionBarDrawerToggle mDrawerToggle;
     IabHelper mHelper;
-    boolean owns_app[] = new boolean[PebbleInfo.AMOUNT_OF_APPS];
+    boolean owns_app[] = new boolean[LigniteInfo.AMOUNT_OF_APPS];
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -246,8 +246,8 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
                 return;
             }
 
-            for(int i = 0; i < PebbleInfo.AMOUNT_OF_APPS; i++) {
-                if (purchase.getSku().equals(PebbleInfo.APP_SKUS[i])) {
+            for(int i = 0; i < LigniteInfo.AMOUNT_OF_APPS; i++) {
+                if (purchase.getSku().equals(LigniteInfo.APP_SKUS[i])) {
                     owns_app[i] = true;
                     AppFragment frag = (AppFragment) mSectionsPagerAdapter.getItem(i);
                     frag.setPurchased(true);
@@ -266,8 +266,8 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
                 // handle error here
             }
             else {
-                for(int i = 0; i < PebbleInfo.AMOUNT_OF_APPS; i++) {
-                    owns_app[i] = inventory.hasPurchase(PebbleInfo.APP_SKUS[i]);
+                for(int i = 0; i < LigniteInfo.AMOUNT_OF_APPS; i++) {
+                    owns_app[i] = inventory.hasPurchase(LigniteInfo.APP_SKUS[i]);
                     AppFragment frag = (AppFragment) mSectionsPagerAdapter.getItem(i);
                     frag.setPurchased(true);
                 }
@@ -298,7 +298,7 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
                     mHelper.queryInventoryAsync(mGotInventoryListener);
                 }
                 else{
-                    for(int i = 0; i < PebbleInfo.AMOUNT_OF_APPS; i++){
+                    for(int i = 0; i < LigniteInfo.AMOUNT_OF_APPS; i++){
                         owns_app[i] = true;
                         AppFragment frag = (AppFragment)mSectionsPagerAdapter.getItem(i);
                         frag.setPurchased(true);
@@ -471,7 +471,7 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
         int current = mViewPager.getCurrentItem();
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("pebble://appstore/" + PebbleInfo.APPLICATION_LOCATION[current]));
+        intent.setData(Uri.parse("pebble://appstore/" + LigniteInfo.APPLICATION_LOCATION[current]));
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -479,17 +479,29 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
 
     public void openSettings(View view){
         int current = mViewPager.getCurrentItem();
-        PebbleKit.startAppOnPebble(ContextManager.ctx, UUID.fromString(PebbleInfo.UUID[current]));
+        PebbleKit.startAppOnPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[current]));
 
-        if(owns_app[current]) {
+        //if(owns_app[current]) {
+            Intent intent = new Intent(AppsActivity.this, JSONSettingsActivity.class);
+            intent.putExtra("app_name", LigniteInfo.NAME[current]);
+            startActivity(intent);
+            /*
             Intent intent = new Intent(AppsActivity.this, AppSettingsActivity.class);
             intent.putExtra("com.edwinfinch.lignite.CURRENT_ITEM", current);
             startActivity(intent);
+            */
+        /*
         }
         else{
             if (mHelper != null) mHelper.flagEndAsync();
-            mHelper.launchPurchaseFlow(this, PebbleInfo.APP_SKUS[current], 10001, mPurchaseFinishedListener); //it won't crash don't worry
+            try {
+                mHelper.launchPurchaseFlow(this, PebbleInfo.APP_SKUS[current], 10001, mPurchaseFinishedListener); //it won't crash don't worry
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
         }
+        */
     }
 
     public void feedback_click(View v) {
@@ -528,7 +540,7 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
-        AppFragment fragments[] = new AppFragment[PebbleInfo.AMOUNT_OF_APPS+1];
+        AppFragment fragments[] = new AppFragment[LigniteInfo.AMOUNT_OF_APPS+1];
 
         @Override
         public Fragment getItem(int position) {
@@ -542,7 +554,7 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
 
         @Override
         public int getCount() {
-            return PebbleInfo.AMOUNT_OF_APPS;
+            return LigniteInfo.AMOUNT_OF_APPS;
         }
 
         @Override

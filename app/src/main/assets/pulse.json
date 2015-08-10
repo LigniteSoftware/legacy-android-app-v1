@@ -1,0 +1,39 @@
+{
+    "name":"pulse",
+    "items": [
+              {
+              "title":"pref_header_general",
+              "items":[
+                       {
+                       "type":"toggle",
+                       "label":"pref_btdisalert",
+                       "storage_key":"pul-btdisalert",
+                       "pebble_key":0
+                       },
+                       {
+                       "type":"toggle",
+                       "label":"pref_btrealert",
+                       "storage_key":"pul-btrealert",
+                       "pebble_key":1
+                       }
+                       ]
+              },
+              {
+              "title":"pref_header_colours",
+              "items":[
+                       {
+                       "type":"colour",
+                       "label":"circle_colour",
+                       "storage_key":"pul-circle-colour",
+                       "pebble_key":7
+                       },
+                       {
+                       "type":"colour",
+                       "label":"background_colour",
+                       "storage_key":"pul-background-colour",
+                       "pebble_key":8
+                       }
+                       ]
+              }
+        ]
+}

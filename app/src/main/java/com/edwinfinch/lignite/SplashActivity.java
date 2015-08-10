@@ -20,9 +20,9 @@ public class SplashActivity extends Activity {
 
         if(!DataFramework.getTakenBackerQuestion(getApplicationContext())){
             new AlertDialog.Builder(SplashActivity.this)
-                    .setMessage("Hi there! Did you back Lignite on Kickstarter? If so, you'll be presented with a login screen. " +
-                            "If not, you won't be bugged with any login and can continue to our apps!")
-                    .setPositiveButton("Yes, I am", new DialogInterface.OnClickListener() {
+                    .setTitle("Hello!")
+                    .setMessage("Are you a Kickstarter backer?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             DataFramework.setTakenBackerQuestion(getApplicationContext(), true);
@@ -38,7 +38,7 @@ public class SplashActivity extends Activity {
                             }, 1500);
                         }
                     })
-                    .setNegativeButton("No, I'm not", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             DataFramework.setTakenBackerQuestion(getApplicationContext(), true);

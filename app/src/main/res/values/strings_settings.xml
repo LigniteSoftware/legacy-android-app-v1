@@ -6,7 +6,7 @@
 
     <string name="pref_header_general">General</string>
 
-    <string name="pref_title_invert">Invert colours</string>
+    <string name="pref_title_invert">Invert</string>
     <string name="pref_btdisalert">Bluetooth disconnect alert</string>
     <string name="pref_btrealert">Bluetooth reconnect alert</string>
 
@@ -16,11 +16,12 @@
     <string name="pref_title_2_colour">Middle Colour</string>
     <string name="pref_title_3_colour">Inner Colour</string>
 
-    <string name="pref_title_lookandfeel">Look and Feel</string>
+    <string name="pref_title_lookandfeel">Look and Feel</string> <!-- Keep both - this is for legacy support -->
+    <string name="pref_header_lookandfeel">Look and Feel</string>
 
     <string name="pref_boot_animation">Boot animation</string>
-    <string name="pref_bluetooth_icon">Bluetooth icon</string>
-    <string name="pref_antialiased">Antialiasing/dithering</string>
+    <string name="pref_bluetooth_icon">Bluetooth indicator</string>
+    <string name="pref_antialiased">Antialiasing</string>
     <string name="show_borders">Show borders</string>
 
     <!-- KNIGHTRIDER -->
@@ -28,22 +29,22 @@
     <string name="pref_constant_anim">Constant Animations</string>
 
     <!-- CHUNKY -->
-    <string name="minute_colour">Minute Colour</string>
-    <string name="hour_colour">Hour Colour</string>
+    <string name="minute_colour">Minute</string>
+    <string name="hour_colour">Hour</string>
     <string name="battery_bar">Show battery bar</string>
-    <string name="background_colour">Background colour</string>
+    <string name="background_colour">Background</string>
 
     <!-- LINES -->
     <string name="show_date">Show date</string>
     <string name="alt_date_format">mm/dd/yy date format</string>
-    <string name="time_colour">Time colour</string>
-    <string name="date_colour">Date colour</string>
+    <string name="time_colour">Time</string>
+    <string name="date_colour">Date</string>
 
     <!-- COLOURS -->
     <!-- each bar has its own colour in this watchface, see the screenshots. Randomize width is in the context of making the
     width of each bar random, taking the user's custom width into consideration much less. -->
     <string name="randomize_width">Randomize bar width (beta)</string>
-    <string name="default_width">Default width</string>
+    <string name="default_width">Width</string>
     <string name="organize_colours">Organize colours</string>
     <string name="outline_numbers">Black border on numbers</string>
 
@@ -53,7 +54,8 @@
     <string name="custom_colour_1">Custom colour 1</string>
     <string name="custom_colour_2">Custom colour 2</string>
     <string name="custom_colour_3">Custom colour 3</string>
-    <string name="circle_colour">Circle colour</string>
+    <string name="circle_colour">Circle</string>
+    <string name="pref_header_othercolours">Other Colours</string>
 
     <!-- TIMEZONES -->
     <string name="your_time">Your Time</string>
@@ -72,5 +74,16 @@
     <string name="center_colour">Center colour</string>
     <string name="background_color">Background colour</string>
     <string name="shake_to_animate">Shake to animate</string>
+
+    <!-- PERSONAL -->
+    <string name="compressed_date_format">Compressed date format</string>
+    <string name="accent">Accent</string>
+
+    <!-- SIMPLIFIED ANALOGUE -->
+    <string name="weekday">Weekday</string>
+    <string name="advanced_date">Advanced date</string>
+    <string name="digital_time">Digital time</string>
+    <string name="minute_analogue">Minute analogue hand</string>
+    <string name="hour_analogue">Hour analogue hand</string>
 
 </resources>

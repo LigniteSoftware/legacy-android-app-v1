@@ -1,4 +1,4 @@
-package com.edwinfinch.lignite;
+package com.edwinfinch.lignite.preference;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,22 +10,26 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 
+import org.json.JSONObject;
+
 /**
  * A {@link android.preference.Preference} that displays a number picker as a dialog.
  */
-public class NumberPickerPreference extends DialogPreference {
+public class LigniteNumberPickerPreference extends DialogPreference {
 
     public static final int MAX_VALUE = 144;
     public static final int MIN_VALUE = 0;
 
-    private NumberPicker picker;
-    private int value;
+    public JSONObject item;
 
-    public NumberPickerPreference(Context context, AttributeSet attrs) {
+    private NumberPicker picker;
+    public int value;
+
+    public LigniteNumberPickerPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public NumberPickerPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LigniteNumberPickerPreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -72,7 +76,7 @@ public class NumberPickerPreference extends DialogPreference {
         this.value = value;
         persistInt(this.value);
         this.callChangeListener(value);
-        this.setSummary("" + value);
+        this.setTitle("" + value);
     }
 
     public int getValue() {

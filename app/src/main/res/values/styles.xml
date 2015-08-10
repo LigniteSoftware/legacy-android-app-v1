@@ -11,6 +11,14 @@
         <item name="android:windowBackground">@color/myWindowBackground</item>
     </style>
 
+    <style name="JSONSettingsTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:navigationBarColor">@color/dark_primary</item>
+        <item name="android:statusBarColor">@color/dark_primary</item>
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
     <style name="SettingsTheme" parent="android:style/Theme.Material.Light">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/dark_primary</item>

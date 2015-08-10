@@ -1,14 +1,10 @@
 package com.edwinfinch.lignite;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,18 +17,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 import android.app.ActionBar.LayoutParams;
-
-import com.getpebble.android.kit.PebbleKit;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.UUID;
 
 
 /**
@@ -93,7 +79,7 @@ public class AppFragment extends android.support.v4.app.Fragment {
 
             pebble_view.setInAnimation(in);
             pebble_view.setOutAnimation(out);
-            pebble_view.setImageResource(PebbleInfo.getDrawable(type-1, other));
+            pebble_view.setImageResource(LigniteInfo.getDrawable(type - 1, other));
             other = !other;
         }
     };
@@ -119,10 +105,10 @@ public class AppFragment extends android.support.v4.app.Fragment {
         Animation out = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), android.R.anim.slide_out_right);
         in.setInterpolator(new AnticipateOvershootInterpolator());
         out.setInterpolator(new AnticipateOvershootInterpolator());
-        pebble_view.setImageResource(PebbleInfo.getDrawable(type-1, true));
+        pebble_view.setImageResource(LigniteInfo.getDrawable(type - 1, true));
 
         settings_button = (Button) layout.findViewById(R.id.settingsButton);
-        settings_button.setEnabled(PebbleInfo.SETTINGS_ENABLED[type-1]);
+        settings_button.setEnabled(LigniteInfo.SETTINGS_ENABLED[type-1]);
         settings_button.setText(purchased ? getString(R.string.settings) : getString(R.string.purchase));
 
         textScrollParentView = (ScrollView) layout.findViewById(R.id.textScrollView);
@@ -131,13 +117,13 @@ public class AppFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(getActivity())
-                        .setMessage(PebbleInfo.getAbootText(type - 1, getResources(), true))
+                        .setMessage(LigniteInfo.getAbootText(type - 1, getResources(), true))
                         .setPositiveButton(R.string.okay, null)
                         .show();
             }
         });
         textScrollView.setTextColor(Color.BLACK);
-        textScrollView.setText(PebbleInfo.getAbootText(type - 1, getResources(), false));
+        textScrollView.setText(LigniteInfo.getAbootText(type - 1, getResources(), false));
 
         textScrollParentView.addView(textScrollView);
 

@@ -227,6 +227,7 @@
         <item>Timezones</item>
         <item>Slot Machine</item>
         <item>Pulse</item>
+        <item>Simplified Analogue</item>
     </string-array>
     
     <string-array name="app_descriptions">
@@ -272,6 +273,10 @@
         <item>
             This is another face living through its animations. We could either let the circle grow every minute or have a pulse animation every minute changing the background color.
             \nThis will really make the Pebble Time’s colour display shine!
+        </item>
+        <item>
+            Based off of community request - Simplified Analogue brings simplicity and classiness together while still being very customizable!
+            The smaller circle is the hour hand, with the larger as the minute hand.
         </item>
     </string-array>
 
@@ -371,6 +376,10 @@
             \n-Constant animations
             \n-Shake to animate
             \n-Circle and background colours
+        </item>
+        <item>
+            Settings include:
+            \n-Memes
         </item>
     </string-array>
 
