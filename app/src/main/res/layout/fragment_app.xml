@@ -5,7 +5,7 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="350dp"
+        android:layout_height="300dp"
         android:id="@+id/relativeLayout"
         android:layout_alignRight="@+id/textScrollView"
         android:layout_alignEnd="@+id/textScrollView"
@@ -14,22 +14,21 @@
 
         <ImageSwitcher
             android:layout_width="10dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:id="@+id/pebbleImagePreview"
-            android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
             android:paddingBottom="20dp"
-            android:paddingTop="10dp" />
+            android:paddingTop="10dp"
+            android:layout_alignParentTop="true" />
 
     </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:id="@+id/textScrollView"
         android:visibility="visible"
         android:layout_alignParentRight="true"

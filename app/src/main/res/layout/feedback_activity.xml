@@ -10,9 +10,8 @@
         android:layout_height="wrap_content"
         android:text="@string/feedback_what_type"
         android:id="@+id/typeFeedbackTitle"
-        android:layout_gravity="center_horizontal"
         android:textColor="@android:color/black"
-        android:textSize="20dp"
+        android:textSize="14dp"
         android:padding="5dp" />
 
     <Spinner
@@ -29,9 +28,8 @@
         android:layout_height="wrap_content"
         android:text="@string/feedback_importance"
         android:id="@+id/importanceTextView"
-        android:layout_gravity="center_horizontal"
         android:textColor="@android:color/black"
-        android:textSize="20dp"
+        android:textSize="14dp"
         android:padding="5dp" />
 
     <SeekBar
@@ -56,10 +54,9 @@
         android:layout_height="wrap_content"
         android:text="@string/feedback_details_please"
         android:id="@+id/anythingElseTextView"
-        android:layout_gravity="center_horizontal"
         android:padding="10dp"
         android:textColor="@android:color/black"
-        android:textSize="20dp" />
+        android:textSize="14dp" />
 
     <EditText
         android:layout_width="match_parent"

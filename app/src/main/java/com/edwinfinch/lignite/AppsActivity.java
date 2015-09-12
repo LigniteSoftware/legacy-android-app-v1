@@ -280,6 +280,10 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apps);
 
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
         String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoaVB29ms0bDJPU4fmcArVHWPS9" +
                 "21mid0eRwu2plwX/cMELfCrkZU7IuSp+wa4JZroo/olQHPayrBdbxbpO39ZD7lolGa50+PCFSi5CqPkec6pGeZQtyfgEPN" +
                 "yzduOJn6hIxNjps2qdTbsmhiBbe0lDmQWtIdXan+pE49wgtqt6GB2UPEZdU7H9dEOnUK1tE0DJBxEt1TsvP3jui1EYsMtB" +
@@ -292,15 +296,22 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
                 if (!result.isSuccess()) {
                     // Oh noes, there was a problem.
                     Log.d("AppsActivity", "Problem setting up In-app Billing: " + result);
+                    if(DataFramework.getUserIsBacker(getApplicationContext())){
+                        for (int i = 0; i < LigniteInfo.AMOUNT_OF_APPS; i++) {
+                            owns_app[i] = true;
+                            AppFragment frag = (AppFragment) mSectionsPagerAdapter.getItem(i);
+                            frag.setPurchased(true);
+                        }
+                    }
+                    return;
                 }
                 // Hooray, IAB is fully set up!
-                if(!DataFramework.getUserIsBacker(getApplicationContext())){
+                if (!DataFramework.getUserIsBacker(getApplicationContext())) {
                     mHelper.queryInventoryAsync(mGotInventoryListener);
-                }
-                else{
-                    for(int i = 0; i < LigniteInfo.AMOUNT_OF_APPS; i++){
+                } else {
+                    for (int i = 0; i < LigniteInfo.AMOUNT_OF_APPS; i++) {
                         owns_app[i] = true;
-                        AppFragment frag = (AppFragment)mSectionsPagerAdapter.getItem(i);
+                        AppFragment frag = (AppFragment) mSectionsPagerAdapter.getItem(i);
                         frag.setPurchased(true);
                     }
                 }
@@ -332,10 +343,6 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -481,27 +488,20 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
         int current = mViewPager.getCurrentItem();
         PebbleKit.startAppOnPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[current]));
 
-        //if(owns_app[current]) {
+        if(owns_app[current]) {
             Intent intent = new Intent(AppsActivity.this, JSONSettingsActivity.class);
             intent.putExtra("app_name", LigniteInfo.NAME[current]);
             startActivity(intent);
-            /*
-            Intent intent = new Intent(AppsActivity.this, AppSettingsActivity.class);
-            intent.putExtra("com.edwinfinch.lignite.CURRENT_ITEM", current);
-            startActivity(intent);
-            */
-        /*
         }
         else{
             if (mHelper != null) mHelper.flagEndAsync();
             try {
-                mHelper.launchPurchaseFlow(this, PebbleInfo.APP_SKUS[current], 10001, mPurchaseFinishedListener); //it won't crash don't worry
+                mHelper.launchPurchaseFlow(this, LigniteInfo.APP_SKUS[current], 10001, mPurchaseFinishedListener); //it won't crash don't worry
             }
             catch(Exception e){
                 e.printStackTrace();
             }
         }
-        */
     }
 
     public void feedback_click(View v) {

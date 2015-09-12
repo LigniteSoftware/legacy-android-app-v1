@@ -1,10 +1,15 @@
 package com.edwinfinch.lignite;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +17,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -26,33 +33,25 @@ import android.app.ActionBar.LayoutParams;
  * Activities that contain this fragment must implement the
  * {@link AppFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AppFragment#newInstance} factory method to
+ * Use the {@link AppFragment} factory method to
  * create an instance of this fragment.
  */
 public class AppFragment extends android.support.v4.app.Fragment {
-    private int type = 0;
+    private LigniteInfo.App type;
     private boolean other = false;
     private boolean purchased = false;
 
-    Button settings_button;
+    ImageButton install_button, settings_button;
     ImageSwitcher pebble_view;
     ScrollView textScrollParentView;
-    TextView textScrollView;
+    TextView textScrollView, titleView;
 
     private OnFragmentInteractionListener mListener;
-
-    public static AppFragment newInstance(String param1, String param2) {
-        AppFragment fragment = new AppFragment();
-        Bundle args = new Bundle();
-        args.putInt("t", 0);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     public void setPurchased(boolean purchasedornot){
         purchased = purchasedornot;
         if(isAdded()) {
-            settings_button.setText(purchased ? getString(R.string.settings) : getString(R.string.purchase));
+            //settings_button.setText(purchased ? getString(R.string.settings) : getString(R.string.purchase));
         }
     }
 
@@ -64,7 +63,7 @@ public class AppFragment extends android.support.v4.app.Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            type = getArguments().getInt("t");
+            type = LigniteInfo.App.fromInt(getArguments().getInt("t")-1);
             purchased = getArguments().getBoolean("purchased");
         }
     }
@@ -79,17 +78,34 @@ public class AppFragment extends android.support.v4.app.Fragment {
 
             pebble_view.setInAnimation(in);
             pebble_view.setOutAnimation(out);
-            pebble_view.setImageResource(LigniteInfo.getDrawable(type - 1, other));
+            pebble_view.setImageResource(LigniteInfo.getDrawable(LigniteInfo.App.fromInt(type.toInt()), other));
             other = !other;
         }
     };
 
+    public CGRect CGRectMake(int x, int y, int width, int height){
+        return new CGRect(x, y, width, height);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        RelativeLayout layout = (RelativeLayout)inflater.inflate(R.layout.fragment_app, container, false);
+        FrameLayout layout = (FrameLayout)inflater.inflate(R.layout.fragment_test, container, false);
+        int padding = 50;
+        layout.setPadding(padding, padding, padding, padding);
 
-        pebble_view = (ImageSwitcher) layout.findViewById(R.id.pebbleImagePreview);
+        //FrameLayout layout = new FrameLayout(ContextManager.ctx);
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        System.out.println("Got width of " + width + " and height " + height);
+
+        //pebble_view = (ImageSwitcher) layout.findViewById(R.id.pebbleImagePreview);
+        pebble_view = new ImageSwitcher(ContextManager.ctx);
         pebble_view.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
@@ -100,41 +116,70 @@ public class AppFragment extends android.support.v4.app.Fragment {
             }
         });
         pebble_view.setOnClickListener(previewImageListener);
+        CGRect pebbleViewRect = CGRectMake(0, padding, width - padding * 2, height / 3);
+        CGRect.applyRectToView(pebbleViewRect, pebble_view);
+        layout.addView(pebble_view);
 
         Animation in = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), android.R.anim.slide_in_left);
         Animation out = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), android.R.anim.slide_out_right);
         in.setInterpolator(new AnticipateOvershootInterpolator());
         out.setInterpolator(new AnticipateOvershootInterpolator());
-        pebble_view.setImageResource(LigniteInfo.getDrawable(type - 1, true));
+        pebble_view.setImageResource(LigniteInfo.getDrawable(LigniteInfo.App.fromInt(type.toInt()), true));
 
-        settings_button = (Button) layout.findViewById(R.id.settingsButton);
-        settings_button.setEnabled(LigniteInfo.SETTINGS_ENABLED[type-1]);
-        settings_button.setText(purchased ? getString(R.string.settings) : getString(R.string.purchase));
+        Typeface helveticaNeue = Typeface.createFromAsset(getActivity().getAssets(), "HelveticaNeue-Regular.ttf");
 
-        textScrollParentView = (ScrollView) layout.findViewById(R.id.textScrollView);
+        titleView = new TextView(ContextManager.ctx);
+        titleView.setText(getResources().getStringArray(R.array.app_names)[type.toInt()]);
+        titleView.setTextColor(Color.BLACK);
+        titleView.setGravity(Gravity.CENTER);
+        titleView.setTypeface(helveticaNeue);
+        titleView.setTextSize(24);
+        CGRect titleFrame = CGRectMake(0, pebbleViewRect.size.height + pebbleViewRect.origin.y, pebbleViewRect.size.width, 200);
+        CGRect.applyRectToView(titleFrame, titleView);
+        layout.addView(titleView);
+
+        textScrollParentView = new ScrollView(ContextManager.ctx);
         textScrollView = new TextView(getActivity().getApplicationContext());
         textScrollView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(getActivity())
-                        .setMessage(LigniteInfo.getAbootText(type - 1, getResources(), true))
+                        .setMessage(LigniteInfo.getAbootText(LigniteInfo.App.fromInt(type.toInt()), getResources(), true))
                         .setPositiveButton(R.string.okay, null)
                         .show();
             }
         });
         textScrollView.setTextColor(Color.BLACK);
-        textScrollView.setText(LigniteInfo.getAbootText(type - 1, getResources(), false));
-
+        textScrollView.setTypeface(helveticaNeue);
+        textScrollView.setText(LigniteInfo.getAbootText(LigniteInfo.App.fromInt(type.toInt()), getResources(), false));
         textScrollParentView.addView(textScrollView);
+        CGRect descriptionFrame = CGRectMake(0, titleFrame.origin.y + titleFrame.size.height, pebbleViewRect.size.width, height/4);
+        System.out.println(descriptionFrame + " and title " + titleFrame);
+        CGRect.applyRectToView(descriptionFrame, textScrollParentView);
+        layout.addView(textScrollParentView);
+
+        settings_button = new ImageButton(ContextManager.ctx);
+        settings_button.setEnabled(type != LigniteInfo.App.TIMEDOCK);
+        settings_button.setImageResource(R.drawable.settings_button);
+        settings_button.setBackgroundColor(Color.WHITE);
+        settings_button.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        settings_button.setOnClickListener(null);
+        CGRect settingsFrame = CGRectMake(width/2 - padding, descriptionFrame.origin.y+descriptionFrame.size.height - padding, 275, 275);
+        System.out.println(settingsFrame);
+        CGRect.applyRectToView(settingsFrame, settings_button);
+        layout.addView(settings_button);
+
+        install_button = new ImageButton(ContextManager.ctx);
+        install_button.setEnabled(type != LigniteInfo.App.TIMEDOCK);
+        install_button.setImageResource(R.drawable.install_button);
+        install_button.setBackgroundColor(Color.WHITE);
+        install_button.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        CGRect installFrame = CGRectMake(width/2 - 275 - padding, descriptionFrame.origin.y+descriptionFrame.size.height - padding, 275, 275);
+        System.out.println(install_button);
+        CGRect.applyRectToView(installFrame, install_button);
+        layout.addView(install_button);
 
         return layout;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override

@@ -8,8 +8,8 @@ android {
         applicationId "com.edwinfinch.lignite"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 13
-        versionName "1.4.0"
+        versionCode 18
+        versionName "1.5"
     }
     buildTypes {
         release {

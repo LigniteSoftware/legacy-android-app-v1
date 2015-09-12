@@ -228,6 +228,8 @@
         <item>Slot Machine</item>
         <item>Pulse</item>
         <item>Simplified Analogue</item>
+        <item>Personal</item>
+        <item>Beat</item>
     </string-array>
     
     <string-array name="app_descriptions">
@@ -277,6 +279,17 @@
         <item>
             Based off of community request - Simplified Analogue brings simplicity and classiness together while still being very customizable!
             The smaller circle is the hour hand, with the larger as the minute hand.
+        </item>
+        <item>
+            Personal is what it says it is: Personal.
+
+            \n\nCustomize Personal to show your name and see it greet you across the day. Beautifully optimized for Pebble Time\'s display, it truly looks amazing.
+        </item>
+        <item>
+            Beat is an attractive watchface with more than enough animations which uses it\'s unique "beatline" to show information such as the battery level or bluetooth status (or if you want, have it completely random).
+
+            \n\nThere are some damn cool animations that catch the eye and make it look as if your wrist is actually monitoring your heartbeat!
+            Not to mention, you can find settings for customizing colours and other features in the Lignite companion app.
         </item>
     </string-array>
 
@@ -377,9 +390,30 @@
             \n-Shake to animate
             \n-Circle and background colours
         </item>
+        <!-- Simplified Analogue -->
         <item>
             Settings include:
-            \n-Memes
+            \n-Bluetooth disconnect and reconnect alerts
+            \n-Customize the colour of any element on the screen,
+            from the time and date, to each analogue circle.
+            \n-Customize what\'s shown and what\'s hidden
+        </item>
+        <!-- Personal -->
+        <item>
+            Settings include:
+            \n-Bluetooth disconnect and reconnect alerts
+            \n-Customize your name
+            \n-Colours, such as accent and background
+            \n-Animations
+        </item>
+        <!-- Beat -->
+        <item>
+            Settings include:
+            \n-Bluetooth disconnect and reconnect alerts
+            \n-The type of data the Beat displays (battery, bluetooth, or random)
+            \n-Animations
+            \n-Colours
+            \n-And more!
         </item>
     </string-array>
 

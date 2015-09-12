@@ -58,17 +58,6 @@
         <activity
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
-            android:name=".AppSettingsActivity"
-            android:label="@string/title_activity_app_settings"
-            android:parentActivityName=".AppsActivity"
-            android:theme="@style/SettingsTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.edwinfinch.lignite.AppsActivity" />
-        </activity>
-        <activity
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"
             android:name=".CreditsActivity"
             android:label="@string/credits"
             android:parentActivityName=".AppsActivity"
@@ -80,7 +69,7 @@
         <activity
             android:screenOrientation="portrait"
             android:name=".JSONSettingsActivity"
-            android:label="@string/credits"
+            android:label="@string/settings"
             android:theme="@style/JSONSettingsTheme"
             android:parentActivityName=".AppsActivity">
             <meta-data

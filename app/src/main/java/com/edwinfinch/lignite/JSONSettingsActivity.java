@@ -1,11 +1,11 @@
 package com.edwinfinch.lignite;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -13,9 +13,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.edwinfinch.lignite.preference.LigniteCheckBoxPreference;
@@ -29,14 +27,9 @@ import com.getpebble.android.kit.util.PebbleDictionary;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.TimeZone;
 import java.util.UUID;
@@ -46,7 +39,7 @@ import java.util.UUID;
  */
 public class JSONSettingsActivity extends PreferenceActivity {
 
-    int section = 0;
+    LigniteInfo.App section;
     String name;
     static final boolean ALWAYS_SIMPLE_PREFS = true;
     static final String TAG = "JSONSettingsActivity";
@@ -64,7 +57,7 @@ public class JSONSettingsActivity extends PreferenceActivity {
                 e.printStackTrace();
             }
 
-            PebbleKit.sendDataToPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[section]), dictionary);
+            PebbleKit.sendDataToPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[section.toInt()]), dictionary);
             System.out.println(preference.getKey() + " " + preference.getTitle());
             return false;
         }
@@ -82,10 +75,31 @@ public class JSONSettingsActivity extends PreferenceActivity {
 
             PebbleDictionary dict = new PebbleDictionary();
             dict.addInt32(7, (int)(timeDifference/1000));
-            PebbleKit.sendDataToPebble(getApplicationContext(), UUID.fromString(LigniteInfo.UUID[section]), dict);
+            PebbleKit.sendDataToPebble(getApplicationContext(), UUID.fromString(LigniteInfo.UUID[section.toInt()]), dict);
 
             preference.getSharedPreferences().edit().putString(preference.getKey(), (String)newValue).apply();
 
+            return false;
+        }
+    };
+
+    Preference.OnPreferenceChangeListener list_listener = new Preference.OnPreferenceChangeListener(){
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object newValue) {
+            LigniteListPreference listPreference = (LigniteListPreference)preference;
+
+            PebbleDictionary dict = new PebbleDictionary();
+            Integer integer = Integer.parseInt((String)newValue);
+            preference.setSummary(listPreference.getEntries()[integer]);
+            try {
+                dict.addInt32(listPreference.item.getInt("pebble_key"), integer);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+            PebbleKit.sendDataToPebble(getApplicationContext(), UUID.fromString(LigniteInfo.UUID[section.toInt()]), dict);
+
+            preference.getSharedPreferences().edit().putString(preference.getKey(), preference.getSummary().toString()).apply();
             return false;
         }
     };
@@ -103,38 +117,9 @@ public class JSONSettingsActivity extends PreferenceActivity {
             } catch (Exception e){
                 e.printStackTrace();
             }
-            PebbleKit.sendDataToPebble(getApplicationContext(), UUID.fromString(LigniteInfo.UUID[section]), dict);
+            PebbleKit.sendDataToPebble(getApplicationContext(), UUID.fromString(LigniteInfo.UUID[section.toInt()]), dict);
 
             preference.getSharedPreferences().edit().putString(preference.getKey(), (String)newValue);
-
-            return false;
-        }
-    };
-
-    Preference.OnPreferenceClickListener custom_colours_listener = new Preference.OnPreferenceClickListener() {
-        @Override
-        public boolean onPreferenceClick(Preference preference) {
-            imma_good_listener_babe.onPreferenceClick(preference);
-            for (int i = 6; i < 9; i++) {
-                getPreferenceScreen().getPreference(i).setEnabled(!PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean(preference.getKey(), true));
-            }
-            return false;
-        }
-    };
-
-    Preference.OnPreferenceChangeListener booleanListener = new Preference.OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
-            PebbleDictionary dictionary = new PebbleDictionary();
-            Boolean newValueBoolean = (Boolean)newValue;
-            dictionary.addInt32(preference.getOrder(), newValueBoolean ? 1 : 0);
-            PebbleKit.sendDataToPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[section]), dictionary);
-            System.out.println(preference.getKey() + " " + preference.getTitle());
-
-            preference.getPreferenceManager().getSharedPreferences().edit().putBoolean(preference.getKey(), newValueBoolean).apply();
-
-            CheckBoxPreference checkPref = (CheckBoxPreference)findPreference(preference.getKey());
-            checkPref.setChecked(newValueBoolean);
 
             return false;
         }
@@ -157,7 +142,7 @@ public class JSONSettingsActivity extends PreferenceActivity {
             catch(Exception e){
                 e.printStackTrace();
             }
-            PebbleKit.sendDataToPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[section]), dictionary);
+            PebbleKit.sendDataToPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[section.toInt()]), dictionary);
             return false;
         }
     };
@@ -174,7 +159,7 @@ public class JSONSettingsActivity extends PreferenceActivity {
                 dictionary.addInt32(lignitePreference.item.getInt("pebble_key"), valueInt);
             } catch(Exception e){ e.printStackTrace(); }
 
-            PebbleKit.sendDataToPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[section]), dictionary);
+            PebbleKit.sendDataToPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[section.toInt()]), dictionary);
             return false;
         }
     };
@@ -184,93 +169,21 @@ public class JSONSettingsActivity extends PreferenceActivity {
         super.onCreate(saved);
         name = getIntent().getStringExtra("app_name");
         section = LigniteInfo.getSectionFromAppName(name);
-        setupActionBar();
-    }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void setupActionBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            // Show the Up button in the action bar.
-            //getActionBar().setDisplayHomeAsUpEnabled(true);
+        PebbleDictionary dictionary = new PebbleDictionary();
+        dictionary.addString(LigniteInfo.unlock_keys[section.toInt()][0], LigniteInfo.UUID_endings[section.toInt()]);
+        dictionary.addString(LigniteInfo.unlock_keys[section.toInt()][1], LigniteInfo.unlock_tokens[section.toInt()]);
+        if(section != LigniteInfo.App.KNIGHTRIDER) {
+            PebbleKit.sendDataToPebble(getApplicationContext(), UUID.fromString(LigniteInfo.UUID[section.toInt()]), dictionary);
         }
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. Use NavUtils to allow users
-            // to navigate up one level in the application structure. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
-            // TODO: If Settings has multiple levels, Up should navigate up
-            // that hierarchy.
-            NavUtils.navigateUpFromSameTask(this);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        //System.out.println("Sending " + LigniteInfo.unlock_keys[section.toInt()][0] + " which is " + LigniteInfo.UUID_endings[section.toInt()] + " and " + LigniteInfo.unlock_keys[section.toInt()][1] + " which is " + LigniteInfo.unlock_tokens[section.toInt()]);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setupSimplePreferencesScreen();
-    }
-
-    private String readFromFile(String fileName) {
-
-        String ret = "";
-
-        try {
-            InputStream inputStream = openFileInput(fileName);
-
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString);
-                }
-
-                inputStream.close();
-                ret = stringBuilder.toString();
-            }
-        }
-        catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        }
-
-        return ret;
-    }
-
-    public String newReadFromFile(String fileName){
-        String path = this.getFilesDir().getAbsolutePath();
-        File file = new File(path + "/speedometer.json");
-        int length = (int) file.length();
-
-        try {
-            byte[] bytes = new byte[length];
-
-            FileInputStream in = new FileInputStream(file);
-            try {
-                in.read(bytes);
-            } finally {
-                in.close();
-            }
-            String contents = new String(bytes);
-            return contents;
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        return "fucking error";
     }
 
     public static String readFile(Context ctx, String assetFilename) {
@@ -294,25 +207,32 @@ public class JSONSettingsActivity extends PreferenceActivity {
     private String getInternationalizedString(String aString) {
         String packageName = getPackageName();
         int resId = getResources().getIdentifier(aString, "string", packageName);
-        System.out.println(aString + " and " + resId);
         return getString(resId);
     }
 
     private void setupSimplePreferencesScreen() {
+        Log.i(TAG, "1");
         if (!isSimplePreferences(this)) {
             return;
         }
+        Log.i(TAG, "2");
         PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(this);
-
+        Log.i(TAG, "3");
         try {
             JSONObject settingsObject = new JSONObject(readFile(this, name + ".json"));
-
+            Log.i(TAG, "4");
             try {
                 String name = settingsObject.getString("name");
                 getActionBar().setTitle(name.substring(0, 1).toUpperCase() + name.substring(1));
+                if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    getActionBar().setBackgroundDrawable(new ColorDrawable(Color.RED));
+                    getActionBar().setDisplayShowHomeEnabled(false);
+                }
+                Log.i(TAG, "5");
             }
             catch(Exception e){
                 e.printStackTrace();
+                Log.i(TAG, "ERROR MATE");
             }
 
             JSONArray itemsArray = settingsObject.getJSONArray("items");
@@ -367,15 +287,34 @@ public class JSONSettingsActivity extends PreferenceActivity {
                         numberPickerPreference.setOnPreferenceChangeListener(numberListener);
                         screen.addPreference(numberPickerPreference);
                     }
+                    else if(itemType.equals("list")){
+                        LigniteListPreference listPreference = new LigniteListPreference(this);
+                        listPreference.item = item;
+                        listPreference.setKey(item.getString("storage_key"));
+                        listPreference.setOnPreferenceChangeListener(list_listener);
+                        listPreference.setTitle(getInternationalizedString(item.getString("label")));
+                        JSONArray list = item.getJSONArray("list");
+                        String[] entries = new String[list.length()];
+                        String[] entryValues = new String[list.length()];
+                        for(int i2 = 0; i2 < list.length(); i2++){
+                            entries[i2] = getInternationalizedString(list.getString(i2));
+                            entryValues[i2] = "" + i2;
+                        }
+                        listPreference.setEntries(entries);
+                        listPreference.setEntryValues(entryValues);
+                        screen.addPreference(listPreference);
+                        listPreference.setSummary(listPreference.getSharedPreferences().getString(listPreference.getKey(), "Click to set"));
+                    }
                 }
             }
-
-            setPreferenceScreen(screen);
         }
         catch(Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "An error occurred: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
+        Log.i(TAG, "setting screen " + screen.toString());
+        setPreferenceScreen(screen);
+        Log.i(TAG, "set screen");
     }
 
     /**
@@ -403,9 +342,7 @@ public class JSONSettingsActivity extends PreferenceActivity {
      * "simplified" settings UI should be shown.
      */
     private static boolean isSimplePreferences(Context context) {
-        return ALWAYS_SIMPLE_PREFS
-                || Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB
-                || !isXLargeTablet(context);
+        return true;
     }
 
     /**
@@ -428,7 +365,7 @@ public class JSONSettingsActivity extends PreferenceActivity {
 
                 PebbleDictionary dictionary = new PebbleDictionary();
                 dictionary.addInt32(listPreference.getOrder()+2, index);
-                PebbleKit.sendDataToPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[LigniteInfo.SPEEDOMETER]), dictionary);
+                PebbleKit.sendDataToPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[LigniteInfo.App.SPEEDOMETER.toInt()]), dictionary);
             }
             else {
                 // For all other preferences, set the summary to the value's

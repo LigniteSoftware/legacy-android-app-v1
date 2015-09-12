@@ -9,13 +9,6 @@
         <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-d31ae18d11a77f8cac3f2bd0ea7d61eecf307e5b.jar" />
     </item>
     <item
-        jar="/Users/edwinfinch/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-94a386944ec85f71172defad83bb18d2cec08174.jar" />
-    </item>
-    <item
         jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/jars/classes.jar"
         jumboMode="false"
         revision="21.1.2"
@@ -23,18 +16,11 @@
         <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-df08bf657a48388373101cfcb1e7bc74769eef19.jar" />
     </item>
     <item
-        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.github.yukuku/ambilwarna/2.0/jars/classes.jar"
+        jar="/Users/edwinfinch/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="a188333bb94bc6b8364527797e3b5c97b37a9e49">
-        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-e1f48cc5ac9fc2e5435901157e3733168113a7e4.jar" />
-    </item>
-    <item
-        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/libs/internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-75f8d3986c42bf153b12113a4acfe4acb56f310d.jar" />
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-94a386944ec85f71172defad83bb18d2cec08174.jar" />
     </item>
     <item
         jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/jars/classes.jar"
@@ -44,11 +30,11 @@
         <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-7c015996f0bc2dc28d763dd8edde084f84acc5d0.jar" />
     </item>
     <item
-        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.getpebble/pebblekit/3.0.0/jars/classes.jar"
+        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/libs/internal_impl-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="bd72bf60a6e56573eecb0e6abf419fac2b1fc1e6">
-        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-fc55c479aedb7621c25dbb2b724c063590432a3b.jar" />
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-75f8d3986c42bf153b12113a4acfe4acb56f310d.jar" />
     </item>
 
 </items>

@@ -86,4 +86,19 @@
     <string name="minute_analogue">Minute analogue hand</string>
     <string name="hour_analogue">Hour analogue hand</string>
 
+    <!-- BEAT -->
+    <string name="front_colour">Front of beatline</string>
+    <string name="back_colour">Back of beatline</string>
+    <string name="beatline_data">Beatline data</string>
+    <string name="animation_type">Animation type</string>
+    <string name="show_battery">Show battery level</string>
+
+    <string name="battery">Battery</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="random">Random</string>
+
+    <string name="apple_watch_mode">Apple Watch Mode (secondly, drains battery fast)</string>
+    <string name="minutely">Minutely</string>
+    <string name="on_change">On change</string>
+
 </resources>
