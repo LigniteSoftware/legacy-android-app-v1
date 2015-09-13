@@ -8,10 +8,11 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -20,7 +21,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,8 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.edwinfinch.lignite.util.IabHelper;
@@ -50,7 +50,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import org.json.JSONObject;
 
 
-public class AppsActivity extends ActionBarActivity implements ActionBar.TabListener {
+public class AppsActivity extends AppCompatActivity implements ActionBar.TabListener {
 
     static public final String TAG = "AppsActivity";
     int progressBarStatus = 0, waitTime = 0;
@@ -254,6 +254,14 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
         }
     };
 
+    public View.OnClickListener previewBuilderListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent previewIntent = new Intent(AppsActivity.this, PreviewActivity.class);
+            startActivity(previewIntent);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -297,11 +305,6 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
             }
         });
 
-        String name = getIntent().getStringExtra("name");
-        if(name != null && DataFramework.getUserIsBacker(getApplicationContext())) {
-            Toast.makeText(getApplicationContext(), getString(R.string.welcome_back) + " " + name + "!", Toast.LENGTH_SHORT).show();
-        }
-
         String accessToken = DataFramework.getAccessToken(getApplicationContext());
         if(accessToken.equals("nothing") && DataFramework.getUserIsBacker(getApplicationContext())){
             //Run fixing process
@@ -318,6 +321,13 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
         }
 
         new ContextManager(getApplicationContext());
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.primary));
+        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setSubtitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.app_name);
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
@@ -357,9 +367,6 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
 
         Typeface helveticaNeue = Typeface.createFromAsset(getAssets(), "HelveticaNeue-Regular.ttf");
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
         AccountHeader header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(getResources().getDrawable(R.drawable.lignite_background))
@@ -367,7 +374,7 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
                         .withName("Edwin Finch")
                         .withEmail("contact@edwinfinch.com")
                         .withTextColor(Color.BLACK)
-                        .withIcon(getResources().getDrawable(R.drawable.lines_time)))
+                        .withIcon(getResources().getDrawable(R.drawable.bobby_gold)))
                 .withTypeface(helveticaNeue)
                 .build();
 
@@ -383,15 +390,20 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
                 .withDrawerItems(apps)
                 .withOnDrawerItemClickListener(appClickedListener)
                 .withActionBarDrawerToggle(true)
+                .withToolbar(toolbar)
                 .build();
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, navigationDrawer.getDrawerLayout(), R.string.drawer_open, R.string.drawer_closed);
-        navigationDrawer.setActionBarDrawerToggle(toggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        navigationDrawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
 
         if(!loginTokenFix && DataFramework.getUserIsBacker(getApplicationContext())) {
             DataFramework framework = new DataFramework();
             framework.verifyAccessToken(getApplicationContext(), this, navigationDrawer.getRecyclerView());
         }
+
+        final Drawable upArrow = getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+        getSupportActionBar().setHomeAsUpIndicator(upArrow);
     }
 
     @Override
@@ -454,11 +466,13 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
             feedback_click(null);
         }
         else if(id == R.id.action_logout){
-            new AlertDialog.Builder(AppsActivity.this)
+            AlertDialog logoutDialog = new AlertDialog.Builder(AppsActivity.this)
                     .setMessage(R.string.logout_confirm)
                     .setPositiveButton(R.string.okay, logoutListener)
                     .setNegativeButton(R.string.cancel, null)
                     .show();
+            logoutDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+            logoutDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
         }
 
         return super.onOptionsItemSelected(item);

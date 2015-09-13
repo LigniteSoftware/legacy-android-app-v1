@@ -32,10 +32,20 @@
         <item name="colorPrimaryDark">@color/dark_primary</item>
     </style>
 
-    <style name="MainTheme" parent="android:style/Theme.Material.Light">
+    <style name="MaterialDrawer.DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/white</item>
+    </style>
+
+    <style name="MainTheme" parent="MaterialDrawerTheme.Light">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/dark_primary</item>
         <item name="android:navigationBarColor">@color/dark_primary</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="drawerArrowStyle">@style/MaterialDrawer.DrawerArrowStyle</item>
     </style>
 
     <style name="popup_theme" parent="@android:style/Theme.Dialog">
@@ -44,6 +54,11 @@
 
     <style name="SplashTheme" parent="MaterialTheme.Light">
         <item name="android:windowBackground">@color/primary</item>
+        <item name="android:navigationBarColor">@color/dark_primary</item>
+        <item name="android:statusBarColor">@color/dark_primary</item>
+    </style>
+
+    <style name="PreviewBuilderTheme" parent="MaterialTheme.Light">
         <item name="android:navigationBarColor">@color/dark_primary</item>
         <item name="android:statusBarColor">@color/dark_primary</item>
     </style>

@@ -24,6 +24,7 @@
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden"
             android:name=".AppsActivity"
+            android:theme="@style/MainTheme"
             android:label="@string/title_activity_apps" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -71,6 +72,16 @@
             android:name=".JSONSettingsActivity"
             android:label="@string/settings"
             android:theme="@style/JSONSettingsTheme"
+            android:parentActivityName=".AppsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.edwinfinch.lignite.AppsActivity" />
+        </activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".PreviewActivity"
+            android:label="@string/settings"
+            android:theme="@style/PreviewBuilderTheme"
             android:parentActivityName=".AppsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

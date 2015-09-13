@@ -8,11 +8,12 @@
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_marginBottom="8dp" android:visibility="gone" />
 
-    <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
+    <ScrollView android:id="@+id/rootScrollView" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignTop="@+id/login_progress"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:fillViewport="false">
 
         <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="vertical">
@@ -37,13 +38,12 @@
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:text="@string/action_sign_in"
         android:textStyle="bold"
-        android:fontFamily="sans-serif-thin"
         android:textColor="@android:color/black"
-        android:padding="4dp"
         android:layout_below="@+id/passwordEditText"
         android:layout_toRightOf="@+id/checkButton"
         android:layout_alignRight="@+id/imageView2"
-        android:layout_alignEnd="@+id/imageView2" />
+        android:layout_alignEnd="@+id/imageView2"
+        android:fontFamily="sans-serif-thin" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
         android:id="@+id/lostCodeView"
         android:fontFamily="sans-serif-thin"
         android:textAlignment="center"
-        android:textColor="@android:color/holo_blue_dark"
+        android:textColor="#027cff"
         android:clickable="true"
         android:padding="10dp"
         android:layout_below="@+id/loginButton"
@@ -62,7 +62,7 @@
         android:layout_width="250dp"
         android:layout_height="150dp"
         android:id="@+id/imageView2"
-        android:src="@drawable/lignite_logo_beta"
+        android:src="@drawable/lignite_logo_red"
         android:layout_above="@+id/usernameEditText"
         android:layout_centerHorizontal="true" />
 
@@ -74,7 +74,7 @@
         android:id="@+id/gaveUp"
         android:fontFamily="sans-serif-thin"
         android:textAlignment="center"
-        android:textColor="@android:color/holo_blue_dark"
+        android:textColor="#027cff"
         android:layout_below="@+id/lostCodeView"
         android:layout_centerHorizontal="true"
         android:padding="2dp" />
@@ -88,8 +88,8 @@
         android:layout_above="@+id/passwordEditText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/login_form"
-        android:layout_alignEnd="@+id/login_form"
+        android:layout_alignRight="@+id/rootScrollView"
+        android:layout_alignEnd="@+id/rootScrollView"
         android:hint="Email"
         android:fontFamily="sans-serif-thin"
         android:padding="12dp" />
@@ -102,7 +102,7 @@
         android:id="@+id/textView"
         android:fontFamily="sans-serif-thin"
         android:textAlignment="center"
-        android:textColor="@android:color/holo_blue_dark"
+        android:textColor="#027cff"
         android:layout_below="@+id/gaveUp"
         android:layout_centerHorizontal="true"
         android:paddingTop="10dp" />

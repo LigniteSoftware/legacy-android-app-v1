@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import java.util.Timer;
@@ -19,7 +20,7 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
 
         if(!DataFramework.getTakenBackerQuestion(getApplicationContext())){
-            new AlertDialog.Builder(SplashActivity.this)
+            AlertDialog backerDialog = new AlertDialog.Builder(SplashActivity.this)
                     .setTitle("Hello!")
                     .setMessage("Are you a Kickstarter backer?")
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -54,6 +55,9 @@ public class SplashActivity extends Activity {
                             }, 1500);
                         }
                     }).show();
+
+            backerDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.RED);
+            backerDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.RED);
             return;
         }
         Timer timer = new Timer();

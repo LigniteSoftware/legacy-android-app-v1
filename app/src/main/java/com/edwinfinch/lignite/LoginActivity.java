@@ -53,7 +53,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     // UI references.
     private EditText emailView, passwordView;
     private View progressView;
-    private View loginForm;
+    private View rootScrollView;
     boolean loginTokenError = false;
     public TextView resetCodeView, gaveUpView, forgotPasswordView;
     public Button checkButton, loginButton;
@@ -64,18 +64,31 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         setContentView(R.layout.activity_login);
 
         // Set up the login form.
+        emailView = (EditText) findViewById(R.id.usernameEditText);
+
         passwordView = (EditText) findViewById(R.id.passwordEditText);
         populateAutoComplete();
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.loginButton);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        checkButton = (Button) findViewById(R.id.checkButton);
+        checkButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
 
-        loginForm = findViewById(R.id.login_form);
+        loginButton = (Button) findViewById(R.id.loginButton);
+        loginButton.setEnabled(false);
+        loginButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(LoginActivity.this, AppsActivity.class);
+                LoginActivity.this.startActivity(myIntent);
+                finish();
+            }
+        });
+
+        rootScrollView = findViewById(R.id.rootScrollView);
         progressView = findViewById(R.id.login_progress);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -107,7 +120,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         Intent incomingIntent = getIntent();
         loginTokenError = incomingIntent.getBooleanExtra("BROKEN_TOKEN_FIX", false);
         if(loginTokenError){
-            System.out.println("Running broken token fix...");
             String username = incomingIntent.getStringExtra("BROKEN_TOKEN_USERNAME");
             fireTask(username);
             Toast.makeText(getApplicationContext(), "Running token fix...", Toast.LENGTH_LONG).show();
@@ -135,8 +147,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     public void fireTask(final String access_code){
-        System.out.println("Firing!");
-
         if(loginTokenError){
             DataFramework.setAccessCode(getApplicationContext(), access_code);
             passwordView.setText(access_code);
@@ -234,12 +244,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
-            loginForm.animate().setDuration(shortAnimTime).alpha(
+            rootScrollView.setVisibility(show ? View.GONE : View.VISIBLE);
+            rootScrollView.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
+                    rootScrollView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
@@ -255,7 +265,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            loginForm.setVisibility(show ? View.GONE : View.VISIBLE);
+            rootScrollView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -397,14 +407,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                                                 JSONObject detailsFromInternet = DataFramework.getUserDetailsFromInternet(getApplicationContext());
                                                 DataFramework.setUserDetails(getApplicationContext(), detailsFromInternet);
 
-                                                Intent myIntent = new Intent(LoginActivity.this, AppsActivity.class);
-                                                String name = detailsFromInternet.getString("name");
-                                                if (name == null) {
-                                                    name = getString(R.string.my_friend);
-                                                }
-                                                myIntent.putExtra("name", name); //Optional parameters
-                                                LoginActivity.this.startActivity(myIntent);
-                                                finish();
+                                                loginButton.post(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        checkButton.setEnabled(false);
+                                                        loginButton.setEnabled(true);
+                                                    }
+                                                });
                                             } catch (final Exception e) {
                                                 e.printStackTrace();
                                                 passwordView.post(new Runnable() {

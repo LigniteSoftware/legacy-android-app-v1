@@ -74,6 +74,81 @@ public class LigniteInfo {
             }
             return NOT_FOUND;
         }
+    }
+    public enum Pebble {
+        SNOWY_BLACK, SNOWY_WHITE, SNOWY_RED,
+        BOBBY_BLACK, BOBBY_SILVER, BOBBY_GOLD,
+        TINTIN_BLACK, TINTIN_WHITE, TINTIN_RED,
+        BIANCA_BLACK, BIANCA_SILVER, NOT_FOUND;
+
+        public int toInt(){
+            switch(this){
+                case SNOWY_BLACK:
+                    return 0;
+                case SNOWY_WHITE:
+                    return 1;
+                case SNOWY_RED:
+                    return 2;
+                case BOBBY_BLACK:
+                    return 3;
+                case BOBBY_SILVER:
+                    return 4;
+                case BOBBY_GOLD:
+                    return 5;
+                case TINTIN_BLACK:
+                    return 6;
+                case TINTIN_WHITE:
+                    return 7;
+                case TINTIN_RED:
+                    return 8;
+                case BIANCA_BLACK:
+                    return 9;
+                case BIANCA_SILVER:
+                    return 10;
+                default:
+                    return -1;
+            }
+        }
+        public static Pebble fromInt(int pebble){
+            switch(pebble) {
+                case 0:
+                    return SNOWY_BLACK;
+                case 1:
+                    return  SNOWY_WHITE;
+                case 2:
+                    return SNOWY_RED;
+                case 3:
+                    return BOBBY_BLACK;
+                case 4:
+                    return BOBBY_SILVER;
+                case 5:
+                    return BOBBY_GOLD;
+                case 6:
+                    return TINTIN_BLACK;
+                case 7:
+                    return TINTIN_WHITE;
+                case 8:
+                    return TINTIN_RED;
+                case 9:
+                    return BIANCA_BLACK;
+                case 10:
+                    return BIANCA_SILVER;
+                default:
+                    return NOT_FOUND;
+            }
+        }
+        public boolean isBasalt(){
+            return this.toInt() <= 5;
+        }
+        public String platformName(){
+            return this.isBasalt() ? "basalt" : "aplite";
+        }
+    }
+    public static final String PEBBLE_NAME[] = {
+            "snowy_black", "snowy_white", "snowy_red",
+            "bobby_black", "bobby_silver", "bobby_gold",
+            "tintin_black", "tintin_white", "tintin_red",
+            "bianca_black", "bianca_silver"
     };
     public static final String UUID[] = {
             "e1c75a76-27fc-4f9c-85b3-73920ffdb3b7", "03a9a405-ba98-44ad-bca3-bab151d81975", "1f626d76-38d8-4353-b930-c65a109260c7",
@@ -136,36 +211,12 @@ public class LigniteInfo {
         return app_descriptions[type.toInt()];
     }
 
-    public static int getDrawable(App type, boolean time){
-        switch(type){
-            case SPEEDOMETER:
-                return time ? R.drawable.speedometer_time : R.drawable.speedometer_tintin;
-            case KNIGHTRIDER:
-                return time ? R.drawable.knightrider_time : R.drawable.knightrider_tintin;
-            case CHUNKY:
-                return time ? R.drawable.chunky_time : R.drawable.chunky_tintin;
-            case LINES:
-                return time ? R.drawable.lines_time : R.drawable.lines_tintin;
-            case COLOURS:
-                return time ? R.drawable.colours_time : R.drawable.colours_time_alt;
-            case TIMEDOCK:
-                return time ? R.drawable.timedock_time : R.drawable.timedock_tintin;
-            case TREE_OF_COLOURS:
-                return time ? R.drawable.tree_of_colours_time : R.drawable.tree_of_colours_tintin;
-            case TIMEZONES:
-                return time ? R.drawable.timezones_time : R.drawable.timezones_tintin;
-            case SLOT_MACHINE:
-                return R.drawable.slot_machine_time;
-            case PULSE:
-                return R.drawable.pulse_time;
-            case SIMPLIFIED_ANALOGUE:
-                return time ? R.drawable.simplified_analogue_time : R.drawable.simplified_analogue_tintin;
-            case PERSONAL:
-                return R.drawable.personal_time;
-            case BEAT:
-                return time ? R.drawable.beat_time : R.drawable.beat_tintin;
+    public static int getAppScreenshot(App type, Pebble pebble, int screenshot, Resources resources, String packageName){
+        String name = LigniteInfo.NAME[type.toInt()].replaceAll(" ", "") + "_" + pebble.platformName() + "_" + screenshot;
+        return resources.getIdentifier(name, "drawable", packageName);
+    }
 
-        }
-        return R.drawable.pulse_time;
+    public static int getPebble(Pebble pebble, Resources resources, String packageName){
+        return resources.getIdentifier(LigniteInfo.PEBBLE_NAME[pebble.toInt()], "drawable", packageName);
     }
 }

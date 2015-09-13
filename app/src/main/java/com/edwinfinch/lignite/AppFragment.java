@@ -2,11 +2,19 @@ package com.edwinfinch.lignite;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -32,6 +40,8 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 import android.app.ActionBar.LayoutParams;
 
+import static com.edwinfinch.lignite.LigniteInfo.*;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,19 +52,16 @@ import android.app.ActionBar.LayoutParams;
  * create an instance of this fragment.
  */
 public class AppFragment extends android.support.v4.app.Fragment {
-    private LigniteInfo.App type;
+    private App type;
     private boolean other = false;
     private boolean purchased = false;
 
     public AppsActivity sourceActivity;
 
     ImageView install_button, settings_button;
-    ImageSwitcher pebble_view;
-    ImageView left_arrow_view, right_arrow_view;
+    ImageView pebble_view, screenshot_view, left_arrow_view, right_arrow_view;
     ScrollView textScrollParentView;
     TextView textScrollView, titleView;
-
-    private OnFragmentInteractionListener mListener;
 
     public void setPurchased(boolean purchasedornot){
         purchased = purchasedornot;
@@ -71,25 +78,10 @@ public class AppFragment extends android.support.v4.app.Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            type = LigniteInfo.App.fromInt(getArguments().getInt("t")-1);
+            type = App.fromInt(getArguments().getInt("t")-1);
             purchased = getArguments().getBoolean("purchased");
         }
     }
-
-    public ImageSwitcher.OnClickListener previewImageListener = new ImageSwitcher.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            Animation in = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), android.R.anim.slide_in_left);
-            Animation out = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), android.R.anim.slide_out_right);
-            in.setInterpolator(new AnticipateOvershootInterpolator());
-            out.setInterpolator(new AnticipateOvershootInterpolator());
-
-            pebble_view.setInAnimation(in);
-            pebble_view.setOutAnimation(out);
-            pebble_view.setImageResource(LigniteInfo.getDrawable(LigniteInfo.App.fromInt(type.toInt()), other));
-            other = !other;
-        }
-    };
 
     public CGRect CGRectMake(int x, int y, int width, int height){
         return new CGRect(x, y, width, height);
@@ -126,6 +118,28 @@ public class AppFragment extends android.support.v4.app.Fragment {
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
+    public static Bitmap drawableToBitmap (Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -141,32 +155,42 @@ public class AppFragment extends android.support.v4.app.Fragment {
         int width = size.x;
         int height = size.y;
 
+        double defaultPebbleHeight = 460, defaultPebbleWidth = 275;
+        double defaultScreenshotHeight = 168, defaultScreenshotWidth = 144;
+        double heightBetweenPebbleAndScreenshot = 126;
+
         //pebble_view = (ImageSwitcher) layout.findViewById(R.id.pebbleImagePreview);
-        pebble_view = new ImageSwitcher(ContextManager.ctx);
-        pebble_view.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                ImageView myView = new ImageView(getActivity().getApplicationContext());
-                myView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                myView.setLayoutParams(new ImageSwitcher.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-                return myView;
-            }
-        });
-        pebble_view.setOnClickListener(previewImageListener);
-        CGRect pebbleViewRect = CGRectMake(0, padding, width - padding * 2, height / 3);
+        pebble_view = new ImageView(ContextManager.ctx);
+        pebble_view.setOnClickListener(sourceActivity.previewBuilderListener);
+        pebble_view.setImageResource(getPebble(Pebble.BOBBY_GOLD, getResources(), sourceActivity.getPackageName()));
+        CGRect pebbleViewRect = CGRectMake(0, 0, width - padding * 2, height / 3 + 180);
         CGRect.applyRectToView(pebbleViewRect, pebble_view);
         layout.addView(pebble_view);
+
+        double scaleFactor = (double)pebbleViewRect.size.height/defaultPebbleHeight;
+
+        double screenshotHeight = scaleFactor*defaultScreenshotHeight;
+        double screenshotWidth = scaleFactor*defaultScreenshotWidth;
+        double screenshotYOffset = scaleFactor*heightBetweenPebbleAndScreenshot;
+        screenshotHeight++;
+        screenshotWidth++;
+
+        screenshot_view = new ImageView(ContextManager.ctx);
+        screenshot_view.setOnClickListener(sourceActivity.previewBuilderListener);
+        screenshot_view.setImageResource(getAppScreenshot(type, Pebble.BOBBY_GOLD, 1, getResources(), sourceActivity.getPackageName()));
+        CGRect screenshotViewRect = CGRectMake(pebbleViewRect.size.width/2 - (int)screenshotWidth/2, (int)screenshotYOffset, (int)screenshotWidth + 2, (int)screenshotHeight);
+        CGRect.applyRectToView(screenshotViewRect, screenshot_view);
+        layout.addView(screenshot_view);
 
         Animation in = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), android.R.anim.slide_in_left);
         Animation out = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), android.R.anim.slide_out_right);
         in.setInterpolator(new AnticipateOvershootInterpolator());
         out.setInterpolator(new AnticipateOvershootInterpolator());
-        pebble_view.setImageResource(LigniteInfo.getDrawable(LigniteInfo.App.fromInt(type.toInt()), true));
 
         left_arrow_view = new ImageView(ContextManager.ctx);
         left_arrow_view.setImageResource(R.drawable.arrow_active_left);
         left_arrow_view.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        CGRect leftArrowRect = CGRectMake(0, pebbleViewRect.origin.y+pebbleViewRect.size.height/2 - 15, 30, 30);
+        CGRect leftArrowRect = CGRectMake(0, pebbleViewRect.origin.y+pebbleViewRect.size.height/2 - 30, 30, 30);
         CGRect.applyRectToView(leftArrowRect, left_arrow_view);
         layout.addView(left_arrow_view);
 
@@ -177,10 +201,10 @@ public class AppFragment extends android.support.v4.app.Fragment {
         CGRect.applyRectToView(rightArrowRect, right_arrow_view);
         layout.addView(right_arrow_view);
 
-        if(type == LigniteInfo.App.SPEEDOMETER){
+        if(type == App.SPEEDOMETER){
             left_arrow_view.setImageResource(R.drawable.arrow_inactive_left);
         }
-        else if(type.toInt() == LigniteInfo.AMOUNT_OF_APPS-1){
+        else if(type.toInt() == AMOUNT_OF_APPS-1){
             right_arrow_view.setImageResource(R.drawable.arrow_inactive_right);
         }
 
@@ -191,27 +215,16 @@ public class AppFragment extends android.support.v4.app.Fragment {
         titleView.setTextColor(Color.BLACK);
         titleView.setGravity(Gravity.CENTER);
         titleView.setTypeface(helveticaNeue);
-        titleView.setTextSize(28);
-        CGRect titleFrame = CGRectMake(0, pebbleViewRect.size.height + pebbleViewRect.origin.y, pebbleViewRect.size.width, 200);
+        titleView.setTextSize(26);
+        CGRect titleFrame = CGRectMake(0, pebbleViewRect.size.height + pebbleViewRect.origin.y - padding, pebbleViewRect.size.width, 135);
         CGRect.applyRectToView(titleFrame, titleView);
         layout.addView(titleView);
-
-        textScrollParentView = new ScrollView(ContextManager.ctx);
-        textScrollView = new TextView(getActivity().getApplicationContext());
-        textScrollView.setTextColor(Color.BLACK);
-        textScrollView.setTypeface(helveticaNeue);
-        textScrollView.setText(LigniteInfo.getAbootText(LigniteInfo.App.fromInt(type.toInt()), getResources(), false));
-        textScrollView.setTextSize(16);
-        textScrollParentView.addView(textScrollView);
-        CGRect descriptionFrame = CGRectMake(0, titleFrame.origin.y + titleFrame.size.height, pebbleViewRect.size.width, height/4);
-        CGRect.applyRectToView(descriptionFrame, textScrollParentView);
-        layout.addView(textScrollParentView);
 
         int buttonSize = height/11;
         int buttonY = height-(padding*2)-(int)(getNavigationBarHeight(ContextManager.ctx)*1.5)-buttonSize-padding/2;
 
         settings_button = new ImageView(ContextManager.ctx);
-        settings_button.setEnabled(type != LigniteInfo.App.TIMEDOCK);
+        settings_button.setEnabled(type != App.TIMEDOCK);
         settings_button.setImageResource(R.drawable.settings_button);
         settings_button.setScaleType(ImageView.ScaleType.FIT_CENTER);
         settings_button.setPadding(5, 5, 5, 5);
@@ -226,7 +239,7 @@ public class AppFragment extends android.support.v4.app.Fragment {
         layout.addView(settings_button);
 
         install_button = new ImageView(ContextManager.ctx);
-        install_button.setEnabled(type != LigniteInfo.App.TIMEDOCK);
+        install_button.setEnabled(type != App.TIMEDOCK);
         install_button.setImageResource(R.drawable.install_button);
         install_button.setScaleType(ImageView.ScaleType.FIT_CENTER);
         install_button.setOnClickListener(new View.OnClickListener() {
@@ -239,13 +252,24 @@ public class AppFragment extends android.support.v4.app.Fragment {
         CGRect.applyRectToView(installFrame, install_button);
         layout.addView(install_button);
 
+        textScrollParentView = new ScrollView(ContextManager.ctx);
+        textScrollView = new TextView(getActivity().getApplicationContext());
+        textScrollView.setTextColor(Color.BLACK);
+        textScrollView.setTypeface(helveticaNeue);
+        textScrollView.setText(getAbootText(App.fromInt(type.toInt()), getResources(), false));
+        textScrollView.setTextSize(16);
+        textScrollParentView.addView(textScrollView);
+        int scrollOrigin = titleFrame.origin.y + titleFrame.size.height;
+        CGRect descriptionFrame = CGRectMake(0, scrollOrigin, pebbleViewRect.size.width, installFrame.origin.y-scrollOrigin-padding/5);
+        CGRect.applyRectToView(descriptionFrame, textScrollParentView);
+        layout.addView(textScrollParentView);
+
         return layout;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     /**
