@@ -2,6 +2,8 @@ package com.edwinfinch.lignite;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -10,8 +12,11 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -41,8 +46,11 @@ public class AppFragment extends android.support.v4.app.Fragment {
     private boolean other = false;
     private boolean purchased = false;
 
-    ImageButton install_button, settings_button;
+    public AppsActivity sourceActivity;
+
+    ImageView install_button, settings_button;
     ImageSwitcher pebble_view;
+    ImageView left_arrow_view, right_arrow_view;
     ScrollView textScrollParentView;
     TextView textScrollView, titleView;
 
@@ -51,7 +59,7 @@ public class AppFragment extends android.support.v4.app.Fragment {
     public void setPurchased(boolean purchasedornot){
         purchased = purchasedornot;
         if(isAdded()) {
-            //settings_button.setText(purchased ? getString(R.string.settings) : getString(R.string.purchase));
+            settings_button.setImageResource(purchased ? R.drawable.settings_button : R.drawable.purchase_button);
         }
     }
 
@@ -87,12 +95,43 @@ public class AppFragment extends android.support.v4.app.Fragment {
         return new CGRect(x, y, width, height);
     }
 
+    public int getNavigationBarHeight(Context c) {
+        int result = 0;
+        boolean hasMenuKey = ViewConfiguration.get(c).hasPermanentMenuKey();
+        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+
+        if(!hasMenuKey && !hasBackKey) {
+            //The device has a navigation bar
+            Resources resources = ContextManager.ctx.getResources();
+
+            int orientation = getResources().getConfiguration().orientation;
+            int resourceId;
+            if (isTablet(c)){
+                resourceId = resources.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_height_landscape", "dimen", "android");
+            }  else {
+                resourceId = resources.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_width", "dimen", "android");
+            }
+
+            if (resourceId > 0) {
+                return getResources().getDimensionPixelSize(resourceId);
+            }
+        }
+        return result;
+    }
+
+
+    private boolean isTablet(Context c) {
+        return (c.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         FrameLayout layout = (FrameLayout)inflater.inflate(R.layout.fragment_test, container, false);
         int padding = 50;
-        layout.setPadding(padding, padding, padding, padding);
+        layout.setPadding(padding, padding, padding, padding/2);
 
         //FrameLayout layout = new FrameLayout(ContextManager.ctx);
 
@@ -101,8 +140,6 @@ public class AppFragment extends android.support.v4.app.Fragment {
         display.getSize(size);
         int width = size.x;
         int height = size.y;
-
-        System.out.println("Got width of " + width + " and height " + height);
 
         //pebble_view = (ImageSwitcher) layout.findViewById(R.id.pebbleImagePreview);
         pebble_view = new ImageSwitcher(ContextManager.ctx);
@@ -126,6 +163,27 @@ public class AppFragment extends android.support.v4.app.Fragment {
         out.setInterpolator(new AnticipateOvershootInterpolator());
         pebble_view.setImageResource(LigniteInfo.getDrawable(LigniteInfo.App.fromInt(type.toInt()), true));
 
+        left_arrow_view = new ImageView(ContextManager.ctx);
+        left_arrow_view.setImageResource(R.drawable.arrow_active_left);
+        left_arrow_view.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        CGRect leftArrowRect = CGRectMake(0, pebbleViewRect.origin.y+pebbleViewRect.size.height/2 - 15, 30, 30);
+        CGRect.applyRectToView(leftArrowRect, left_arrow_view);
+        layout.addView(left_arrow_view);
+
+        right_arrow_view = new ImageView(ContextManager.ctx);
+        right_arrow_view.setImageResource(R.drawable.arrow_active_right);
+        right_arrow_view.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        CGRect rightArrowRect = CGRectMake(width - 40 - padding * 2, pebbleViewRect.origin.y + pebbleViewRect.size.height / 2, 30, 30);
+        CGRect.applyRectToView(rightArrowRect, right_arrow_view);
+        layout.addView(right_arrow_view);
+
+        if(type == LigniteInfo.App.SPEEDOMETER){
+            left_arrow_view.setImageResource(R.drawable.arrow_inactive_left);
+        }
+        else if(type.toInt() == LigniteInfo.AMOUNT_OF_APPS-1){
+            right_arrow_view.setImageResource(R.drawable.arrow_inactive_right);
+        }
+
         Typeface helveticaNeue = Typeface.createFromAsset(getActivity().getAssets(), "HelveticaNeue-Regular.ttf");
 
         titleView = new TextView(ContextManager.ctx);
@@ -133,49 +191,51 @@ public class AppFragment extends android.support.v4.app.Fragment {
         titleView.setTextColor(Color.BLACK);
         titleView.setGravity(Gravity.CENTER);
         titleView.setTypeface(helveticaNeue);
-        titleView.setTextSize(24);
+        titleView.setTextSize(28);
         CGRect titleFrame = CGRectMake(0, pebbleViewRect.size.height + pebbleViewRect.origin.y, pebbleViewRect.size.width, 200);
         CGRect.applyRectToView(titleFrame, titleView);
         layout.addView(titleView);
 
         textScrollParentView = new ScrollView(ContextManager.ctx);
         textScrollView = new TextView(getActivity().getApplicationContext());
-        textScrollView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(getActivity())
-                        .setMessage(LigniteInfo.getAbootText(LigniteInfo.App.fromInt(type.toInt()), getResources(), true))
-                        .setPositiveButton(R.string.okay, null)
-                        .show();
-            }
-        });
         textScrollView.setTextColor(Color.BLACK);
         textScrollView.setTypeface(helveticaNeue);
         textScrollView.setText(LigniteInfo.getAbootText(LigniteInfo.App.fromInt(type.toInt()), getResources(), false));
+        textScrollView.setTextSize(16);
         textScrollParentView.addView(textScrollView);
         CGRect descriptionFrame = CGRectMake(0, titleFrame.origin.y + titleFrame.size.height, pebbleViewRect.size.width, height/4);
-        System.out.println(descriptionFrame + " and title " + titleFrame);
         CGRect.applyRectToView(descriptionFrame, textScrollParentView);
         layout.addView(textScrollParentView);
 
-        settings_button = new ImageButton(ContextManager.ctx);
+        int buttonSize = height/11;
+        int buttonY = height-(padding*2)-(int)(getNavigationBarHeight(ContextManager.ctx)*1.5)-buttonSize-padding/2;
+
+        settings_button = new ImageView(ContextManager.ctx);
         settings_button.setEnabled(type != LigniteInfo.App.TIMEDOCK);
         settings_button.setImageResource(R.drawable.settings_button);
-        settings_button.setBackgroundColor(Color.WHITE);
         settings_button.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        settings_button.setOnClickListener(null);
-        CGRect settingsFrame = CGRectMake(width/2 - padding, descriptionFrame.origin.y+descriptionFrame.size.height - padding, 275, 275);
-        System.out.println(settingsFrame);
+        settings_button.setPadding(5, 5, 5, 5);
+        settings_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sourceActivity.openSettings(null);
+            }
+        });
+        CGRect settingsFrame = CGRectMake(width/2 - padding/2, buttonY, buttonSize, buttonSize);
         CGRect.applyRectToView(settingsFrame, settings_button);
         layout.addView(settings_button);
 
-        install_button = new ImageButton(ContextManager.ctx);
+        install_button = new ImageView(ContextManager.ctx);
         install_button.setEnabled(type != LigniteInfo.App.TIMEDOCK);
         install_button.setImageResource(R.drawable.install_button);
-        install_button.setBackgroundColor(Color.WHITE);
         install_button.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        CGRect installFrame = CGRectMake(width/2 - 275 - padding, descriptionFrame.origin.y+descriptionFrame.size.height - padding, 275, 275);
-        System.out.println(install_button);
+        install_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sourceActivity.installApp(null);
+            }
+        });
+        CGRect installFrame = CGRectMake(width/2 - buttonSize - (int)(padding*1.5), buttonY, buttonSize, buttonSize);
         CGRect.applyRectToView(installFrame, install_button);
         layout.addView(install_button);
 

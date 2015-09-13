@@ -8,9 +8,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -20,6 +20,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,7 +31,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,6 +39,13 @@ import com.edwinfinch.lignite.util.IabResult;
 import com.edwinfinch.lignite.util.Inventory;
 import com.edwinfinch.lignite.util.Purchase;
 import com.getpebble.android.kit.PebbleKit;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import org.json.JSONObject;
 
@@ -45,20 +53,14 @@ import org.json.JSONObject;
 public class AppsActivity extends ActionBarActivity implements ActionBar.TabListener {
 
     static public final String TAG = "AppsActivity";
-    int progressBarStatus = 0, waitTime = 0, logoutPosition = 0, creditsPosition;
+    int progressBarStatus = 0, waitTime = 0;
     String previousUsername;
-
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
+    ProgressDialog logoutDialog;
 
     private DialogInterface.OnClickListener logoutListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            final ProgressDialog logoutDialog = new ProgressDialog(mDrawerList.getContext(), ProgressDialog.THEME_DEVICE_DEFAULT_LIGHT);
+            logoutDialog = new ProgressDialog(navigationDrawer.getRecyclerView().getContext(), ProgressDialog.THEME_DEVICE_DEFAULT_LIGHT);
             logoutDialog.setCancelable(false);
             logoutDialog.setMessage(getString(R.string.logging_out));
             logoutDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -66,10 +68,9 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
             logoutDialog.setMax(100);
             logoutDialog.show();
 
-
             new Thread(new Runnable() {
                 public void run() {
-                    String result = "";
+                    String result;
                     int status = 0;
                     try{
                         progressBarStatus = waitTime = 0;
@@ -87,13 +88,13 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
                         if(progressBarStatus < 85) {
                             progressBarStatus += Math.random() * 5;
                         }
-                        else if(status == 200 && progressBarStatus > 84){
+                        else if((status == 200 || status == 404) && progressBarStatus > 84){
                             progressBarStatus = 100;
                         }
                         else if(status != 200 && progressBarStatus > 84){
                             logoutDialog.dismiss();
                             progressBarStatus = 101;
-                            mDrawerList.post(new Runnable() {
+                            navigationDrawer.getRecyclerView().post(new Runnable() {
                                 @Override
                                 public void run() {
                                     failedToast();
@@ -109,7 +110,7 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
                             e.printStackTrace();
                         }
                         // Update the progress bar
-                        mDrawerList.post(new Runnable() {
+                        navigationDrawer.getRecyclerView().post(new Runnable() {
                             public void run() {
                                 logoutDialog.setProgress(progressBarStatus);
                             }
@@ -123,13 +124,13 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
                         }
                         logoutDialog.dismiss();
                         if(progressBarStatus != 500) {
-                            mDrawerList.post(new Runnable() {
+                            navigationDrawer.getRecyclerView().post(new Runnable() {
                                 @Override
                                 public void run() {
                                     successToast();
                                     DataFramework.wipeUserDetails(getApplicationContext());
                                     Intent launchMain = new Intent(AppsActivity.this, LoginActivity.class);
-                                    if(loginTokenFix){
+                                    if (loginTokenFix) {
                                         launchMain.putExtra("BROKEN_TOKEN_FIX", true);
                                         launchMain.putExtra("BROKEN_TOKEN_USERNAME", previousUsername);
                                     }
@@ -139,7 +140,7 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
                             });
                         }
                         else{
-                            mDrawerList.post(new Runnable() {
+                            navigationDrawer.getRecyclerView().post(new Runnable() {
                                 @Override
                                 public void run() {
                                     nullToast();
@@ -156,38 +157,13 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
     JSONObject resultJSON;
     boolean loginTokenFix = false;
 
-    private void selectItem(int position) {
-        if (position < LigniteInfo.AMOUNT_OF_APPS) {
-            getSupportActionBar().setSelectedNavigationItem(position);
-        }
-        else if (position == logoutPosition) {
-            if (DataFramework.getUserIsBacker(getApplicationContext())){
-                new AlertDialog.Builder(AppsActivity.this)
-                        .setMessage(R.string.logout_confirm)
-                        .setPositiveButton(R.string.okay, logoutListener)
-                        .setNegativeButton(R.string.cancel, null)
-                        .show();
-            }
-            else {
-                Intent intent = new Intent(AppsActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }
-        else if(position == creditsPosition){
-            Intent intent = new Intent(AppsActivity.this, CreditsActivity.class);
-            startActivity(intent);
-        }
-        mDrawerLayout.closeDrawer(mDrawerList);
-    }
-
     public void nullToast(){
-        Toast.makeText(mDrawerList.getContext(), getString(R.string.error_response_null), Toast.LENGTH_LONG).show();
+        Toast.makeText(navigationDrawer.getRecyclerView().getContext(), getString(R.string.error_response_null), Toast.LENGTH_LONG).show();
     }
 
     public void failedToast(){
         try {
-            Toast.makeText(mDrawerList.getContext(), getString(R.string.error_logout_failed) + " (" + resultJSON.getString("localized_message") + ")", Toast.LENGTH_LONG).show();
+            Toast.makeText(navigationDrawer.getRecyclerView().getContext(), getString(R.string.error_logout_failed) + " (" + resultJSON.getString("localized_message") + ")", Toast.LENGTH_LONG).show();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -195,7 +171,7 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
     }
 
     public void successToast(){
-        Toast.makeText(mDrawerList.getContext(), getString(R.string.logout_success), Toast.LENGTH_LONG).show();
+        Toast.makeText(navigationDrawer.getRecyclerView().getContext(), getString(R.string.logout_success), Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -212,14 +188,9 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
-    AppFragment currentFragment;
-    static String DEBUG_TAG = "debug";
-    int navigationDrawerLoc = 0;
-    DrawerLayout mDrawerLayout;
-    ListView mDrawerList;
-    ActionBarDrawerToggle mDrawerToggle;
     IabHelper mHelper;
     boolean owns_app[] = new boolean[LigniteInfo.AMOUNT_OF_APPS];
+    Drawer navigationDrawer;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -272,6 +243,14 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
                     frag.setPurchased(true);
                 }
             }
+        }
+    };
+
+    Drawer.OnDrawerItemClickListener appClickedListener = new Drawer.OnDrawerItemClickListener() {
+        @Override
+        public boolean onItemClick(View view, int i, IDrawerItem iDrawerItem) {
+            mViewPager.setCurrentItem(i-1);
+            return false;
         }
     };
 
@@ -342,7 +321,7 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -354,91 +333,84 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
+                //actionBar.setSelectedNavigationItem(position);
+                setDrawerListToPosition(position);
             }
         });
-
-        // For each of the sections in the app, add a tab to the action bar.
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title defined by
-            // the adapter. Also specify this Activity object, which implements
-            // the TabListener interface, as the callback (listener) for when
-            // this tab is selected.
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
-        }
-
-
-        final CharSequence mTitle = "Lignite", mDrawerTitle = getString(R.string.apps_list);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.pager);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         String[] array = getResources().getStringArray(R.array.app_names);
 
         ArrayList<String> arrayList = new ArrayList<>();
         for(int i = 0; i < array.length; i++){
             arrayList.add(array[i]);
-            logoutPosition = i + 1;
         }
-        arrayList.add(DataFramework.getUserIsBacker(getApplicationContext()) ? getString(R.string.logout) : getString(R.string.backer));
-        arrayList.add(getString(R.string.credits));
-        creditsPosition = logoutPosition+1;
-
-        // set up the drawer's list view with items and click listener
-        mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, arrayList.toArray()));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-        // ActionBarDrawerToggle ties together the the proper interactions
-        // between the sliding drawer and the action bar app icon
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description for accessibility */
-                R.string.drawer_closed  /* "close drawer" description for accessibility */
-        ) {
-            public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-
-            public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        // enable ActionBar app icon to behave as action to toggle nav drawer
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-        setDrawerListToPosition(0);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setNavigationBarColor(Color.parseColor("#D32F2F"));
         }
 
+        for (int i = 0; i < LigniteInfo.AMOUNT_OF_APPS; i++) {
+            AppFragment frag = (AppFragment) mSectionsPagerAdapter.getItem(i);
+            frag.sourceActivity = this;
+        }
+
+        Typeface helveticaNeue = Typeface.createFromAsset(getAssets(), "HelveticaNeue-Regular.ttf");
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        AccountHeader header = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(getResources().getDrawable(R.drawable.lignite_background))
+                .addProfiles(new ProfileDrawerItem()
+                        .withName("Edwin Finch")
+                        .withEmail("contact@edwinfinch.com")
+                        .withTextColor(Color.BLACK)
+                        .withIcon(getResources().getDrawable(R.drawable.lines_time)))
+                .withTypeface(helveticaNeue)
+                .build();
+
+        ArrayList<IDrawerItem> apps = new ArrayList<>();
+        for(int i = 0; i < LigniteInfo.AMOUNT_OF_APPS; i++){
+            IDrawerItem item = new PrimaryDrawerItem().withName(arrayList.get(i));
+            apps.add(item);
+        }
+
+        navigationDrawer = new DrawerBuilder().withActivity(this)
+                .withTranslucentStatusBar(false)
+                .withAccountHeader(header)
+                .withDrawerItems(apps)
+                .withOnDrawerItemClickListener(appClickedListener)
+                .withActionBarDrawerToggle(true)
+                .build();
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, navigationDrawer.getDrawerLayout(), R.string.drawer_open, R.string.drawer_closed);
+        navigationDrawer.setActionBarDrawerToggle(toggle);
+
         if(!loginTokenFix && DataFramework.getUserIsBacker(getApplicationContext())) {
             DataFramework framework = new DataFramework();
-            framework.verifyAccessToken(getApplicationContext(), this, mDrawerList);
+            framework.verifyAccessToken(getApplicationContext(), this, navigationDrawer.getRecyclerView());
         }
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
-        if (mHelper != null) mHelper.dispose();
+
+        if (mHelper != null){
+            mHelper.dispose();
+        }
         mHelper = null;
+
+        if(logoutDialog != null) {
+            logoutDialog.dismiss();
+        }
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -461,14 +433,32 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        if(navigationDrawer.getActionBarDrawerToggle().onOptionsItemSelected(item)){
             return true;
         }
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(getApplicationContext(), "Lignite settings temporarily disabled.", Toast.LENGTH_SHORT).show();
+        }
+        else if(id == R.id.action_backer_login){
+            Intent intent = new Intent(AppsActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else if(id == R.id.action_credits){
+            Intent intent = new Intent(AppsActivity.this, CreditsActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_feedback){
             feedback_click(null);
-            return true;
+        }
+        else if(id == R.id.action_logout){
+            new AlertDialog.Builder(AppsActivity.this)
+                    .setMessage(R.string.logout_confirm)
+                    .setPositiveButton(R.string.okay, logoutListener)
+                    .setNegativeButton(R.string.cancel, null)
+                    .show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -510,9 +500,8 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
     }
 
     public void setDrawerListToPosition(int pos){
-        if(mDrawerList != null){
-            mDrawerList.setItemChecked(pos, true);
-        }
+        System.out.println("Setting to " + pos);
+        navigationDrawer.setSelection(pos, false);
     }
 
     @Override
@@ -520,7 +509,6 @@ public class AppsActivity extends ActionBarActivity implements ActionBar.TabList
         // When the given tab is selected, switch to the corresponding page in
         // the ViewPager.
         mViewPager.setCurrentItem(tab.getPosition());
-        setDrawerListToPosition(tab.getPosition());
     }
 
     @Override

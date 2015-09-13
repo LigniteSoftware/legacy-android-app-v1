@@ -55,8 +55,6 @@ public class DataFramework {
         }
         in.close();
 
-        System.out.println("Response : " + response.toString());
-
         return response.toString();
     }
 

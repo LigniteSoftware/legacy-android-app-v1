@@ -13,7 +13,7 @@
     <string name="logout_success">Logged out. See you later!</string>
 
     <string name="prompt_code">Access Code</string>
-    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in">Login</string>
 
     <string name="error_invalid_code">This code isn\'t valid, sorry!</string>
     <string name="error_short_code">This code is too short, sorry!</string>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- LIGNITE -->
+    <string name="lignite_settings">Lignite Settings</string>
+
     <!-- SPEEDOMETER -->
     <string name="title_activity_app_settings">Settings</string>
 

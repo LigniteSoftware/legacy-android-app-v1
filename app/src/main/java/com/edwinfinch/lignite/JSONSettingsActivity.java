@@ -206,21 +206,18 @@ public class JSONSettingsActivity extends PreferenceActivity {
 
     private String getInternationalizedString(String aString) {
         String packageName = getPackageName();
+        System.out.println("Searching for string: " + aString);
         int resId = getResources().getIdentifier(aString, "string", packageName);
         return getString(resId);
     }
 
     private void setupSimplePreferencesScreen() {
-        Log.i(TAG, "1");
         if (!isSimplePreferences(this)) {
             return;
         }
-        Log.i(TAG, "2");
         PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(this);
-        Log.i(TAG, "3");
         try {
             JSONObject settingsObject = new JSONObject(readFile(this, name + ".json"));
-            Log.i(TAG, "4");
             try {
                 String name = settingsObject.getString("name");
                 getActionBar().setTitle(name.substring(0, 1).toUpperCase() + name.substring(1));
@@ -228,7 +225,6 @@ public class JSONSettingsActivity extends PreferenceActivity {
                     getActionBar().setBackgroundDrawable(new ColorDrawable(Color.RED));
                     getActionBar().setDisplayShowHomeEnabled(false);
                 }
-                Log.i(TAG, "5");
             }
             catch(Exception e){
                 e.printStackTrace();

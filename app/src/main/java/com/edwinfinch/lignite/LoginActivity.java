@@ -21,7 +21,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -52,11 +51,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private EditText codeView;
+    private EditText emailView, passwordView;
     private View progressView;
     private View loginForm;
     boolean loginTokenError = false;
-    public TextView resetCodeView, gaveUpView;
+    public TextView resetCodeView, gaveUpView, forgotPasswordView;
+    public Button checkButton, loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +64,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         setContentView(R.layout.activity_login);
 
         // Set up the login form.
-        codeView = (EditText) findViewById(R.id.code);
+        passwordView = (EditText) findViewById(R.id.passwordEditText);
         populateAutoComplete();
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.loginButton);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,13 +139,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         if(loginTokenError){
             DataFramework.setAccessCode(getApplicationContext(), access_code);
-            codeView.setText(access_code);
+            passwordView.setText(access_code);
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     loginTokenError = false;
-                    codeView.post(new Runnable() {
+                    passwordView.post(new Runnable() {
                         @Override
                         public void run() {
                             fireTask(access_code);
@@ -176,10 +176,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
 
         // Reset errors.
-        codeView.setError(null);
+        passwordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String access_code = codeView.getText().toString();
+        String access_code = passwordView.getText().toString();
 
         /*
          * Security at it's finest
@@ -199,12 +199,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(access_code)) {
-            codeView.setError(getString(R.string.error_field_required));
-            focusView = codeView;
+            passwordView.setError(getString(R.string.error_field_required));
+            focusView = passwordView;
             cancel = true;
         } else if (!isCodeValid(access_code)) {
-            codeView.setError(getString(R.string.error_invalid_code));
-            focusView = codeView;
+            passwordView.setError(getString(R.string.error_invalid_code));
+            focusView = passwordView;
             cancel = true;
         }
 
@@ -318,10 +318,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            codeView.post(new Runnable() {
+            passwordView.post(new Runnable() {
                 @Override
                 public void run() {
-                    final ProgressDialog dialog = new ProgressDialog(codeView.getContext(), ProgressDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                    final ProgressDialog dialog = new ProgressDialog(passwordView.getContext(), ProgressDialog.THEME_DEVICE_DEFAULT_LIGHT);
                     dialog.setCancelable(false);
                     dialog.setMessage(getString(R.string.logging_in));
                     dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -334,43 +334,38 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                             try {
                                 progressBarStatus = 0;
                                 waitTime = 0;
-                                String params = "username=" + codeView.getText() + "&currentDevice=" + Build.MODEL;
+                                String params = "username=" + passwordView.getText() + "&currentDevice=" + Build.MODEL;
                                 //System.out.println(params);
                                 result = DataFramework.sendPost(params, "https://api.lignite.me/v2/login/index.php");
                                 resultJSON = new JSONObject(result);
                                 status = resultJSON.getInt("status");
-                            }
-                            catch(Exception e){
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             while (progressBarStatus < 100) {
-                                if(result == null){
+                                if (result == null) {
                                     progressBarStatus = 500;
-                                }
-                                else if(progressBarStatus < 85) {
+                                } else if (progressBarStatus < 85) {
                                     progressBarStatus += Math.random() * 5;
-                                }
-                                else if(status == 200 && progressBarStatus > 84){
+                                } else if (status == 200 && progressBarStatus > 84) {
                                     progressBarStatus = 100;
-                                }
-                                else if(status == 401 || status == 404 && progressBarStatus > 84){
+                                } else if (status == 401 || status == 404 && progressBarStatus > 84) {
                                     progressBarStatus = 100;
-                                }
-                                else if(progressBarStatus > 84){
+                                } else if (progressBarStatus > 84) {
                                     waitTime++;
                                 }
 
-                                if(waitTime > 200){
+                                if (waitTime > 200) {
                                     status = 501;
                                 }
 
                                 try {
-                                    Thread.sleep((int)(Math.random()*20));
+                                    Thread.sleep((int) (Math.random() * 20));
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
 
-                                codeView.post(new Runnable() {
+                                passwordView.post(new Runnable() {
                                     public void run() {
                                         dialog.setProgress(progressBarStatus);
                                     }
@@ -382,14 +377,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
-                                if(result == null){
+                                if (result == null) {
                                     status = 501;
                                 }
                                 dialog.dismiss();
-                                if(status == 200){
+                                if (status == 200) {
                                     DataFramework.setAccessCode(getApplicationContext(), accessCode);
                                     DataFramework.setUserIsBacker(getApplicationContext(), true);
-                                    try { DataFramework.setAccessToken(getApplicationContext(), resultJSON.getString("token")); } catch(Exception e){ e.printStackTrace(); }
+                                    try {
+                                        DataFramework.setAccessToken(getApplicationContext(), resultJSON.getString("token"));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
 
                                     new Thread(new Runnable() {
                                         @Override
@@ -400,14 +399,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
                                                 Intent myIntent = new Intent(LoginActivity.this, AppsActivity.class);
                                                 String name = detailsFromInternet.getString("name");
-                                                if(name == null){ name = getString(R.string.my_friend); }
+                                                if (name == null) {
+                                                    name = getString(R.string.my_friend);
+                                                }
                                                 myIntent.putExtra("name", name); //Optional parameters
                                                 LoginActivity.this.startActivity(myIntent);
                                                 finish();
-                                            }
-                                            catch(final Exception e){
+                                            } catch (final Exception e) {
                                                 e.printStackTrace();
-                                                codeView.post(new Runnable() {
+                                                passwordView.post(new Runnable() {
                                                     @Override
                                                     public void run() {
                                                         Toast.makeText(getApplicationContext(), getString(R.string.error_unknown) + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
@@ -416,50 +416,45 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                                             }
                                         }
                                     }).start();
-                                }
-                                else if(status == 401){
-                                    codeView.post(new Runnable() {
+                                } else if (status == 401) {
+                                    passwordView.post(new Runnable() {
                                         @Override
                                         public void run() {
                                             dialog.dismiss();
-                                            codeView.setError(getResources().getString(R.string.error_incorrect_code));
+                                            passwordView.setError(getResources().getString(R.string.error_incorrect_code));
                                         }
                                     });
-                                }
-                                else if(status == 404){
-                                    codeView.post(new Runnable() {
+                                } else if (status == 404) {
+                                    passwordView.post(new Runnable() {
                                         @Override
                                         public void run() {
                                             dialog.dismiss();
-                                            codeView.setError(getResources().getString(R.string.error_doesnt_exist));
+                                            passwordView.setError(getResources().getString(R.string.error_doesnt_exist));
                                         }
                                     });
-                                }
-                                else if(status == 500){
+                                } else if (status == 500) {
                                     //Todo: show internal server error localized
-                                    codeView.post(new Runnable() {
+                                    passwordView.post(new Runnable() {
                                         @Override
                                         public void run() {
                                             dialog.dismiss();
-                                            codeView.setError(getResources().getString(R.string.error_other));
+                                            passwordView.setError(getResources().getString(R.string.error_other));
                                         }
                                     });
-                                }
-                                else if(status == 501){
-                                    codeView.post(new Runnable() {
+                                } else if (status == 501) {
+                                    passwordView.post(new Runnable() {
                                         @Override
                                         public void run() {
                                             dialog.dismiss();
-                                            codeView.setError(getResources().getString(R.string.error_other));
+                                            passwordView.setError(getResources().getString(R.string.error_other));
                                         }
                                     });
-                                }
-                                else{
-                                    codeView.post(new Runnable() {
+                                } else {
+                                    passwordView.post(new Runnable() {
                                         @Override
                                         public void run() {
                                             dialog.dismiss();
-                                            codeView.setError(getResources().getString(R.string.server_error));
+                                            passwordView.setError(getResources().getString(R.string.server_error));
                                         }
                                     });
                                 }

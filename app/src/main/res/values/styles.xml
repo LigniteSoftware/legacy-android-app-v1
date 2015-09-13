@@ -38,7 +38,11 @@
         <item name="android:navigationBarColor">@color/dark_primary</item>
     </style>
 
-    <style name="SplashTheme" parent="Base.Theme.AppCompat">
+    <style name="popup_theme" parent="@android:style/Theme.Dialog">
+        <item name="android:textAppearance">?android:attr/textAppearanceInverse</item>
+    </style>
+
+    <style name="SplashTheme" parent="MaterialTheme.Light">
         <item name="android:windowBackground">@color/primary</item>
         <item name="android:navigationBarColor">@color/dark_primary</item>
         <item name="android:statusBarColor">@color/dark_primary</item>

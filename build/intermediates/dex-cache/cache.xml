@@ -2,39 +2,81 @@
 <items version="2" >
 
     <item
-        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/classes.jar"
+        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
         jumboMode="false"
-        revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-d31ae18d11a77f8cac3f2bd0ea7d61eecf307e5b.jar" />
+        revision="23.0.0"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-f64d238e84c67e164e745ebf31bf9cbb5811fa71.jar" />
+    </item>
+    <item
+        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.mikepenz/materialdrawer/4.0.8/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="1aadfe3abbb366d8fb3c0e5350db1aaa6e0f6127">
+        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-f8cfd285fc6e1416b7dbc4b8390da3645c020a18.jar" />
+    </item>
+    <item
+        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="4356e230a981d1bbf047d848b91bc0d9b7c5bacc">
+        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-a0f3a473abad4ed2bc1b46ef62018f6811aaf438.jar" />
+    </item>
+    <item
+        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.mikepenz/iconics-core/1.7.6/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="ea05949390565bd6d714ac7d99158b3c0bc6a175">
+        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-5f0ab14ebb260f4cc5f57c0eeffdeb3d79119324.jar" />
+    </item>
+    <item
+        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.github.yukuku/ambilwarna/2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="a188333bb94bc6b8364527797e3b5c97b37a9e49">
+        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-e1f48cc5ac9fc2e5435901157e3733168113a7e4.jar" />
+    </item>
+    <item
+        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.mikepenz/materialize/0.2.5/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="3e33417d80e79d82adb03a964540362d4e2ca5ef">
+        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-bde7b9ea708eea69917738c8c32e2b9dd8d8e8b2.jar" />
+    </item>
+    <item
+        jar="/Users/edwinfinch/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1-ee7c4ceb6b6f4228c2ed014d899640a899d8df66.jar" />
+    </item>
+    <item
+        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-a51582c874e9d25e909964546426707d9c3bb888.jar" />
+    </item>
+    <item
+        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.getpebble/pebblekit/3.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="bd72bf60a6e56573eecb0e6abf419fac2b1fc1e6">
+        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-fc55c479aedb7621c25dbb2b724c063590432a3b.jar" />
     </item>
     <item
         jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/jars/classes.jar"
         jumboMode="false"
-        revision="21.1.2"
+        revision="23.0.0"
         sha1="dd9247ea0fabe8ee479638c4b4a23e93752be256">
         <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-df08bf657a48388373101cfcb1e7bc74769eef19.jar" />
     </item>
     <item
-        jar="/Users/edwinfinch/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
         jumboMode="false"
-        revision="21.1.2"
-        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-94a386944ec85f71172defad83bb18d2cec08174.jar" />
-    </item>
-    <item
-        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/jars/classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-7c015996f0bc2dc28d763dd8edde084f84acc5d0.jar" />
-    </item>
-    <item
-        jar="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/libs/internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-75f8d3986c42bf153b12113a4acfe4acb56f310d.jar" />
+        revision="23.0.0"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/Users/edwinfinch/AndroidStudioProjects/Lignite/app/build/intermediates/pre-dexed/debug/classes-76060ef404703db0702d112add6405f0a7bc0a17.jar" />
     </item>
 
 </items>

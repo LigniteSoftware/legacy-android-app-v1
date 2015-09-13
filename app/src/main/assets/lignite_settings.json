@@ -1,0 +1,47 @@
+{
+    "name":"settings",
+    "items": [
+              {
+              "title":"pref_header_alerts",
+              "items":[
+                       {
+                       "type":"toggle",
+                       "label":"trial_alerts",
+                       "storage_key":"alerts-trial",
+                       "default":true
+                       },
+                       {
+                       "type":"toggle",
+                       "label":"setting_alerts",
+                       "storage_key":"alerts-setting",
+                       "default":true
+                       }
+                       ]
+              },
+              {
+              "title":"pref_header_on_fail",
+              "items":[
+                       {
+                       "type":"toggle",
+                       "label":"play_sound",
+                       "storage_key":"alerts-sound_on_fail",
+                       "default":false
+                       }
+                       ]
+              },
+			  {
+			  "title":"pref_header_open_pebble_app",
+			  "items":[
+					   {
+					   "type":"list",
+					   "label":"pref_header_open_pebble_app",
+					   "storage_key":"general-pebble_app_to_open",
+					   "list":[
+						"pebble_app_ask_me", "pebble_app_original", "pebble_app_time"
+					   ],
+					   "default":0
+					   }
+			  ]
+			  }
+              ]
+}
