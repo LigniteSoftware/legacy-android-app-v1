@@ -24,6 +24,7 @@ import com.edwinfinch.lignite.preference.LigniteNumberPickerPreference;
 import com.getpebble.android.kit.PebbleKit;
 import com.getpebble.android.kit.util.PebbleDictionary;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -41,7 +42,6 @@ public class JSONSettingsActivity extends PreferenceActivity {
 
     LigniteInfo.App section;
     String name;
-    static final boolean ALWAYS_SIMPLE_PREFS = true;
     static final String TAG = "JSONSettingsActivity";
 
     final Preference.OnPreferenceClickListener imma_good_listener_babe = new Preference.OnPreferenceClickListener() {
@@ -170,12 +170,14 @@ public class JSONSettingsActivity extends PreferenceActivity {
         name = getIntent().getStringExtra("app_name");
         section = LigniteInfo.getSectionFromAppName(name);
 
+        /*
         PebbleDictionary dictionary = new PebbleDictionary();
         dictionary.addString(LigniteInfo.unlock_keys[section.toInt()][0], LigniteInfo.UUID_endings[section.toInt()]);
         dictionary.addString(LigniteInfo.unlock_keys[section.toInt()][1], LigniteInfo.unlock_tokens[section.toInt()]);
         if(section != LigniteInfo.App.KNIGHTRIDER) {
             PebbleKit.sendDataToPebble(getApplicationContext(), UUID.fromString(LigniteInfo.UUID[section.toInt()]), dictionary);
         }
+        */
 
         //System.out.println("Sending " + LigniteInfo.unlock_keys[section.toInt()][0] + " which is " + LigniteInfo.UUID_endings[section.toInt()] + " and " + LigniteInfo.unlock_keys[section.toInt()][1] + " which is " + LigniteInfo.unlock_tokens[section.toInt()]);
     }
@@ -206,21 +208,18 @@ public class JSONSettingsActivity extends PreferenceActivity {
 
     private String getInternationalizedString(String aString) {
         String packageName = getPackageName();
-        System.out.println("Searching for string: " + aString);
         int resId = getResources().getIdentifier(aString, "string", packageName);
+        System.out.println("Searching for string: " + aString + " returning: " + resId);
         return getString(resId);
     }
 
     private void setupSimplePreferencesScreen() {
-        if (!isSimplePreferences(this)) {
-            return;
-        }
-        PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(this);
+        PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(getApplicationContext());
         try {
             JSONObject settingsObject = new JSONObject(readFile(this, name + ".json"));
             try {
                 String name = settingsObject.getString("name");
-                getActionBar().setTitle(name.substring(0, 1).toUpperCase() + name.substring(1));
+                getActionBar().setTitle(WordUtils.capitalize(name));
                 if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                     getActionBar().setBackgroundDrawable(new ColorDrawable(Color.RED));
                     getActionBar().setDisplayShowHomeEnabled(false);
@@ -233,9 +232,10 @@ public class JSONSettingsActivity extends PreferenceActivity {
 
             JSONArray itemsArray = settingsObject.getJSONArray("items");
             for(int i = 0; i < itemsArray.length(); i++) {
-                PreferenceCategory category = new PreferenceCategory(this);
+                PreferenceCategory category = new PreferenceCategory(getApplicationContext());
                 JSONObject section = itemsArray.getJSONObject(i);
                 category.setTitle(getInternationalizedString(section.getString("title")));
+                Log.d(TAG, "" + category + " and title " + category.getTitle() + " and screen " + ((screen == null) ? " is null " : " is *not* null "));
                 screen.addPreference(category);
 
                 JSONArray items = section.getJSONArray("items");
@@ -243,7 +243,7 @@ public class JSONSettingsActivity extends PreferenceActivity {
                     JSONObject item = items.getJSONObject(i1);
                     String itemType = item.getString("type");
                     if(itemType.equals("toggle")) {
-                        LigniteCheckBoxPreference togglePreference = new LigniteCheckBoxPreference(this);
+                        LigniteCheckBoxPreference togglePreference = new LigniteCheckBoxPreference(JSONSettingsActivity.this);
                         togglePreference.item = item;
                         togglePreference.setTitle(getInternationalizedString(item.getString("label")));
                         togglePreference.setKey(item.getString("storage_key"));
@@ -251,7 +251,7 @@ public class JSONSettingsActivity extends PreferenceActivity {
                         togglePreference.setOnPreferenceClickListener(imma_good_listener_babe);
                     }
                     else if(itemType.equals("colour")){
-                        LigniteColourPreference colourPreference = new LigniteColourPreference(this, null);
+                        LigniteColourPreference colourPreference = new LigniteColourPreference(JSONSettingsActivity.this, null);
                         colourPreference.item = item;
                         colourPreference.setTitle(getInternationalizedString(item.getString("label")));
                         colourPreference.setKey(item.getString("storage_key"));
@@ -259,7 +259,7 @@ public class JSONSettingsActivity extends PreferenceActivity {
                         colourPreference.setOnPreferenceChangeListener(colourListener);
                     }
                     else if(itemType.equals("textfield")){
-                        LigniteEditTextPreference textFieldPreference = new LigniteEditTextPreference(this);
+                        LigniteEditTextPreference textFieldPreference = new LigniteEditTextPreference(JSONSettingsActivity.this);
                         textFieldPreference.item = item;
                         textFieldPreference.setKey(item.getString("storage_key"));
                         screen.addPreference(textFieldPreference);
@@ -267,7 +267,7 @@ public class JSONSettingsActivity extends PreferenceActivity {
                         textFieldPreference.setTitle(textFieldPreference.getSharedPreferences().getString(textFieldPreference.getKey(), "Click to set"));
                     }
                     else if(itemType.equals("timezones")){
-                        LigniteListPreference timezonesPreference = new LigniteListPreference(this);
+                        LigniteListPreference timezonesPreference = new LigniteListPreference(JSONSettingsActivity.this);
                         timezonesPreference.item = item;
                         timezonesPreference.setEntries(TimeZone.getAvailableIDs());
                         timezonesPreference.setEntryValues(TimeZone.getAvailableIDs());
@@ -277,14 +277,15 @@ public class JSONSettingsActivity extends PreferenceActivity {
                         timezonesPreference.setTitle(timezonesPreference.getSharedPreferences().getString(timezonesPreference.getKey(), "Not set"));
                     }
                     else if(itemType.equals("number_picker")){
-                        LigniteNumberPickerPreference numberPickerPreference = new LigniteNumberPickerPreference(this, null);
+                        LigniteNumberPickerPreference numberPickerPreference = new LigniteNumberPickerPreference(JSONSettingsActivity.this, null);
                         numberPickerPreference.item = item;
                         numberPickerPreference.setKey(item.getString("storage_key"));
                         numberPickerPreference.setOnPreferenceChangeListener(numberListener);
+                        numberPickerPreference.setValue(0);
                         screen.addPreference(numberPickerPreference);
                     }
                     else if(itemType.equals("list")){
-                        LigniteListPreference listPreference = new LigniteListPreference(this);
+                        LigniteListPreference listPreference = new LigniteListPreference(JSONSettingsActivity.this);
                         listPreference.item = item;
                         listPreference.setKey(item.getString("storage_key"));
                         listPreference.setOnPreferenceChangeListener(list_listener);
@@ -308,9 +309,18 @@ public class JSONSettingsActivity extends PreferenceActivity {
             e.printStackTrace();
             Toast.makeText(this, "An error occurred: " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
         }
-        Log.i(TAG, "setting screen " + screen.toString());
+        Log.i(TAG, "setting screen " + screen);
+        if(screen == null){
+            Log.e(TAG, "Is nulll!!!!!!");
+        }
         setPreferenceScreen(screen);
         Log.i(TAG, "set screen");
+
+        setTheme(R.style.SettingsStyle);
+        if(android.os.Build.MANUFACTURER == "samsung"){
+            //Toast.makeText(ContextManager.ctx, "Your phone is a piece of shit", Toast.LENGTH_LONG).show();
+            setTheme(R.style.SamsungStyle);
+        }
     }
 
     /**

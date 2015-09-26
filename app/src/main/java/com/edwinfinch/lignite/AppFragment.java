@@ -40,6 +40,9 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 import android.app.ActionBar.LayoutParams;
 
+import org.apache.commons.lang3.text.WordUtils;
+
+import static com.edwinfinch.lignite.CGRect.CGRectMake;
 import static com.edwinfinch.lignite.LigniteInfo.*;
 
 
@@ -58,8 +61,8 @@ public class AppFragment extends android.support.v4.app.Fragment {
 
     public AppsActivity sourceActivity;
 
-    ImageView install_button, settings_button;
-    ImageView pebble_view, screenshot_view, left_arrow_view, right_arrow_view;
+    ImageView install_button, settings_button, left_arrow_view, right_arrow_view;
+    ImageSwitcher pebble_view, screenshot_view;
     ScrollView textScrollParentView;
     TextView textScrollView, titleView;
 
@@ -83,36 +86,31 @@ public class AppFragment extends android.support.v4.app.Fragment {
         }
     }
 
-    public CGRect CGRectMake(int x, int y, int width, int height){
-        return new CGRect(x, y, width, height);
-    }
-
-    public int getNavigationBarHeight(Context c) {
+    static public int getNavigationBarHeight(Context c, boolean is_tablet, Resources resources) {
         int result = 0;
         boolean hasMenuKey = ViewConfiguration.get(c).hasPermanentMenuKey();
         boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
 
         if(!hasMenuKey && !hasBackKey) {
             //The device has a navigation bar
-            Resources resources = ContextManager.ctx.getResources();
 
-            int orientation = getResources().getConfiguration().orientation;
+            int orientation = resources.getConfiguration().orientation;
             int resourceId;
-            if (isTablet(c)){
+            if (is_tablet){
                 resourceId = resources.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_height_landscape", "dimen", "android");
             }  else {
                 resourceId = resources.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_width", "dimen", "android");
             }
 
             if (resourceId > 0) {
-                return getResources().getDimensionPixelSize(resourceId);
+                return resources.getDimensionPixelSize(resourceId);
             }
         }
         return result;
     }
 
 
-    private boolean isTablet(Context c) {
+    public static boolean isTablet(Context c) {
         return (c.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
@@ -140,12 +138,20 @@ public class AppFragment extends android.support.v4.app.Fragment {
         return bitmap;
     }
 
+    public ViewSwitcher.ViewFactory imageFactory = new ViewSwitcher.ViewFactory() {
+        public View makeView() {
+            ImageView myView = new ImageView(ContextManager.ctx);
+            myView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            return myView;
+        }
+    };
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         FrameLayout layout = (FrameLayout)inflater.inflate(R.layout.fragment_test, container, false);
         int padding = 50;
-        layout.setPadding(padding, padding, padding, padding/2);
+        layout.setPadding(padding, padding, padding, padding / 2);
 
         //FrameLayout layout = new FrameLayout(ContextManager.ctx);
 
@@ -155,32 +161,15 @@ public class AppFragment extends android.support.v4.app.Fragment {
         int width = size.x;
         int height = size.y;
 
-        double defaultPebbleHeight = 460, defaultPebbleWidth = 275;
-        double defaultScreenshotHeight = 168, defaultScreenshotWidth = 144;
-        double heightBetweenPebbleAndScreenshot = 126;
-
-        //pebble_view = (ImageSwitcher) layout.findViewById(R.id.pebbleImagePreview);
-        pebble_view = new ImageView(ContextManager.ctx);
+        pebble_view = PreviewActivity.getPebbleView(layout, padding, getActivity().getWindowManager().getDefaultDisplay(), PreviewActivity.getUserSetPebble(), getResources(), getActivity().getPackageName());
+        CGRect.applyOffsetToView(CGRect.CGRectOffset.HEIGHT, 180, pebble_view);
         pebble_view.setOnClickListener(sourceActivity.previewBuilderListener);
-        pebble_view.setImageResource(getPebble(Pebble.BOBBY_GOLD, getResources(), sourceActivity.getPackageName()));
-        CGRect pebbleViewRect = CGRectMake(0, 0, width - padding * 2, height / 3 + 180);
-        CGRect.applyRectToView(pebbleViewRect, pebble_view);
-        layout.addView(pebble_view);
 
-        double scaleFactor = (double)pebbleViewRect.size.height/defaultPebbleHeight;
-
-        double screenshotHeight = scaleFactor*defaultScreenshotHeight;
-        double screenshotWidth = scaleFactor*defaultScreenshotWidth;
-        double screenshotYOffset = scaleFactor*heightBetweenPebbleAndScreenshot;
-        screenshotHeight++;
-        screenshotWidth++;
-
-        screenshot_view = new ImageView(ContextManager.ctx);
+        CGRect pebbleViewRect = CGRect.getRectFromView(pebble_view);
+        screenshot_view = (ImageSwitcher)PreviewActivity.getScreenshotView(false, pebbleViewRect, layout);
+        screenshot_view.setFactory(PreviewActivity.imageFactory);
+        screenshot_view.setImageResource(getAppScreenshot(type, PreviewActivity.getUserSetPebble(), 1, getResources(), getActivity().getPackageName()));
         screenshot_view.setOnClickListener(sourceActivity.previewBuilderListener);
-        screenshot_view.setImageResource(getAppScreenshot(type, Pebble.BOBBY_GOLD, 1, getResources(), sourceActivity.getPackageName()));
-        CGRect screenshotViewRect = CGRectMake(pebbleViewRect.size.width/2 - (int)screenshotWidth/2, (int)screenshotYOffset, (int)screenshotWidth + 2, (int)screenshotHeight);
-        CGRect.applyRectToView(screenshotViewRect, screenshot_view);
-        layout.addView(screenshot_view);
 
         Animation in = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), android.R.anim.slide_in_left);
         Animation out = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), android.R.anim.slide_out_right);
@@ -190,7 +179,7 @@ public class AppFragment extends android.support.v4.app.Fragment {
         left_arrow_view = new ImageView(ContextManager.ctx);
         left_arrow_view.setImageResource(R.drawable.arrow_active_left);
         left_arrow_view.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        CGRect leftArrowRect = CGRectMake(0, pebbleViewRect.origin.y+pebbleViewRect.size.height/2 - 30, 30, 30);
+        CGRect leftArrowRect = CGRectMake(0, pebbleViewRect.origin.y + pebbleViewRect.size.height / 2 - 30, 30, 30);
         CGRect.applyRectToView(leftArrowRect, left_arrow_view);
         layout.addView(left_arrow_view);
 
@@ -211,17 +200,20 @@ public class AppFragment extends android.support.v4.app.Fragment {
         Typeface helveticaNeue = Typeface.createFromAsset(getActivity().getAssets(), "HelveticaNeue-Regular.ttf");
 
         titleView = new TextView(ContextManager.ctx);
-        titleView.setText(getResources().getStringArray(R.array.app_names)[type.toInt()]);
+        titleView.setText(WordUtils.capitalize(NAME[type.toInt()]));
         titleView.setTextColor(Color.BLACK);
         titleView.setGravity(Gravity.CENTER);
         titleView.setTypeface(helveticaNeue);
         titleView.setTextSize(26);
-        CGRect titleFrame = CGRectMake(0, pebbleViewRect.size.height + pebbleViewRect.origin.y - padding, pebbleViewRect.size.width, 135);
+        titleView.measure(0, 0);
+        int titleHeight = titleView.getMeasuredHeight();
+        CGRect titleFrame = CGRectMake(0, pebbleViewRect.size.height + pebbleViewRect.origin.y - padding, pebbleViewRect.size.width, titleHeight+10);
         CGRect.applyRectToView(titleFrame, titleView);
         layout.addView(titleView);
 
         int buttonSize = height/11;
-        int buttonY = height-(padding*2)-(int)(getNavigationBarHeight(ContextManager.ctx)*1.5)-buttonSize-padding/2;
+        int navBarHeight = getNavigationBarHeight(ContextManager.ctx, isTablet(ContextManager.ctx), getResources());
+        int buttonY = height-(padding*2)-(int)(navBarHeight*1.5)-buttonSize-padding/2;
 
         settings_button = new ImageView(ContextManager.ctx);
         settings_button.setEnabled(type != App.TIMEDOCK);

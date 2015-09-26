@@ -23,24 +23,6 @@
     <color name="textcolour">#000000</color>
     <color name="white">#FFFFFF</color>
 
-    <!-- Material DEFAULT colors -->
-    <color name="material_drawer_primary">#2196F3</color>
-    <color name="material_drawer_primary_dark">#1976D2</color>
-    <color name="material_drawer_primary_light">#BBDEFB</color>
-    <color name="material_drawer_accent">#FF4081</color>
 
-    <!-- OVERWRITE THESE COLORS FOR A LIGHT THEME -->
-    <!-- MaterialDrawer DEFAULT colors -->
-    <color name="material_drawer_background">#F9F9F9</color>
-    <!-- Material DEFAULT text / items colors -->
-    <color name="material_drawer_primary_text">#DE000000</color>
-    <color name="material_drawer_primary_icon">#FFFFFF</color>
-    <color name="material_drawer_secondary_text">#FFFFFF</color>
-    <color name="material_drawer_hint_text">#FFFFFF</color>
-    <color name="material_drawer_divider">#FFFFFF</color>
-    <!-- Material DEFAULT drawer colors -->
-    <color name="material_drawer_selected">#E8E8E8</color>
-    <color name="material_drawer_selected_text">#2196F3</color>
-    <color name="material_drawer_header_selection_text">#FFF</color>
 
 </resources>

@@ -215,22 +215,6 @@
         \nKyle Piotrowski, Mathieu Seguin, Ernest Studios LLC, Tim Johnstone, iPhibse, Brett Levy, Fredrik Seglem
 
     </string>
-
-    <string-array name="app_names">
-        <item>Speedometer</item>
-        <item>RightNighter</item>
-        <item>Chunky</item>
-        <item>Lines</item>
-        <item>Colours</item>
-        <item>TimeDock</item>
-        <item>Tree of Colours</item>
-        <item>Timezones</item>
-        <item>Slot Machine</item>
-        <item>Pulse</item>
-        <item>Simplified Analogue</item>
-        <item>Personal</item>
-        <item>Beat</item>
-    </string-array>
     
     <string-array name="app_descriptions">
         <item>
@@ -291,129 +275,10 @@
             \n\nThere are some damn cool animations that catch the eye and make it look as if your wrist is actually monitoring your heartbeat!
             Not to mention, you can find settings for customizing colours and other features in the Lignite companion app.
         </item>
-    </string-array>
-
-    <string-array name="app_descriptions_advanced">
-        <!-- Speedometer -->
         <item>
-            Settings include:
-            \n-Invert colours
-            \n-Bluetooth disconnect/reconnect alerts
-            \n-Boot animation
-            \n-Bluetooth icon
-            \n-Dithering
-            \n-Colours
-            \n\nAnimations: Not many
-            \nOriginal Pebble support: Yes
-        </item>
-        <!-- RightNighter -->
-        <item>
-            Settings include:
-            \n-Bluetooth disconnect/reconnect alerts
-            \n-Animations
-            \n-Dithering
-            \n\nAnimations: Many
-            \nOriginal Pebble support: Yes
-        </item>
-        <!-- Chunky -->
-        <item>
-            Settings include:
-            \n-Bluetooth disconnect/reconnect alerts
-            \n-Invert
-            \n-Show battery bar
-            \n-Minute, hour, and background colours
-            \n\nAnimations: Not yet!
-            \nOriginal Pebble support: Yes
-        </item>
-        <!-- Lines -->
-        <item>
-            Settings include:
-            \n-Bluetooth disconnect/reconnect alerts
-            \n-Show date
-            \n-Customizable date format
-            \n-Time, date, and background colours
-            \n\nAnimations: One
-            \nOriginal Pebble support: Yes
-        </item>
-        <!-- Colours -->
-        <item>
-            Settings include:
-            \n-Bluetooth disconnect/reconnect alerts
-            \n-Organize colours
-            \n-Randomize bar width (in beta)
-            \n-Bar width
-            \n-Hour and minute colour
-            \n\nOriginal Pebble Support: No
-        </item>
-        <!-- TimeDock -->
-        <item>
-            Settings include:
-            \n-Weather location
-            \n-Open watchface when charging
-            \n-Animations
-            \n-Bluetooth disconnect/reconnect alert
-            \n\nAnimations: Many
-            \nOriginal Pebble support: Yes
-        </item>
-        <!-- Tree of Colours -->
-        <item>
-            Settings include:
-            \n-Bluetooth disconnect and reconnect alerts
-            \n-Invert
-            \n-Randomize colour
-            \n-Custom colours for branches
-            \n-Circle colour
-            \n-Time colour
-        </item>
-        <!-- Timezones -->
-        <item>
-            Settings include:
-            \n-Bluetooth disconnect and reconnect alerts
-            \n-Custom colour for both timezones
-            \n-Analogue hands
-            \n-Custom names/labels
-        </item>
-        <!-- Slot Machine -->
-        <item>
-            Settings include:
-            \n-Bluetooth disconnect and reconnect alerts
-            \n-Invert
-            \n-Shake to animate
-            \n-Updates every second
-        </item>
-        <!-- Pulse -->
-        <item>
-            Settings include:
-            \n-Bluetooth disconnect and reconnect alerts
-            \n-Invert
-            \n-Constant animations
-            \n-Shake to animate
-            \n-Circle and background colours
-        </item>
-        <!-- Simplified Analogue -->
-        <item>
-            Settings include:
-            \n-Bluetooth disconnect and reconnect alerts
-            \n-Customize the colour of any element on the screen,
-            from the time and date, to each analogue circle.
-            \n-Customize what\'s shown and what\'s hidden
-        </item>
-        <!-- Personal -->
-        <item>
-            Settings include:
-            \n-Bluetooth disconnect and reconnect alerts
-            \n-Customize your name
-            \n-Colours, such as accent and background
-            \n-Animations
-        </item>
-        <!-- Beat -->
-        <item>
-            Settings include:
-            \n-Bluetooth disconnect and reconnect alerts
-            \n-The type of data the Beat displays (battery, bluetooth, or random)
-            \n-Animations
-            \n-Colours
-            \n-And more!
+            Another one making your color display go wild!
+            \n\nThe bars have many different animation modes such as roll, wave, music, and more!
+            You can choose how often you want these to animate and more. The battery bar acts as a divider. Sports the time, weekday, and date as well.
         </item>
     </string-array>
 

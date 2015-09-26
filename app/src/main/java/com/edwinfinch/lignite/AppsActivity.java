@@ -1,5 +1,6 @@
 package com.edwinfinch.lignite;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -47,10 +48,13 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.json.JSONObject;
 
+import static com.edwinfinch.lignite.LigniteInfo.NAME;
 
-public class AppsActivity extends AppCompatActivity implements ActionBar.TabListener {
+
+public class AppsActivity extends AppCompatActivity implements ActionBar.TabListener, Serializable {
 
     static public final String TAG = "AppsActivity";
     int progressBarStatus = 0, waitTime = 0;
@@ -258,7 +262,9 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         @Override
         public void onClick(View view) {
             Intent previewIntent = new Intent(AppsActivity.this, PreviewActivity.class);
+            previewIntent.putExtra("pebbleApp", mViewPager.getCurrentItem());
             startActivity(previewIntent);
+            finish();
         }
     };
 
@@ -348,11 +354,11 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
             }
         });
 
-        String[] array = getResources().getStringArray(R.array.app_names);
+        String[] array = LigniteInfo.NAME;
 
         ArrayList<String> arrayList = new ArrayList<>();
         for(int i = 0; i < array.length; i++){
-            arrayList.add(array[i]);
+            arrayList.add(WordUtils.capitalize(array[i]));
         }
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -370,11 +376,12 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         AccountHeader header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(getResources().getDrawable(R.drawable.lignite_background))
+                //.withTextColor(Color.BLACK)
                 .addProfiles(new ProfileDrawerItem()
                         .withName("Edwin Finch")
                         .withEmail("contact@edwinfinch.com")
                         .withTextColor(Color.BLACK)
-                        .withIcon(getResources().getDrawable(R.drawable.bobby_gold)))
+                        .withIcon(getResources().getDrawable(LigniteInfo.getPebble(PreviewActivity.getUserSetPebble(), getResources(), getPackageName()))))
                 .withTypeface(helveticaNeue)
                 .build();
 
@@ -514,7 +521,6 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
     }
 
     public void setDrawerListToPosition(int pos){
-        System.out.println("Setting to " + pos);
         navigationDrawer.setSelection(pos, false);
     }
 
@@ -544,6 +550,12 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         }
         AppFragment fragments[] = new AppFragment[LigniteInfo.AMOUNT_OF_APPS+1];
 
+        public void refreshFragments(){
+            for(int i = 0; i < LigniteInfo.AMOUNT_OF_APPS; i++){
+                getItem(i);
+            }
+        }
+
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
@@ -561,8 +573,7 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
 
         @Override
         public CharSequence getPageTitle(int position) {
-            String[] app_names = getResources().getStringArray(R.array.app_names);
-            return app_names[position];
+            return NAME[position];
         }
     }
 

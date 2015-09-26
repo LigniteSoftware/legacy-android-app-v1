@@ -10,6 +10,10 @@ public class CGRect {
     public CGPoint origin;
     public CGSize size;
 
+    public enum CGRectOffset{
+        X, Y, WIDTH, HEIGHT
+    };
+
     @Override
     public String toString(){
         return "{ x: " + this.origin.x + ", y: " + this.origin.y + ", w: " + this.size.width + ", h: " + this.size.height + " }";
@@ -38,5 +42,28 @@ public class CGRect {
         view.setTranslationX(rect.origin.x);
         view.setTranslationY(rect.origin.y);
         view.setLayoutParams(CGSize.layoutParamsFromSize(rect.size));
+    }
+
+    public static void applyOffsetToView(CGRectOffset offsetType, int offset, View view){
+        CGRect newViewRect = getRectFromView(view);
+        switch(offsetType){
+            case X:
+                newViewRect.origin.x += offset;
+                break;
+            case Y:
+                newViewRect.origin.y += offset;
+                break;
+            case WIDTH:
+                newViewRect.size.width += offset;
+                break;
+            case HEIGHT:
+                newViewRect.size.height += offset;
+                break;
+        }
+        applyRectToView(newViewRect, view);
+    }
+
+    public static CGRect CGRectMake(int x, int y, int width, int height){
+        return new CGRect(x, y, width, height);
     }
 }
