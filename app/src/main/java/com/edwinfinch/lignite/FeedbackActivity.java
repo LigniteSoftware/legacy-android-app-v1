@@ -179,7 +179,7 @@ public class FeedbackActivity extends Activity {
     };
 
     public void nullToast(){
-        Toast.makeText(typeFeedbackSpinner.getContext(), getString(R.string.error_response_null), Toast.LENGTH_LONG).show();
+        Toast.makeText(typeFeedbackSpinner.getContext(), getString(R.string.error_unknown), Toast.LENGTH_LONG).show();
     }
 
     public void failedToast(){

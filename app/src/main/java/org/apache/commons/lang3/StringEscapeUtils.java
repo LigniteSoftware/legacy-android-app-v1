@@ -612,7 +612,7 @@ public class StringEscapeUtils {
      * escapes. Supports HTML 4.0 entities.</p>
      *
      * <p>For example, the string {@code "&lt;Fran&ccedil;ais&gt;"}
-     * will become {@code "<Français>"}</p>
+     * will become {@code "<Francais>"}</p>
      *
      * <p>If an entity is unrecognized, it is left alone, and inserted
      * verbatim into the result string. e.g. {@code "&gt;&zzzz;x"} will

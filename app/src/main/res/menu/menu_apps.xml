@@ -5,7 +5,7 @@
 
     <item android:id="@+id/action_settings" android:title="@string/lignite_settings"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_feedback" android:title="@string/submit_feedback"
+    <item android:id="@+id/action_feedback" android:title="@string/send_feedback"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_credits" android:title="@string/credits"
         android:orderInCategory="100" app:showAsAction="never" />

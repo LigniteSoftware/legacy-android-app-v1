@@ -14,7 +14,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -134,10 +133,6 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
                                     successToast();
                                     DataFramework.wipeUserDetails(getApplicationContext());
                                     Intent launchMain = new Intent(AppsActivity.this, LoginActivity.class);
-                                    if (loginTokenFix) {
-                                        launchMain.putExtra("BROKEN_TOKEN_FIX", true);
-                                        launchMain.putExtra("BROKEN_TOKEN_USERNAME", previousUsername);
-                                    }
                                     AppsActivity.this.startActivity(launchMain);
                                     finish();
                                 }
@@ -162,12 +157,12 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
     boolean loginTokenFix = false;
 
     public void nullToast(){
-        Toast.makeText(navigationDrawer.getRecyclerView().getContext(), getString(R.string.error_response_null), Toast.LENGTH_LONG).show();
+        Toast.makeText(navigationDrawer.getRecyclerView().getContext(), getString(R.string.error_sending_setting), Toast.LENGTH_LONG).show();
     }
 
     public void failedToast(){
         try {
-            Toast.makeText(navigationDrawer.getRecyclerView().getContext(), getString(R.string.error_logout_failed) + " (" + resultJSON.getString("localized_message") + ")", Toast.LENGTH_LONG).show();
+            Toast.makeText(navigationDrawer.getRecyclerView().getContext(), getString(R.string.failed_to_logout) + " (" + resultJSON.getString("localized_message") + ")", Toast.LENGTH_LONG).show();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -175,7 +170,7 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
     }
 
     public void successToast(){
-        Toast.makeText(navigationDrawer.getRecyclerView().getContext(), getString(R.string.logout_success), Toast.LENGTH_LONG).show();
+        //Toast.makeText(navigationDrawer.getRecyclerView().getContext(), getString(R.string.log), Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -229,14 +224,13 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
                 }
             }
 
-            new AlertDialog.Builder(AppsActivity.this).setMessage(getString(R.string.purchase_thanks)).show();
             mHelper.queryInventoryAsync(mGotInventoryListener);
         }
     };
 
     IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
         public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
-
+            System.out.println("Got query");
             if (result.isFailure()) {
                 // handle error here
             }
@@ -244,7 +238,7 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
                 for(int i = 0; i < LigniteInfo.AMOUNT_OF_APPS; i++) {
                     owns_app[i] = inventory.hasPurchase(LigniteInfo.APP_SKUS[i]);
                     AppFragment frag = (AppFragment) mSectionsPagerAdapter.getItem(i);
-                    frag.setPurchased(true);
+                    frag.setPurchased(owns_app[i]);
                 }
             }
         }
@@ -311,21 +305,6 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
             }
         });
 
-        String accessToken = DataFramework.getAccessToken(getApplicationContext());
-        if(accessToken.equals("nothing") && DataFramework.getUserIsBacker(getApplicationContext())){
-            //Run fixing process
-            new AlertDialog.Builder(AppsActivity.this)
-                .setMessage(R.string.broken_token_error)
-                .setPositiveButton(R.string.okay, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        loginTokenFix = true;
-                        previousUsername = DataFramework.getAccessCode(getApplicationContext());
-                        logoutListener.onClick(null, 0);
-                    }
-                }).show();
-        }
-
         new ContextManager(getApplicationContext());
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -373,16 +352,31 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
 
         Typeface helveticaNeue = Typeface.createFromAsset(getAssets(), "HelveticaNeue-Regular.ttf");
 
+        String name = UserFetcher.getName(getApplicationContext());
+        String email = UserFetcher.getEmailId(getApplicationContext());
+
+        try {
+            if (DataFramework.getUserIsBacker(getApplicationContext())) {
+                JSONObject userDetails = DataFramework.getUserDetailsFromStorage(getApplicationContext());
+                name = userDetails.getString("name");
+                email = "#" + userDetails.getString("number") + " - " + getString(R.string.pledged) + " " + userDetails.getString("pledged");
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
         AccountHeader header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(getResources().getDrawable(R.drawable.lignite_background))
                 //.withTextColor(Color.BLACK)
                 .addProfiles(new ProfileDrawerItem()
-                        .withName("Edwin Finch")
-                        .withEmail("contact@edwinfinch.com")
+                        .withName(name)
+                        .withEmail(email)
                         .withTextColor(Color.BLACK)
                         .withIcon(getResources().getDrawable(LigniteInfo.getPebble(PreviewActivity.getUserSetPebble(), getResources(), getPackageName()))))
                 .withTypeface(helveticaNeue)
+                .withProfileImagesClickable(false)
                 .build();
 
         ArrayList<IDrawerItem> apps = new ArrayList<>();
@@ -474,7 +468,7 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         }
         else if(id == R.id.action_logout){
             AlertDialog logoutDialog = new AlertDialog.Builder(AppsActivity.this)
-                    .setMessage(R.string.logout_confirm)
+                    .setMessage(R.string.logout)
                     .setPositiveButton(R.string.okay, logoutListener)
                     .setNegativeButton(R.string.cancel, null)
                     .show();
@@ -549,12 +543,6 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
             super(fm);
         }
         AppFragment fragments[] = new AppFragment[LigniteInfo.AMOUNT_OF_APPS+1];
-
-        public void refreshFragments(){
-            for(int i = 0; i < LigniteInfo.AMOUNT_OF_APPS; i++){
-                getItem(i);
-            }
-        }
 
         @Override
         public Fragment getItem(int position) {

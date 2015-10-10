@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/feedback_what_type"
+        android:text="@string/type"
         android:id="@+id/typeFeedbackTitle"
         android:textColor="#ff0000"
         android:textSize="18dp"
@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/feedback_importance"
+        android:text="@string/importance"
         android:id="@+id/importanceTextView"
         android:textColor="#ff0000"
         android:textSize="18dp"
@@ -52,7 +52,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/feedback_details_please"
+        android:text="@string/description"
         android:id="@+id/anythingElseTextView"
         android:padding="10dp"
         android:textColor="#ff0000"
@@ -76,7 +76,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/feedback_policy"
+        android:text="@string/feedback_disclaimer"
         android:id="@+id/sendDisclaimer"
         android:layout_weight="0.08"
         android:textColor="@android:color/black"

@@ -221,6 +221,7 @@ public class PreviewActivity extends AppCompatActivity {
     public void onBackPressed(){
         Intent launchIntent = new Intent(PreviewActivity.this, AppsActivity.class);
         startActivity(launchIntent);
+        finish();
     }
 
     @Override

@@ -54,7 +54,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private EditText emailView, passwordView;
     private View progressView;
     private View rootScrollView;
-    boolean loginTokenError = false;
     public TextView resetCodeView, gaveUpView, forgotPasswordView;
     public Button checkButton, loginButton;
 
@@ -65,9 +64,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         // Set up the login form.
         emailView = (EditText) findViewById(R.id.usernameEditText);
+        populateAutoComplete();
 
         passwordView = (EditText) findViewById(R.id.passwordEditText);
-        populateAutoComplete();
+
+        emailView.requestFocus();
 
         checkButton = (Button) findViewById(R.id.checkButton);
         checkButton.setOnClickListener(new OnClickListener() {
@@ -117,13 +118,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             }).start();
         }
 
-        Intent incomingIntent = getIntent();
-        loginTokenError = incomingIntent.getBooleanExtra("BROKEN_TOKEN_FIX", false);
-        if(loginTokenError){
-            String username = incomingIntent.getStringExtra("BROKEN_TOKEN_USERNAME");
-            fireTask(username);
-            Toast.makeText(getApplicationContext(), "Running token fix...", Toast.LENGTH_LONG).show();
-        }
         resetCodeView = (TextView)findViewById(R.id.lostCodeView);
         resetCodeView.setOnClickListener(new OnClickListener() {
             @Override
@@ -147,24 +141,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     public void fireTask(final String access_code){
-        if(loginTokenError){
-            DataFramework.setAccessCode(getApplicationContext(), access_code);
-            passwordView.setText(access_code);
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    loginTokenError = false;
-                    passwordView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            fireTask(access_code);
-                        }
-                    });
-                }
-            }, 1000);
-            return;
-        }
         mAuthTask = new UserLoginTask(access_code);
         mAuthTask.execute((Void) null);
         attemptLogin();
@@ -344,9 +320,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                             try {
                                 progressBarStatus = 0;
                                 waitTime = 0;
-                                String params = "username=" + passwordView.getText() + "&currentDevice=" + Build.MODEL;
+                                String params = "email=" + emailView.getText() + "&password=" + passwordView.getText() + "&currentDevice=" + Build.MODEL;
                                 //System.out.println(params);
-                                result = DataFramework.sendPost(params, "https://api.lignite.me/v2/login/index.php");
+                                result = DataFramework.sendPost(params, "https://api.lignite.me/v2/login/ios/index.php");
                                 resultJSON = new JSONObject(result);
                                 status = resultJSON.getInt("status");
                             } catch (Exception e) {
@@ -430,7 +406,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                                         @Override
                                         public void run() {
                                             dialog.dismiss();
-                                            passwordView.setError(getResources().getString(R.string.error_incorrect_code));
+                                            passwordView.setError(getResources().getString(R.string.error_invalid_code));
                                         }
                                     });
                                 } else if (status == 404) {
@@ -442,7 +418,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                                         }
                                     });
                                 } else if (status == 500) {
-                                    //Todo: show internal server error localized
+                                    //ToDo: show internal server error localized
                                     passwordView.post(new Runnable() {
                                         @Override
                                         public void run() {

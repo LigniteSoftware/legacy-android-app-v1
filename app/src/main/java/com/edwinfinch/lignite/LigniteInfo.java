@@ -1,6 +1,12 @@
 package com.edwinfinch.lignite;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.Context;
 import android.content.res.Resources;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by edwinfinch on 15-04-05.
@@ -201,8 +207,31 @@ public class LigniteInfo {
         return App.NOT_FOUND;
     }
 
-    public static String getAbootText(App type, Resources resources, boolean advanced) {
-        return resources.getStringArray(R.array.app_descriptions)[type.toInt()];
+    public static String getUsername(Context context) {
+        AccountManager manager = AccountManager.get(context);
+        Account[] accounts = manager.getAccountsByType("com.google");
+        List<String> possibleEmails = new LinkedList<String>();
+
+        for (Account account : accounts) {
+            // TODO: Check possibleEmail against an email regex or treat
+            // account.name as an email address only for certain account.type values.
+            possibleEmails.add(account.name);
+        }
+
+        if (!possibleEmails.isEmpty() && possibleEmails.get(0) != null) {
+            String email = possibleEmails.get(0);
+            String[] parts = email.split("@");
+
+            if (parts.length > 1)
+                return parts[0];
+        }
+        return null;
+    }
+
+    public static String getAbootText(App type, Resources resources, String packageName) {
+        String name = NAME[type.toInt()].replaceAll(" ", "_") + "_description";
+        System.out.println("Returning for " + name);
+        return resources.getString(resources.getIdentifier(name, "string", packageName));
     }
 
     public static int getAppScreenshot(App type, Pebble pebble, int screenshot, Resources resources, String packageName){

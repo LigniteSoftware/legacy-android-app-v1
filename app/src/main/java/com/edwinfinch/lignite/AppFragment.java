@@ -69,6 +69,7 @@ public class AppFragment extends android.support.v4.app.Fragment {
     public void setPurchased(boolean purchasedornot){
         purchased = purchasedornot;
         if(isAdded()) {
+            System.out.println("Setting " + type + " as purchased to " + purchasedornot);
             settings_button.setImageResource(purchased ? R.drawable.settings_button : R.drawable.purchase_button);
         }
     }
@@ -82,7 +83,6 @@ public class AppFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             type = App.fromInt(getArguments().getInt("t")-1);
-            purchased = getArguments().getBoolean("purchased");
         }
     }
 
@@ -248,13 +248,18 @@ public class AppFragment extends android.support.v4.app.Fragment {
         textScrollView = new TextView(getActivity().getApplicationContext());
         textScrollView.setTextColor(Color.BLACK);
         textScrollView.setTypeface(helveticaNeue);
-        textScrollView.setText(getAbootText(App.fromInt(type.toInt()), getResources(), false));
+        textScrollView.setText(getAbootText(App.fromInt(type.toInt()), getResources(), getActivity().getPackageName()));
         textScrollView.setTextSize(16);
         textScrollParentView.addView(textScrollView);
         int scrollOrigin = titleFrame.origin.y + titleFrame.size.height;
         CGRect descriptionFrame = CGRectMake(0, scrollOrigin, pebbleViewRect.size.width, installFrame.origin.y-scrollOrigin-padding/5);
         CGRect.applyRectToView(descriptionFrame, textScrollParentView);
         layout.addView(textScrollParentView);
+
+        setPurchased(getArguments().getBoolean("purchased"));
+        if(purchased || DataFramework.getUserIsBacker(getActivity().getApplicationContext())){
+            settings_button.setImageResource(R.drawable.settings_button);
+        }
 
         return layout;
     }

@@ -40,7 +40,7 @@
                        "storage_key":"pul-date_format",
                        "pebble_key":3,
                        "list":[
-                               "%A\\n%D", "%A\\n%d/%m/%y", "%A"
+                               "%A %D", "%A %d/%m/%y", "%A"
                                ],
                        "default":0
                        }
@@ -51,14 +51,14 @@
               "items":[
                        {
                        "type":"toggle",
-                       "label":"constant_anim",
+                       "label":"pref_constant_anim",
                        "storage_key":"pul-constant_anim",
                        "pebble_key":4,
                        "default":false
                        },
                        {
                        "type":"toggle",
-                       "label":"shake_to_anim",
+                       "label":"shake_to_animate",
                        "storage_key":"pul-shake_to_anim",
                        "pebble_key":5,
                        "default":true

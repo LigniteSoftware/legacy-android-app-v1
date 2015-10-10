@@ -1,6 +1,8 @@
 package com.edwinfinch.lignite;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -44,6 +46,39 @@ public class JSONSettingsActivity extends PreferenceActivity {
     String name;
     static final String TAG = "JSONSettingsActivity";
 
+    Preference.OnPreferenceChangeListener lastUsedListener;
+    Preference lastUsedPreference;
+    Object lastSentNewValue;
+
+    public void checkForWatchAndHandle(final Preference.OnPreferenceChangeListener listener, final Preference attemptedPreference, final Object newValue, boolean failedToAck){
+        lastUsedListener = listener;
+        lastUsedPreference = attemptedPreference;
+        lastSentNewValue = newValue;
+
+        if(!failedToAck){
+            return;
+        }
+
+        AlertDialog.Builder errorBuilder = new AlertDialog.Builder(JSONSettingsActivity.this)
+            .setMessage(R.string.failed_to_ack)
+            .setPositiveButton(R.string.okay, null)
+            .setNeutralButton(R.string.retry, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if (listener != null) {
+                        listener.onPreferenceChange(attemptedPreference, newValue);
+                    } else {
+                        System.out.println("Preference: " + attemptedPreference);
+                        imma_good_listener_babe.onPreferenceClick(attemptedPreference);
+                    }
+                }
+            });
+        if(!PebbleKit.isWatchConnected(getApplicationContext())){
+            errorBuilder.setMessage(R.string.watch_not_connected);
+        }
+        errorBuilder.show();
+    }
+
     final Preference.OnPreferenceClickListener imma_good_listener_babe = new Preference.OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {
@@ -58,7 +93,14 @@ public class JSONSettingsActivity extends PreferenceActivity {
             }
 
             PebbleKit.sendDataToPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[section.toInt()]), dictionary);
-            System.out.println(preference.getKey() + " " + preference.getTitle());
+            if(lignitePreference != null) {
+                System.out.println(lignitePreference.getKey() + " " + lignitePreference.getTitle());
+            }
+            else{
+                System.out.println("Preference is null :(");
+            }
+
+            checkForWatchAndHandle(null, preference, null, false);
             return false;
         }
     };
@@ -79,6 +121,7 @@ public class JSONSettingsActivity extends PreferenceActivity {
 
             preference.getSharedPreferences().edit().putString(preference.getKey(), (String)newValue).apply();
 
+            checkForWatchAndHandle(this, preference, newValue, false);
             return false;
         }
     };
@@ -100,6 +143,8 @@ public class JSONSettingsActivity extends PreferenceActivity {
             PebbleKit.sendDataToPebble(getApplicationContext(), UUID.fromString(LigniteInfo.UUID[section.toInt()]), dict);
 
             preference.getSharedPreferences().edit().putString(preference.getKey(), preference.getSummary().toString()).apply();
+
+            checkForWatchAndHandle(this, preference, newValue, false);
             return false;
         }
     };
@@ -119,8 +164,9 @@ public class JSONSettingsActivity extends PreferenceActivity {
             }
             PebbleKit.sendDataToPebble(getApplicationContext(), UUID.fromString(LigniteInfo.UUID[section.toInt()]), dict);
 
-            preference.getSharedPreferences().edit().putString(preference.getKey(), (String)newValue);
+            preference.getSharedPreferences().edit().putString(preference.getKey(), (String) newValue);
 
+            checkForWatchAndHandle(this, preference, newValue, false);
             return false;
         }
     };
@@ -143,6 +189,8 @@ public class JSONSettingsActivity extends PreferenceActivity {
                 e.printStackTrace();
             }
             PebbleKit.sendDataToPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[section.toInt()]), dictionary);
+
+            checkForWatchAndHandle(this, preference, newValue, false);
             return false;
         }
     };
@@ -160,15 +208,40 @@ public class JSONSettingsActivity extends PreferenceActivity {
             } catch(Exception e){ e.printStackTrace(); }
 
             PebbleKit.sendDataToPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[section.toInt()]), dictionary);
+
+            checkForWatchAndHandle(this, preference, newValue, false);
             return false;
         }
     };
+
+    PebbleKit.PebbleNackReceiver nackRec;
+    PebbleKit.PebbleAckReceiver ackRec;
 
     @Override
     public void onCreate(Bundle saved){
         super.onCreate(saved);
         name = getIntent().getStringExtra("app_name");
         section = LigniteInfo.getSectionFromAppName(name);
+
+        System.out.println("Setting for " + LigniteInfo.UUID[section.toInt()] + " (" + section + ")");
+
+        nackRec = new PebbleKit.PebbleNackReceiver(UUID.fromString(LigniteInfo.UUID[section.toInt()])) {
+            @Override
+            public void receiveNack(Context context, int transactionId) {
+                Log.i(getLocalClassName(), "Received nack for transaction " + transactionId);
+                checkForWatchAndHandle(lastUsedListener, lastUsedPreference, lastSentNewValue, true);
+            }
+        };
+
+        ackRec = new PebbleKit.PebbleAckReceiver(UUID.fromString(LigniteInfo.UUID[section.toInt()])) {
+            @Override
+            public void receiveAck(Context context, int transactionId) {
+                Log.i(getLocalClassName(), "Received ack for transaction " + transactionId);
+            }
+        };
+
+        PebbleKit.registerReceivedNackHandler(getBaseContext(), nackRec);
+        PebbleKit.registerReceivedAckHandler(getBaseContext(), ackRec);
 
         /*
         PebbleDictionary dictionary = new PebbleDictionary();
@@ -186,6 +259,14 @@ public class JSONSettingsActivity extends PreferenceActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setupSimplePreferencesScreen();
+
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        unregisterReceiver(ackRec);
+        unregisterReceiver(nackRec);
     }
 
     public static String readFile(Context ctx, String assetFilename) {
@@ -208,8 +289,19 @@ public class JSONSettingsActivity extends PreferenceActivity {
 
     private String getInternationalizedString(String aString) {
         String packageName = getPackageName();
-        int resId = getResources().getIdentifier(aString, "string", packageName);
-        System.out.println("Searching for string: " + aString + " returning: " + resId);
+        String updatedString = aString.replaceAll("%d", "x")
+                .replaceAll("%", "")
+                .replaceAll(" - ", "_")
+                .replaceAll("-", "")
+                .replaceAll(" ", "_")
+                .replaceAll(",", "")
+                .replaceAll("/", "_")
+                .replaceAll(":", "")
+                .replaceAll("\\.", "")
+                .toLowerCase();
+
+        int resId = getResources().getIdentifier(updatedString, "string", packageName);
+        System.out.println("Searching for string: " + updatedString + " (previously: " + aString + ") returning: " + resId);
         return getString(resId);
     }
 
@@ -342,7 +434,7 @@ public class JSONSettingsActivity extends PreferenceActivity {
 
     /**
      * Determines whether the simplified settings UI should be shown. This is
-     * true if this is forced via {@link #ALWAYS_SIMPLE_PREFS}, or the device
+     * true if this is forced via {@link #}, or the device
      * doesn't have newer APIs like {@link PreferenceFragment}, or the device
      * doesn't have an extra-large screen. In these cases, a single-pane
      * "simplified" settings UI should be shown.

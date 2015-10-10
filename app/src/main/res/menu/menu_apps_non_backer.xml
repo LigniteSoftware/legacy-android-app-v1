@@ -6,7 +6,7 @@
 
     <item android:id="@+id/action_settings" android:title="@string/lignite_settings"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_backer_login" android:title="@string/backer"
+    <item android:id="@+id/action_backer_login" android:title="@string/kickstarter_backer"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_credits" android:title="@string/credits"
         android:orderInCategory="100" app:showAsAction="never" />
