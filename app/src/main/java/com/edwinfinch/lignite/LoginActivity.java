@@ -140,12 +140,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         });
     }
 
+    /**
+     * First the login task.
+     * @param access_code The access code to verify.
+     */
     public void fireTask(final String access_code){
         mAuthTask = new UserLoginTask(access_code);
         mAuthTask.execute((Void) null);
         attemptLogin();
     }
 
+    /**
+     * Not sure what this does
+     */
     private void populateAutoComplete() {
         getLoaderManager().initLoader(0, null, this);
     }
@@ -205,6 +212,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
+    /**
+     * Checks if the code is valid.
+     * @param code The code to check
+     * @return Whether or not it's valid.
+     */
     private boolean isCodeValid(String code) {
         return code.length() > 5;
     }
@@ -288,7 +300,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
-     * the user.
+     * the user. Shitstorm ahead.
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 

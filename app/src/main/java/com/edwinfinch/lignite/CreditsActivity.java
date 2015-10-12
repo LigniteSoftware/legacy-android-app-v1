@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 /**
  * Created by edwinfinch on 15-05-29.
+ *
+ * Just shows the credits for the app
  */
 public class CreditsActivity extends Activity {
     ScrollView creditScrollView;

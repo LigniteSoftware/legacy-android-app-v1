@@ -10,14 +10,25 @@ import java.util.List;
 
 /**
  * Created by edwinfinch on 15-04-05.
+ *
+ * This class basically provides all info of the app, from app titles/names to descriptions, to UUIDs.
  */
 public class LigniteInfo {
+    //The amount of apps available
     public static final int AMOUNT_OF_APPS = 14;
+
+    /**
+     * The App enum is an easy way to keep track of a watchface/watchapp.
+     */
     public enum App {
         SPEEDOMETER, KNIGHTRIDER, CHUNKY, LINES, COLOURS, TIMEDOCK,
         TREE_OF_COLOURS, TIMEZONES, SLOT_MACHINE, PULSE, SIMPLIFIED_ANALOGUE,
         PERSONAL, BEAT, EQUALIZER, NOT_FOUND;
 
+        /**
+         * Converts this to an integer
+         * @return The integer value of this.
+         */
         public int toInt(){
             switch(this){
                 case SPEEDOMETER:
@@ -51,6 +62,12 @@ public class LigniteInfo {
             }
             return -1;
         }
+
+        /**
+         * Creates an App from an integer.
+         * @param number The integer to transform.
+         * @return The App.
+         */
         public static App fromInt(int number){
             switch(number){
                 case 0:
@@ -85,12 +102,20 @@ public class LigniteInfo {
             return NOT_FOUND;
         }
     }
+
+    /**
+     * The Pebble enum is an easy way to keep track of all available Pebble models.
+     */
     public enum Pebble {
         SNOWY_BLACK, SNOWY_WHITE, SNOWY_RED,
         BOBBY_BLACK, BOBBY_SILVER, BOBBY_GOLD,
         TINTIN_BLACK, TINTIN_WHITE, TINTIN_RED,
         BIANCA_BLACK, BIANCA_SILVER, NOT_FOUND;
 
+        /**
+         * Grabs the integer value of the Pebble
+         * @return The integer value.
+         */
         public int toInt(){
             switch(this){
                 case SNOWY_BLACK:
@@ -119,6 +144,12 @@ public class LigniteInfo {
                     return -1;
             }
         }
+
+        /**
+         * Transforms an int into a Pebble. Yes, it's that easy.
+         * @param pebble The integer to transform.
+         * @return The Pebble from pebble.
+         */
         public static Pebble fromInt(int pebble){
             switch(pebble) {
                 case 0:
@@ -147,28 +178,60 @@ public class LigniteInfo {
                     return NOT_FOUND;
             }
         }
+
+        /**
+         * Checks whether or not the watch is basalt.
+         * @return A boolean value of whether or not it's basalt.
+         */
         public boolean isBasalt(){
             return this.toInt() <= 5;
         }
+
+        /**
+         * Basalt integer.
+         * @return Basalt integer.
+         */
         public int isBasaltInt(){
             return this.isBasalt() ? 1 : 0;
         }
+
+        /**
+         * The platform name.
+         * @return The platform name, either aplite or basalt. Soon to support chalk.
+         */
         public String platformName(){
             return this.isBasalt() ? "basalt" : "aplite";
         }
+
+        /**
+         * Gets the top Pebble in the list.
+         * @return
+         */
         public static Pebble getTopPebble(){
             return BIANCA_SILVER;
         }
+
+        /**
+         * Gets the bottom Pebble in the list.
+         * @return
+         */
         public static Pebble getBottomPebble(){
             return SNOWY_BLACK;
         }
     }
+
+    /**
+     * The Pebble names for files
+     */
     public static final String PEBBLE_NAME[] = {
             "snowy_black", "snowy_white", "snowy_red",
             "bobby_black", "bobby_silver", "bobby_gold",
             "tintin_black", "tintin_white", "tintin_red",
             "bianca_black", "bianca_silver"
     };
+    /**
+     * App UUIDs (for watchface/watchapp communication)
+     */
     public static final String UUID[] = {
             "e1c75a76-27fc-4f9c-85b3-73920ffdb3b7", "03a9a405-ba98-44ad-bca3-bab151d81975", "1f626d76-38d8-4353-b930-c65a109260c7",
             "e1fe3595-cb81-45c3-9720-302fdd6316da", "3fabfdff-5f74-4bfb-8cfd-ac7a28df9aca", "7f1c3fc2-bddd-4845-8737-b167454d276b",
@@ -176,6 +239,9 @@ public class LigniteInfo {
             "de92cc22-eb6b-4229-9665-1d6b111b1e26", "b32c5bbc-57d1-4f6c-91f1-13777fac283a", "0bf39622-a77b-42b8-846a-2a21ac9d2bec",
             "44067cdd-a10d-4e83-ba81-b886ceedb2b7", "13738de7-03bc-45bd-a3fc-42943b55113c"
     };
+    /**
+     * The name of the app
+     */
     public static final String NAME[] = {
             "speedometer", "rightnighter", "chunky",
             "lines", "colours", "timedock",
@@ -183,6 +249,9 @@ public class LigniteInfo {
             "pulse", "simplified analogue", "personal",
             "beat", "equalizer"
     };
+    /**
+     * The application location in the Pebble appstore. See http://apps.getpebble.com/en_US/application/[LOCATION]
+     */
     public static final String APPLICATION_LOCATION[] = {
             "556dcfbc354a41c220000011", "55883dc841241a5db40000f0", "55883f2f41241abe5c0000e1",
             "5588410449c1d102cd000114", "55882b0c0021370a4b0000dc", "552d9637ceb7830ea000007b",
@@ -190,6 +259,9 @@ public class LigniteInfo {
             "559c5602b703a68da9000089", "55b517ee46a407265f00007b", "55c05b70718511a83a00000b",
             "55c8cf1c7fde01b16d000003", "55d13e160f995067ae000065"
     };
+    /**
+     * The SKU for inapp purchases.
+     */
     public static final String APP_SKUS[] = {
             "ind_face_speedometer", "ind_face_knightrider", "ind_face_chunky",
             "ind_face_lines", "ind_face_colours", "ind_face_donate",
@@ -198,6 +270,11 @@ public class LigniteInfo {
             "ind_face_beat", "ind_face_equalizer"
     };
 
+    /**
+     * Gets the section (integer) from the name of an app.
+     * @param name The name of the app.
+     * @return The section in which the app is in.
+     */
     public static App getSectionFromAppName(String name){
         for(int i = 0; i < NAME.length; i++){
             if(name.equals(NAME[i])){
@@ -207,6 +284,9 @@ public class LigniteInfo {
         return App.NOT_FOUND;
     }
 
+    /*
+     * Some pile of shit
+     *
     public static String getUsername(Context context) {
         AccountManager manager = AccountManager.get(context);
         Account[] accounts = manager.getAccountsByType("com.google");
@@ -227,18 +307,42 @@ public class LigniteInfo {
         }
         return null;
     }
+    */
 
+    /**
+     * Gets the about text of the app.
+     * @param type The type of App.
+     * @param resources The resources.
+     * @param packageName The package name.
+     * @return The about text as a String.
+     */
     public static String getAbootText(App type, Resources resources, String packageName) {
         String name = NAME[type.toInt()].replaceAll(" ", "_") + "_description";
         System.out.println("Returning for " + name);
         return resources.getString(resources.getIdentifier(name, "string", packageName));
     }
 
+    /**
+     * Gets the app screenshot as a resource ID.
+     * @param type The type of App.
+     * @param pebble The Pebble to grab from. Certain Pebbles have different screenshots, especially black and white :P
+     * @param screenshot The screenshot count to grab.
+     * @param resources The resources.
+     * @param packageName The package name.
+     * @return The screenshot as a resource ID.
+     */
     public static int getAppScreenshot(App type, Pebble pebble, int screenshot, Resources resources, String packageName){
         String name = LigniteInfo.NAME[type.toInt()].replaceAll(" ", "") + "_" + pebble.platformName() + "_" + screenshot;
         return resources.getIdentifier(name, "drawable", packageName);
     }
 
+    /**
+     * Gets a Pebble as a resource ID.
+     * @param pebble The Pebble to grab.
+     * @param resources The resources.
+     * @param packageName The package name.
+     * @return The Pebble as a resource ID.
+     */
     public static int getPebble(Pebble pebble, Resources resources, String packageName){
         return resources.getIdentifier(LigniteInfo.PEBBLE_NAME[pebble.toInt()], "drawable", packageName);
     }

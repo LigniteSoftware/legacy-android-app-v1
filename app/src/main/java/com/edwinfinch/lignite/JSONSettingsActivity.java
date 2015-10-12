@@ -50,6 +50,14 @@ public class JSONSettingsActivity extends PreferenceActivity {
     Preference lastUsedPreference;
     Object lastSentNewValue;
 
+    /**
+     * Checks whether or not the watch acknowledged the messsage that was sent to it.
+     * If it doesn't, this will handle it accordingly.
+     * @param listener The preference change listener that was used to send the preference.
+     * @param attemptedPreference The preference that was attempted to change.
+     * @param newValue The new value of the preference that failed to go through.
+     * @param failedToAck Whether or not the watch failed to ack the message.
+     */
     public void checkForWatchAndHandle(final Preference.OnPreferenceChangeListener listener, final Preference attemptedPreference, final Object newValue, boolean failedToAck){
         lastUsedListener = listener;
         lastUsedPreference = attemptedPreference;
@@ -79,19 +87,23 @@ public class JSONSettingsActivity extends PreferenceActivity {
         errorBuilder.show();
     }
 
+    /**
+     * The listener for boolean values.
+     */
     final Preference.OnPreferenceClickListener imma_good_listener_babe = new Preference.OnPreferenceClickListener() {
         @Override
         public boolean onPreferenceClick(Preference preference) {
             PebbleDictionary dictionary = new PebbleDictionary();
 
+            //Gets the preference and the item accordingly.
             LigniteCheckBoxPreference lignitePreference = (LigniteCheckBoxPreference)preference;
-
             try {
                 dictionary.addInt32(lignitePreference.item.getInt("pebble_key"), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean(preference.getKey(), true) ? 1 : 0);
             } catch(Exception e){
                 e.printStackTrace();
             }
 
+            //Sends the data to Pebble
             PebbleKit.sendDataToPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[section.toInt()]), dictionary);
             if(lignitePreference != null) {
                 System.out.println(lignitePreference.getKey() + " " + lignitePreference.getTitle());
@@ -100,16 +112,22 @@ public class JSONSettingsActivity extends PreferenceActivity {
                 System.out.println("Preference is null :(");
             }
 
+            //Updates the last handled preferences and stuff in case there is an error.
             checkForWatchAndHandle(null, preference, null, false);
             return false;
         }
     };
 
+    /**
+     * The listener for timezone value changes.
+     * See the boolean listener for an example of how the base functionality works.
+     */
     Preference.OnPreferenceChangeListener timezone_listener = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
             preference.setTitle((String) newValue);
 
+            //Get the offset and send that off
             TimeZone nba = TimeZone.getDefault();
             TimeZone inTheZone = TimeZone.getTimeZone((String)newValue);
 
@@ -126,6 +144,10 @@ public class JSONSettingsActivity extends PreferenceActivity {
         }
     };
 
+    /**
+     * The listener for list value changes.
+     * See the boolean listener for an example of how the base functionality works.
+     */
     Preference.OnPreferenceChangeListener list_listener = new Preference.OnPreferenceChangeListener(){
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -149,6 +171,10 @@ public class JSONSettingsActivity extends PreferenceActivity {
         }
     };
 
+    /**
+     * The listener for text value changes.
+     * See the boolean listener for an example of how the base functionality works.
+     */
     Preference.OnPreferenceChangeListener edittext_listener = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -171,6 +197,10 @@ public class JSONSettingsActivity extends PreferenceActivity {
         }
     };
 
+    /**
+     * The listener for colour changes.
+     * See the boolean listener for an example of how the base functionality works.
+     */
     Preference.OnPreferenceChangeListener colourListener = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -195,6 +225,10 @@ public class JSONSettingsActivity extends PreferenceActivity {
         }
     };
 
+    /**
+     * The listener for number changes.
+     * See the boolean listener for an example of how the base functionality works.
+     */
     Preference.OnPreferenceChangeListener numberListener = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -225,6 +259,11 @@ public class JSONSettingsActivity extends PreferenceActivity {
 
         System.out.println("Setting for " + LigniteInfo.UUID[section.toInt()] + " (" + section + ")");
 
+        /**
+         * The nack receiver handles any issues that the watch may have had getting the message.
+         * Regardless of the error, the job of this handler is to pass in the most recently used listener,
+         * preference, and value to let that handle the rest and maybe even try again if the user wants.
+         */
         nackRec = new PebbleKit.PebbleNackReceiver(UUID.fromString(LigniteInfo.UUID[section.toInt()])) {
             @Override
             public void receiveNack(Context context, int transactionId) {
@@ -233,6 +272,10 @@ public class JSONSettingsActivity extends PreferenceActivity {
             }
         };
 
+        /**
+         * We may do something (or you) with the ack receiver later, but for now it is just to make
+         * sure you know the message went through.
+         */
         ackRec = new PebbleKit.PebbleAckReceiver(UUID.fromString(LigniteInfo.UUID[section.toInt()])) {
             @Override
             public void receiveAck(Context context, int transactionId) {
@@ -240,6 +283,7 @@ public class JSONSettingsActivity extends PreferenceActivity {
             }
         };
 
+        //Registers the handlers.
         PebbleKit.registerReceivedNackHandler(getBaseContext(), nackRec);
         PebbleKit.registerReceivedAckHandler(getBaseContext(), ackRec);
 
@@ -269,6 +313,12 @@ public class JSONSettingsActivity extends PreferenceActivity {
         unregisterReceiver(nackRec);
     }
 
+    /**
+     * Reads a JSON file from assets.
+     * @param ctx The context
+     * @param assetFilename The JSON file name.
+     * @return The JSON file (or just file) as a String.
+     */
     public static String readFile(Context ctx, String assetFilename) {
         try {
             File file = new File(ctx.getExternalFilesDir(null), assetFilename);
@@ -287,6 +337,11 @@ public class JSONSettingsActivity extends PreferenceActivity {
         return "fucking error mate";
     }
 
+    /**
+     * Gets the internationalized string of another string
+     * @param aString The string to grab.
+     * @return The internationalized version of aString.
+     */
     private String getInternationalizedString(String aString) {
         String packageName = getPackageName();
         String updatedString = aString.replaceAll("%d", "x")
@@ -305,6 +360,12 @@ public class JSONSettingsActivity extends PreferenceActivity {
         return getString(resId);
     }
 
+    /**
+     * The simple preferences screen setup process.
+     *
+     * Essentially, this shit just runs through a loop and sets up each item with its
+     * own listener and the previous value, if one exists.
+     */
     private void setupSimplePreferencesScreen() {
         PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(getApplicationContext());
         try {

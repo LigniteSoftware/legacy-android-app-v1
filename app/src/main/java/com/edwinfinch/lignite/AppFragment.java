@@ -66,6 +66,11 @@ public class AppFragment extends android.support.v4.app.Fragment {
     ScrollView textScrollParentView;
     TextView textScrollView, titleView;
 
+
+    /**
+     * Set purchased sets the purchase state of the app and updates the UI accordingly.
+     * @param purchasedornot Whether or not the App is purchased
+     */
     public void setPurchased(boolean purchasedornot){
         purchased = purchasedornot;
         if(isAdded()) {
@@ -74,6 +79,9 @@ public class AppFragment extends android.support.v4.app.Fragment {
         }
     }
 
+    /**
+     * Constructor because we have to
+     */
     public AppFragment(){
 
     }
@@ -86,6 +94,13 @@ public class AppFragment extends android.support.v4.app.Fragment {
         }
     }
 
+    /**
+     * Grabs the height of the navigation bar.
+     * @param c The context
+     * @param is_tablet Whether or not the device is a tablet
+     * @param resources The resources
+     * @return The size of the navigation bar in pixels
+     */
     static public int getNavigationBarHeight(Context c, boolean is_tablet, Resources resources) {
         int result = 0;
         boolean hasMenuKey = ViewConfiguration.get(c).hasPermanentMenuKey();
@@ -110,12 +125,22 @@ public class AppFragment extends android.support.v4.app.Fragment {
     }
 
 
+    /**
+     * Returns whether or not the device is a tablet
+     * @param c Context
+     * @return Whether or not it's a tablet
+     */
     public static boolean isTablet(Context c) {
         return (c.getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 
+    /**
+     * Turns a drawable into a Bitmap.
+     * @param drawable The drawable to transform
+     * @return The resulting bitmap
+     */
     public static Bitmap drawableToBitmap (Drawable drawable) {
         Bitmap bitmap = null;
 
@@ -138,6 +163,9 @@ public class AppFragment extends android.support.v4.app.Fragment {
         return bitmap;
     }
 
+    /*
+    This simply builds the imageviews for Pebble shit. Not used I believe.
+     */
     public ViewSwitcher.ViewFactory imageFactory = new ViewSwitcher.ViewFactory() {
         public View makeView() {
             ImageView myView = new ImageView(ContextManager.ctx);
@@ -146,6 +174,9 @@ public class AppFragment extends android.support.v4.app.Fragment {
         }
     };
 
+    /*
+    Time for scary ass code
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -155,27 +186,33 @@ public class AppFragment extends android.support.v4.app.Fragment {
 
         //FrameLayout layout = new FrameLayout(ContextManager.ctx);
 
+        //Gets the display's size in pixels width and height wise
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
         int height = size.y;
 
+        //Adds the Pebble view, which is created in PreviewActivity.
+        //The Pebble view is simply the Pebble.
         pebble_view = PreviewActivity.getPebbleView(layout, padding, getActivity().getWindowManager().getDefaultDisplay(), PreviewActivity.getUserSetPebble(), getResources(), getActivity().getPackageName());
         CGRect.applyOffsetToView(CGRect.CGRectOffset.HEIGHT, 180, pebble_view);
         pebble_view.setOnClickListener(sourceActivity.previewBuilderListener);
 
+        //Sets up the screenshotView which is inside the screenshot view.
         CGRect pebbleViewRect = CGRect.getRectFromView(pebble_view);
         screenshot_view = (ImageSwitcher)PreviewActivity.getScreenshotView(false, pebbleViewRect, layout);
         screenshot_view.setFactory(PreviewActivity.imageFactory);
         screenshot_view.setImageResource(getAppScreenshot(type, PreviewActivity.getUserSetPebble(), 1, getResources(), getActivity().getPackageName()));
         screenshot_view.setOnClickListener(sourceActivity.previewBuilderListener);
 
+        //Sets animations
         Animation in = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), android.R.anim.slide_in_left);
         Animation out = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), android.R.anim.slide_out_right);
         in.setInterpolator(new AnticipateOvershootInterpolator());
         out.setInterpolator(new AnticipateOvershootInterpolator());
 
+        //Left arrow image
         left_arrow_view = new ImageView(ContextManager.ctx);
         left_arrow_view.setImageResource(R.drawable.arrow_active_left);
         left_arrow_view.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -183,6 +220,7 @@ public class AppFragment extends android.support.v4.app.Fragment {
         CGRect.applyRectToView(leftArrowRect, left_arrow_view);
         layout.addView(left_arrow_view);
 
+        //Right arrow image
         right_arrow_view = new ImageView(ContextManager.ctx);
         right_arrow_view.setImageResource(R.drawable.arrow_active_right);
         right_arrow_view.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -190,6 +228,7 @@ public class AppFragment extends android.support.v4.app.Fragment {
         CGRect.applyRectToView(rightArrowRect, right_arrow_view);
         layout.addView(right_arrow_view);
 
+        //Updates the arrow indicators accordingly
         if(type == App.SPEEDOMETER){
             left_arrow_view.setImageResource(R.drawable.arrow_inactive_left);
         }
@@ -199,6 +238,7 @@ public class AppFragment extends android.support.v4.app.Fragment {
 
         Typeface helveticaNeue = Typeface.createFromAsset(getActivity().getAssets(), "HelveticaNeue-Regular.ttf");
 
+        //The title (below watch and screenshot)
         titleView = new TextView(ContextManager.ctx);
         titleView.setText(WordUtils.capitalize(NAME[type.toInt()]));
         titleView.setTextColor(Color.BLACK);
@@ -215,6 +255,7 @@ public class AppFragment extends android.support.v4.app.Fragment {
         int navBarHeight = getNavigationBarHeight(ContextManager.ctx, isTablet(ContextManager.ctx), getResources());
         int buttonY = height-(padding*2)-(int)(navBarHeight*1.5)-buttonSize-padding/2;
 
+        //Settings button
         settings_button = new ImageView(ContextManager.ctx);
         settings_button.setEnabled(type != App.TIMEDOCK);
         settings_button.setImageResource(R.drawable.settings_button);
@@ -223,13 +264,14 @@ public class AppFragment extends android.support.v4.app.Fragment {
         settings_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sourceActivity.openSettings(null);
+                sourceActivity.openSettings(null); //Opens the settings for that app
             }
         });
         CGRect settingsFrame = CGRectMake(width/2 - padding/2, buttonY, buttonSize, buttonSize);
         CGRect.applyRectToView(settingsFrame, settings_button);
         layout.addView(settings_button);
 
+        //Install button
         install_button = new ImageView(ContextManager.ctx);
         install_button.setEnabled(type != App.TIMEDOCK);
         install_button.setImageResource(R.drawable.install_button);
@@ -237,13 +279,16 @@ public class AppFragment extends android.support.v4.app.Fragment {
         install_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sourceActivity.installApp(null);
+                sourceActivity.installApp(null); //Opens the install link for that app
             }
         });
         CGRect installFrame = CGRectMake(width/2 - buttonSize - (int)(padding*1.5), buttonY, buttonSize, buttonSize);
         CGRect.applyRectToView(installFrame, install_button);
         layout.addView(install_button);
 
+        //The textscrollview is not as advanced as it seems.
+        //It is simply the description embedded in a scrollview so that all screens can see the text without it being
+        //cut off :P
         textScrollParentView = new ScrollView(ContextManager.ctx);
         textScrollView = new TextView(getActivity().getApplicationContext());
         textScrollView.setTextColor(Color.BLACK);
@@ -256,7 +301,9 @@ public class AppFragment extends android.support.v4.app.Fragment {
         CGRect.applyRectToView(descriptionFrame, textScrollParentView);
         layout.addView(textScrollParentView);
 
+        //Sets whether or not it is purchased
         setPurchased(getArguments().getBoolean("purchased"));
+        //Or checks if the user is a backer
         if(purchased || DataFramework.getUserIsBacker(getActivity().getApplicationContext())){
             settings_button.setImageResource(R.drawable.settings_button);
         }
@@ -287,6 +334,10 @@ public class AppFragment extends android.support.v4.app.Fragment {
 }
 
 /*
+ * RIP in pepperoni ancient feature piece of shit
+ * @param Fuck you
+ * @param Yes you
+ * @return Not you Tarwinder the other guy
     public void sideloadInstall(Context ctx, String assetFilename){
         try{
             Intent intent = new Intent(Intent.ACTION_VIEW);

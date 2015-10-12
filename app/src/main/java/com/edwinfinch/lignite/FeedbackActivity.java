@@ -21,6 +21,11 @@ import org.json.JSONObject;
 
 /**
  * Created by edwinfinch on 15-05-13.
+ *
+ * Lets the user submit feedback
+ * Honestly it just makes them feel better I haven't checked it in a while sadly
+ *
+ * This whole class doesn't need much explaining because it's simple and doesn't need to be changed at all.
  */
 public class FeedbackActivity extends Activity {
     Spinner typeFeedbackSpinner;
@@ -35,6 +40,7 @@ public class FeedbackActivity extends Activity {
 
     int progressBarStatus = 0;
     int waitTime = 0;
+
 
     SeekBar.OnSeekBarChangeListener importanceChangeListener = new SeekBar.OnSeekBarChangeListener() {
         @Override

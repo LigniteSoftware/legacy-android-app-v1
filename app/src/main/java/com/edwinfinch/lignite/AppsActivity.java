@@ -31,7 +31,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.edwinfinch.lignite.util.IabHelper;
@@ -52,7 +51,10 @@ import org.json.JSONObject;
 
 import static com.edwinfinch.lignite.LigniteInfo.NAME;
 
-
+/**
+ * The apps activity is essentially the core of the whole app, where most of the user interaction goes on (going between watchfaces,
+ * purchasing, accessing settings, etc.)
+ */
 public class AppsActivity extends AppCompatActivity implements ActionBar.TabListener, Serializable {
 
     static public final String TAG = "AppsActivity";
@@ -60,6 +62,9 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
     String previousUsername;
     ProgressDialog logoutDialog;
 
+    /**
+     * Checks for a verified logout click (on the logout dialog) and handles it accordingly.
+     */
     private DialogInterface.OnClickListener logoutListener = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
@@ -156,10 +161,16 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
     JSONObject resultJSON;
     boolean loginTokenFix = false;
 
+    /**
+     * For when some shit is null
+     */
     public void nullToast(){
         Toast.makeText(navigationDrawer.getRecyclerView().getContext(), getString(R.string.error_sending_setting), Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * For when some shit is failed
+     */
     public void failedToast(){
         try {
             Toast.makeText(navigationDrawer.getRecyclerView().getContext(), getString(R.string.failed_to_logout) + " (" + resultJSON.getString("localized_message") + ")", Toast.LENGTH_LONG).show();
@@ -169,6 +180,10 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         }
     }
 
+    /**
+     * For when shit succeeds
+     * rip this function not sure why
+     */
     public void successToast(){
         //Toast.makeText(navigationDrawer.getRecyclerView().getContext(), getString(R.string.log), Toast.LENGTH_LONG).show();
     }
@@ -207,6 +222,7 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         }
     }
 
+    //When something is purchased, handle it
     IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase)
         {
@@ -216,6 +232,9 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
                 return;
             }
 
+            /**
+             * Update the content
+             */
             for(int i = 0; i < LigniteInfo.AMOUNT_OF_APPS; i++) {
                 if (purchase.getSku().equals(LigniteInfo.APP_SKUS[i])) {
                     owns_app[i] = true;
@@ -228,6 +247,9 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         }
     };
 
+    /**
+     * Update internal variables
+     */
     IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
         public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
             System.out.println("Got query");
@@ -244,6 +266,9 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         }
     };
 
+    /**
+     * Forgot what this does, something with the navigation drawer
+     */
     Drawer.OnDrawerItemClickListener appClickedListener = new Drawer.OnDrawerItemClickListener() {
         @Override
         public boolean onItemClick(View view, int i, IDrawerItem iDrawerItem) {
@@ -252,6 +277,9 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         }
     };
 
+    /**
+     * When the Pebble is clicked, it opens the preview builder.
+     */
     public View.OnClickListener previewBuilderListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -262,6 +290,7 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         }
     };
 
+    //Wonder what this does ;)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -307,6 +336,7 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
 
         new ContextManager(getApplicationContext());
 
+        //Gets and sets the toolbar
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.primary));
         toolbar.setTitleTextColor(Color.WHITE);
@@ -335,16 +365,19 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
 
         String[] array = LigniteInfo.NAME;
 
+        //Adds each app to the arraylist which is applied to the navigation drawer and stuff
         ArrayList<String> arrayList = new ArrayList<>();
         for(int i = 0; i < array.length; i++){
             arrayList.add(WordUtils.capitalize(array[i]));
         }
 
+        //Sets the colours manually
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setNavigationBarColor(Color.parseColor("#D32F2F"));
         }
 
+        //Sets up all fragments
         for (int i = 0; i < LigniteInfo.AMOUNT_OF_APPS; i++) {
             AppFragment frag = (AppFragment) mSectionsPagerAdapter.getItem(i);
             frag.sourceActivity = this;
@@ -352,10 +385,12 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
 
         Typeface helveticaNeue = Typeface.createFromAsset(getAssets(), "HelveticaNeue-Regular.ttf");
 
+        //Grabs the actual email and name of user incase they are not a backer
         String name = UserFetcher.getName(getApplicationContext());
         String email = UserFetcher.getEmailId(getApplicationContext());
 
         try {
+            //If they are a backer it set their details to their backer info
             if (DataFramework.getUserIsBacker(getApplicationContext())) {
                 JSONObject userDetails = DataFramework.getUserDetailsFromStorage(getApplicationContext());
                 name = userDetails.getString("name");
@@ -366,6 +401,7 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
             e.printStackTrace();
         }
 
+        //Sets up the account header with the beautiful Lignite wallpaper
         AccountHeader header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(getResources().getDrawable(R.drawable.lignite_background))
@@ -379,12 +415,14 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
                 .withProfileImagesClickable(false)
                 .build();
 
+        //Adds each item to the drawer
         ArrayList<IDrawerItem> apps = new ArrayList<>();
         for(int i = 0; i < LigniteInfo.AMOUNT_OF_APPS; i++){
             IDrawerItem item = new PrimaryDrawerItem().withName(arrayList.get(i));
             apps.add(item);
         }
 
+        //Initializes the navigation drawer and adds it to the window
         navigationDrawer = new DrawerBuilder().withActivity(this)
                 .withTranslucentStatusBar(false)
                 .withAccountHeader(header)
@@ -397,16 +435,20 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         navigationDrawer.getActionBarDrawerToggle().setDrawerIndicatorEnabled(true);
 
+        //Checks whether or not the access token the user is using is valid or not
+        //If it isn't the usr gets slapped in the ass and gets kicked out of the app
         if(!loginTokenFix && DataFramework.getUserIsBacker(getApplicationContext())) {
             DataFramework framework = new DataFramework();
             framework.verifyAccessToken(getApplicationContext(), this, navigationDrawer.getRecyclerView());
         }
 
+        //Sets the hamburger icon thingy
         final Drawable upArrow = getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
         upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
         getSupportActionBar().setHomeAsUpIndicator(upArrow);
     }
 
+    //Destroys your mom
     @Override
     public void onDestroy(){
         super.onDestroy();
@@ -421,12 +463,14 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         }
     }
 
+    //Yep
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
         return super.onPrepareOptionsMenu(menu);
     }
 
+    //Yep
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -439,6 +483,11 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         return true;
     }
 
+    /**
+     * Is fired when item is selected in the options menu
+     * @param item The menu item to handle
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -450,6 +499,9 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
             return true;
         }
 
+        /**
+         * Read each ID and you will understand what each one does, it's quite easy here
+         */
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Toast.makeText(getApplicationContext(), "Lignite settings temporarily disabled.", Toast.LENGTH_SHORT).show();
@@ -479,6 +531,10 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Opens the Pebble app for installation
+     * @param view The view?
+     */
     public void installApp(View view){
         int current = mViewPager.getCurrentItem();
 
@@ -489,6 +545,10 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         startActivity(intent);
     }
 
+    /**
+     * Opens the settings for each one
+     * @param view The view?
+     */
     public void openSettings(View view){
         int current = mViewPager.getCurrentItem();
         PebbleKit.startAppOnPebble(ContextManager.ctx, UUID.fromString(LigniteInfo.UUID[current]));
@@ -509,11 +569,16 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         }
     }
 
+    /**
+     * Starts feedback activity.
+     * @param v The view?
+     */
     public void feedback_click(View v) {
         Intent launch = new Intent(AppsActivity.this, FeedbackActivity.class);
         AppsActivity.this.startActivity(launch);
     }
 
+    //Doesn't really work sorry
     public void setDrawerListToPosition(int pos){
         navigationDrawer.setSelection(pos, false);
     }
@@ -565,6 +630,9 @@ public class AppsActivity extends AppCompatActivity implements ActionBar.TabList
         }
     }
 
+    /**
+     * PlaceholderFragment is the shit for the fragments, pretty easy
+     */
     public static class PlaceholderFragment extends Fragment {
         public static AppFragment currentFragment;
 

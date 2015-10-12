@@ -27,6 +27,12 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class BackgroundProcess extends BroadcastReceiver {
 
+    /**
+     * This shit is what I was talking about with the background processing.
+     * This Class was actually just a test that was created a long time ago. Feel free to
+     * take it or leave it.
+     */
+
     final String USER_AGENT = "Mozilla/5.0";
     final private static String[] APP_UUIDS = {
             "e1c75a76-27fc-4f9c-85b3-73920ffdb3b7"

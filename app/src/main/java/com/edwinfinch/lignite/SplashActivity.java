@@ -12,6 +12,8 @@ import java.util.TimerTask;
 
 /**
  * Created by edwinfinch on 15-05-12.
+ *
+ * Just the splash activity. Puts the user in one place or another depending on if they are a backer.
  */
 public class SplashActivity extends Activity {
     @Override
